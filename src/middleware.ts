@@ -37,14 +37,17 @@ export async function middleware(request: NextRequest) {
 
   const pathname = request.nextUrl.pathname
 
-  // Public auth routes
-  const isAuthRoute = pathname.startsWith('/login') || pathname.startsWith('/signup')
+  // Public auth routes and callback route
+  const isAuthRoute =
+    pathname.startsWith('/login') ||
+    pathname.startsWith('/signup') ||
+    pathname.startsWith('/auth')
 
   if (!user && !isAuthRoute && pathname !== '/') {
     return NextResponse.redirect(new URL('/login', request.url))
   }
 
-  if (user && isAuthRoute) {
+  if (user && (pathname.startsWith('/login') || pathname.startsWith('/signup'))) {
     return NextResponse.redirect(new URL('/dashboard', request.url))
   }
 
