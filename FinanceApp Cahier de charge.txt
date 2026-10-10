@@ -1,0 +1,187 @@
+CAHIER DES CHARGES COMPLET & SPÉCIFICATIONS TECHNIQUES
+APPLICATION DE GESTION FINANCIÈRE (FINANCE APP)
+1. PRÉSENTATION GÉNÉRALE ET OBJECTIFS DU PROJET
+1.1 Objectif Fonctionnel
+L'application Finance App est une solution complète de suivi et de gestion de trésorerie multi-devises. Elle permet à chaque utilisateur de suivre avec précision l'état réel de son capital ventilé sur quatre devises exclusives :
+* Dollar Américain (USD - $)
+* Euro (EUR - €)
+* Livre Sterling (GBP - £)
+* Livre Turque (TRY - TL)
+L'application interdit strictement les découverts : le solde d'une devise ne peut en aucun cas devenir négatif.
+1.2 Multi-Plateforme et Comportement Réseau
+* Version Web (Navigateur PC) : Fonctionne en mode connecté (online) uniquement. Toutes les opérations sont traitées directement avec la base de données centrale.
+* Version Mobile (Smartphone) : Fonctionne en mode hybride (Offline-first). L'utilisateur consulte et enregistre ses opérations localement sans connexion. Dès qu'Internet est disponible, un moteur de synchronisation en arrière-plan harmonise les données locales avec le serveur central via des identifiants universels (UUID v4) pour éviter les conflits.
+1.3 Architecture Multi-Utilisateurs
+L'application est conçue pour accueillir une pluralité d'utilisateurs indépendants (modèle similaire à un réseau social). Chaque utilisateur dispose d'un espace hermétique : après authentification, il n'accède qu'à ses propres transactions, soldes, annonces et échanges.
+2. MODÈLE CONCEPTUEL DES DONNÉES (STRUCTURE BASE DE DONNÉES)
+Toutes les tables secondaires sont liées à la table des utilisateurs via la clé étrangère user_id afin de garantir l'isolation stricte des données.
+2.1 Table users (Comptes Utilisateurs)
+* id (Clé primaire) : Identifiant unique universel (UUID v4)
+* nom (Texte) : Nom de famille de l'utilisateur
+* prenom (Texte) : Prénom de l'utilisateur
+* email (Texte) : Adresse e-mail (Clé unique d'authentification)
+* password_hash (Texte) : Mot de passe sécurisé et haché
+2.2 Table transactions (Ajouts, Retraits et Historique)
+* id (Clé primaire) : Identifiant unique universel (UUID v4)
+* user_id (Clé étrangère) : Référence à users.id
+* type (Enumération) : AJOUT ou RETRAIT
+* somme (Numérique) : Montant de l'opération
+* devise (Enumération) : USD, EUR, GBP, TRY
+* motif (Texte) : Description de l'opération (Saisie manuelle pour un ajout/retrait ordinaire, ou libellé généré automatiquement lors d'un échange de devises)
+* created_at (Horodatage) : Date et heure exactes générées automatiquement par le système lors de la validation
+2.3 Table annonces (Rappels et Reminders)
+* id (Clé primaire) : Identifiant unique universel (UUID v4)
+* user_id (Clé étrangère) : Référence à users.id
+* titre (Texte) : Intitulé du rappel
+* description (Texte) : Contenu explicatif de l'annonce
+* due_date (Date) : Date d'échéance ou d'événement (Facultative, valeur NULL si indéfinie)
+* statut (Enumération) : État de l'annonce (EN_ATTENTE, REALISE, ANNULE)
+* created_at (Horodatage) : Date et heure de création
+* updated_at (Horodatage) : Date et heure du dernier changement de statut
+3. SPÉCIFICATIONS DES ÉCRANS ET EXPÉRIENCE UTILISATEUR (UI/UX)
+3.1 Charte Graphique et Style Visuel
+* Style Général : Dark Neumorphism / Glassmorphism sombre avec accents lumineux.
+* Palette de Couleurs :
+   * Fond principal : Vert très sombre quasi-noir (#050B05).
+   * Panneaux, cartes et champs de saisie : Surface sombre (#0E1B0F) avec bordures très subtiles (#1D381F).
+   * Couleur d'accentuation / Actions principales : Vert néon menthe (#76E381).
+   * Statut En Attente : Jaune avertissement (#F5C51B).
+   * Statut Annulé / Mouvements négatifs : Rouge dépense (#FF4B4B).
+   * Textes principaux : Blanc (#FFFFFF).
+   * Textes secondaires / Métadonnées : Vert sauge doux (#A4B8A6).
+3.2 Écran de Connexion (Login) & Création de Compte (Sign Up)
+Layout Général
+Séparation visuelle en diagonale :
+* Côté gauche : Marque principale "Finance App" affichée sur fond sombre.
+* Côté droit : Panneau de formulaire neumorphique.
+Formulaire de Connexion (Login)
+* Champs de saisie :
+   * e-mail (Saisie texte)
+   * password (Saisie masquée)
+* Action :
+   * Bouton principal vert "Log in"
+   * Bouton secondaire "Google" avec le logo officiel Google
+* Lien de navigation : Don't have an account? Sign up (Redirige vers la création de compte).
+Formulaire d'Inscription (Sign Up)
+* Champs de saisie :
+   * Nom
+   * Prénom
+   * E-mail
+   * Configuration du mot de passe
+   * Confirmation du mot de passe (Vérification de la correspondance exacte)
+* Action :
+   * Bouton principal vert "Create account"
+   * Lien de navigation : Already have an account? Login.
+3.3 Écran d'Accueil (Dashboard)
+Barre Latérale de Navigation (Sidebar à gauche)
+Affiche le menu de navigation principal avec état actif mis en valeur en vert menthe :
+1. Dashboard
+2. Budget (Ajouts)
+3. Retrait
+4. Annonces
+5. Échange
+6. Paramètres
+Zone de Contenu (À droite)
+* En-tête : Affichage du nom et prénom de l'utilisateur connecté.
+* Grille des Soldes (4 cartes de devises) :
+Affiche le solde actuel disponible pour chaque devise :
+   * Solde USD ($)
+   * Solde Euro (€)
+   * Solde Pounds (£)
+   * Solde Turkish Lira (TL)
+   * Formule de Calcul Dynamique :
+
+   *    * Si aucune transaction n'a été effectuée pour une devise, la carte affiche 0 $, 0 €, 0 £ ou 0 TL.
+3.4 Page "Budget" (Affichage et Ajout de Capital)
+Affichage Principal
+      * Liste sous forme de cartes rectangulaires représentant l'historique des ajouts enregistrés.
+      * Chaque carte d'ajout affiche :
+      * Le motif de l'ajout
+      * Le montant et la devise associée
+      * La date et l'heure d'enregistrement (format : le JJ/MM/AAAA à HH:mm)
+Action d'Ajout
+      * Bouton Flottant : Situé dans le coin inférieur droit de l'écran principal (+).
+      * Modale d'Ajout (Carte Transparente avec effet de flou / Backdrop Blur) :
+S'affiche par-dessus l'écran lorsqu'on clique sur le bouton flottant.
+         * Champ 1 : Montant (Saisie numérique).
+         * Champ 2 : Devise (Menu déroulant : USD, EUR, GBP, TRY).
+         * Champ 3 : Date et Heure (Saisie exacte ou sélection).
+         * Champ 4 : Motif (Champ texte court).
+         * Boutons : "Confirmer l'Ajout" (Vert) et "Annuler".
+         * Impact Système : Dès la confirmation, le montant s'additionne automatiquement au solde de la devise sur le Dashboard et la liste s'actualise immédiatement.
+3.5 Page "Retrait"
+Affichage Principal
+         * Liste sous forme de cartes rectangulaires représentant l'historique des retraits effectués.
+         * Chaque carte de retrait affiche :
+         * Le motif du retrait
+         * Le montant et la devise retirée
+         * La date et l'heure d'enregistrement
+Action de Retrait
+         * Bouton Flottant : Situé dans le coin inférieur droit de l'écran principal (+).
+         * Modale de Retrait (Carte Transparente avec effet de flou) :
+S'affiche par-dessus l'écran au clic sur le bouton flottant.
+            * Champ 1 : Motif (Saisie texte du libellé).
+            * Champ 2 : Montant (Saisie numérique).
+            * Champ 3 : Devise (Menu déroulant : USD, EUR, GBP, TRY).
+            * Capture de Date/Heure : Automatique via la date/heure système au moment de la validation (pas de saisie manuelle).
+            * Boutons : "Confirmer le Retrait" (Vert) et "Annuler".
+Règle Métier Anti-Découvert (Contrôle d'Intégrité)
+Au moment du clic sur Confirmer le Retrait :
+            1. Le système calcule le solde disponible actuel dans la devise sélectionnée.
+            2. Si , le retrait est refusé immédiatement avec affichage d'un message d'erreur. La transaction n'est pas inscrite en base.
+            3. Si , le retrait est enregistré, ajouté à la liste et le Dashboard est mis à jour.
+3.6 Page "Annonces" (Rappels / Reminders)
+Affichage Principal
+               * Liste sous forme de cartes rectangulaires représentant l'ensemble des annonces configurées.
+               * Chaque élément de la liste affiche uniquement :
+               * Le Titre de l'annonce
+               * La Durée / Date d'échéance (ex: 12/10/2026 ou Indéfini)
+               * Le Badge de Statut en couleur :
+               * En attente : Badge Jaune (#F5C51B)
+               * Réalisé : Badge Vert (#76E381)
+               * Annulé : Badge Rouge (#FF4B4B)
+Action de Création d'Annonce
+               * Bouton Flottant : Situé dans le coin inférieur droit de l'écran (+).
+               * Modale de Configuration (Création) :
+S'affiche par-dessus la page lors du clic sur le bouton flottant.
+                  * Champ 1 : Titre (Texte court).
+                  * Champ 2 : Description (Texte détaillé).
+                  * Champ 3 : Date d'expiration (Sélection de date, facultative).
+                  * Bouton : "Confirm".
+                  * Statut Initial : Dès la création, l'annonce est enregistrée et apparaît dans la liste avec le statut En attente (Badge Jaune).
+Action de Consultation et Modification d'État
+Au clic sur une carte d'annonce existante dans la liste, une modale de détail s'ouvre :
+                  * Affiche l'intégralité des informations : Titre, Description, Date d'expiration.
+                  * Présente 2 boutons d'action en bas :
+                  1. "Realise" : Fait passer immédiatement le statut de l'annonce à Réalisé (Badge Vert).
+                  2. "Cancel" : Fait passer immédiatement le statut de l'annonce à Annulé (Badge Rouge).
+3.7 Page "Échange de Devises"
+Accès
+Onglet dédié accessible directement depuis la Barre Latérale (Sidebar).
+Formulaire d'Échange
+                  * Champ 1 : Somme à échanger (Montant numérique).
+                  * Champ 2 : Devise Source (Devise d'origine de l'argent).
+                  * Champ 3 : Indice / Taux d'échange (Taux de multiplication).
+                  * Champ 4 : Devise Cible (Devise de destination).
+Logique Métier et Écritures Automatiques
+                  1. Vérification du Solde : Le système vérifie que le montant à échanger est réellement disponible dans la réserve de la Devise Source. Si le montant dépasse le solde, un message d'erreur est affiché et l'opération est annulée.
+                  2. Calcul de Conversion :
+
+                  3.                   4. Génération Automatique des Écritures Comptables :
+Une fois validé, l'échange crée simultanément deux enregistrements en base de données :
+                     * Dans la table des Retraits (Sortie) :
+                     * Montant : Somme à échanger
+                     * Devise : Devise Source
+                     * Motif automatique : « Échange de la somme de [Somme] [Devise Source] vers [Devise Cible] »
+                     * Date/Heure : Horodatage système actuel
+                     * Dans la table des Ajouts (Entrée) :
+                     * Montant : Montant Converti
+                     * Devise : Devise Cible
+                     * Motif automatique : « Réception de [Montant Converti] [Devise Cible] provenant de l'échange de [Devise Source] »
+                     * Date/Heure : Horodatage système actuel
+4. RÈGLES CRITIQUES DE GESTION ET D'INTÉGRITÉ DES DONNÉES
+                     1. Règle d'Immutabilité et Non-Suppression :
+                     * Aucune transaction financière (ajout, retrait ou écriture d'échange) ne peut être modifiée ou supprimée de la base de données après validation.
+                     * Aucune annonce ne peut être supprimée de la base de données. Les annonces ne subissent pas d'édition de contenu ; elles changent uniquement d'état (En attente, Réalisé, ou Annulé).
+                     2. Gestion des Identifiants (UUID v4) :
+Toutes les données générées par l'utilisateur (utilisateurs, transactions, annonces) doivent être identifiées par des UUID v4 uniques au niveau mondial afin de garantir la synchronisation sans conflit entre la base locale du smartphone et le serveur web.

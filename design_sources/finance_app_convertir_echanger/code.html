@@ -1,0 +1,519 @@
+<!DOCTYPE html><html class="dark" lang="fr" style=""><head>
+<meta charset="utf-8">
+<meta content="width=device-width, initial-scale=1.0" name="viewport">
+<title>Finance App - Convertir &amp; Echanger</title>
+<!-- Tailwind CSS CDN with forms and container plugins -->
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<!-- Google Fonts: Inter & JetBrains Mono -->
+<link href="https://fonts.googleapis.com" rel="preconnect">
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&amp;family=JetBrains+Mono:wght@400;500;600&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<!-- Tailwind Configuration matching the exact theme specs -->
+<script id="tailwind-config">
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          colors: {
+            brand: {
+              bg: '#050B05',
+              card: '#0c150c',
+              'card-inner': '#071007',
+              border: '#1b2c1c',
+              'border-subtle': '#142716',
+              mint: '#76E381',
+              'mint-light': '#8df498',
+              'mint-dark': '#0B2311',
+              sage: '#A4B8A6',
+              dim: '#5E7860'
+            }
+          },
+          fontFamily: {
+            sans: ['Inter', 'sans-serif'],
+            mono: ['"JetBrains Mono"', 'monospace']
+          },
+          boxShadow: {
+            'neumorphic-panel': '-8px -8px 20px rgba(22, 45, 24, 0.12), 14px 14px 32px rgba(0, 0, 0, 0.85)',
+            'neumorphic-card': 'inset 0 1px 1px rgba(118, 227, 129, 0.1), 0 8px 24px rgba(0, 0, 0, 0.65)',
+            'neumorphic-inset': 'inset 3px 3px 8px rgba(0, 0, 0, 0.9), inset -2px -2px 6px rgba(32, 60, 34, 0.2)',
+            'mint-glow': '0 0 35px rgba(118, 227, 129, 0.65), 0 0 12px rgba(118, 227, 129, 0.45)',
+            'mint-glow-lg': '0 0 45px rgba(118, 227, 129, 0.7), 0 0 16px rgba(118, 227, 129, 0.5)'
+          }
+        }
+      }
+    }
+  </script>
+<style data-purpose="custom-styling">
+    body {
+      background-color: #050B05;
+      color: #FFFFFF;
+      font-family: 'Inter', sans-serif;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    .bg-ambient-radial {
+      background: radial-gradient(circle at 20% 20%, rgba(26, 52, 28, 0.35) 0%, transparent 60%),
+                  radial-gradient(circle at 80% 80%, rgba(14, 34, 16, 0.3) 0%, transparent 60%);
+    }
+
+    /* Custom inset shadow for neumorphic input wells */
+    .inset-well {
+      background: #060e07;
+      box-shadow: inset 4px 4px 10px rgba(0, 0, 0, 0.95), inset -2px -2px 6px rgba(35, 65, 37, 0.25);
+      border: 1px solid rgba(22, 46, 24, 0.7);
+    }
+
+    /* Outer card border matching image_2 */
+    .exchange-card {
+      background: linear-gradient(180deg, #0d180e 0%, #081109 100%);
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.7), inset 0 1px 1px rgba(118, 227, 129, 0.12);
+      border: 1px solid #1c321e;
+    }
+
+    /* Scrollbar */
+    ::-webkit-scrollbar {
+      width: 6px;
+    }
+    ::-webkit-scrollbar-track {
+      background: #050B05;
+    }
+    ::-webkit-scrollbar-thumb {
+      background: #1D381F;
+      border-radius: 9999px;
+    }
+    ::-webkit-scrollbar-thumb:hover {
+      background: #76E381;
+    }
+  </style>
+<meta content="web_dashboard" name="shell-type">
+</head>
+<body class="min-h-screen bg-brand-bg bg-ambient-radial text-white flex flex-col antialiased selection:bg-brand-mint selection:text-brand-bg">
+<!-- BEGIN: DesktopContainer -->
+<div class="flex-1 flex flex-col max-w-[1550px] w-full mx-auto p-4 sm:p-6 lg:p-8 min-h-screen">
+<!-- BEGIN: TopBar (Mobile nav header & subtle brand indicator) -->
+<header class="flex items-center justify-between pb-4 mb-2 lg:hidden" data-purpose="mobile-header">
+<div class="flex items-center gap-3">
+<span class="w-3 h-3 rounded-full bg-brand-mint shadow-[0_0_12px_#76E381]"></span>
+<span class="text-xl font-bold tracking-tight text-white">Finance <span class="text-brand-sage font-normal text-sm">App</span></span>
+</div>
+<button aria-label="Menu" class="p-2 rounded-xl bg-brand-card border border-brand-border text-brand-mint">
+<svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+<path d="M4 6h16M4 12h16M4 18h16" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path>
+</svg>
+</button>
+</header>
+<!-- END: TopBar -->
+<!-- BEGIN: MainLayout -->
+<div class="flex-1 flex flex-col lg:flex-row gap-6 lg:gap-10 items-start">
+<!-- BEGIN: LeftSidebar -->
+<aside class="w-full lg:w-64 xl:w-72 shrink-0 bg-[#0a140b] border border-[#1a301c] rounded-[28px] p-5 shadow-neumorphic-panel backdrop-blur-sm" data-purpose="navigation-sidebar">
+<!-- Brand Logo in desktop sidebar -->
+<div class="flex items-center gap-2.5 px-3 py-2 mb-6">
+<span class="w-3.5 h-3.5 rounded-full bg-brand-mint shadow-[0_0_14px_#76E381]"></span>
+<span class="text-xl font-bold tracking-tight text-white">Finance <span class="text-brand-sage font-normal text-sm">App</span></span>
+</div>
+<nav aria-label="Navigation principale" class="space-y-2.5">
+<!-- Nav Item: Dashboard -->
+<a class="group flex items-center gap-3.5 px-4 py-3 rounded-2xl text-brand-sage hover:text-white hover:bg-brand-border/40 transition-all duration-200 text-sm font-medium" href="#">
+<svg class="w-5 h-5 shrink-0 fill-current opacity-80 group-hover:opacity-100" viewBox="0 0 24 24">
+<path d="M4 13h6c.55 0 1-.45 1-1V4c0-.55-.45-1-1-1H4c-.55 0-1 .45-1 1v8c0 .55.45 1 1 1zm0 8h6c.55 0 1-.45 1-1v-4c0-.55-.45-1-1-1H4c-.55 0-1 .45-1 1v4c0 .55.45 1 1 1zm10 0h6c.55 0 1-.45 1-1v-8c0-.55-.45-1-1-1h-6c-.55 0-1 .45-1 1v8c0 .55.45 1 1 1zm0-18v4c0 .55.45 1 1 1h6c.55 0 1-.45 1-1V4c0-.55-.45-1-1-1h-6c-.55 0-1 .45-1 1z"></path>
+</svg>
+<span class="">Dashboard</span>
+</a>
+<!-- Nav Item: Budget -->
+<a class="group flex items-center gap-3.5 px-4 py-3 rounded-2xl text-brand-sage hover:text-white hover:bg-brand-border/40 transition-all duration-200 text-sm font-medium" href="#">
+<svg class="w-5 h-5 shrink-0 fill-current opacity-80 group-hover:opacity-100" viewBox="0 0 24 24">
+<path d="M4 9h4v11H4zm6-5h4v16h-4zm6 8h4v8h-4z"></path>
+</svg>
+<span class="">Budget</span>
+</a>
+<!-- Nav Item: Retrait -->
+<a class="group flex items-center gap-3.5 px-4 py-3 rounded-2xl text-brand-sage hover:text-white hover:bg-brand-border/40 transition-all duration-200 text-sm font-medium" href="#">
+<svg class="w-5 h-5 shrink-0 fill-none stroke-current stroke-2 group-hover:opacity-100" viewBox="0 0 24 24">
+<path d="M19 14l-7 7m0 0l-7-7m7 7V3" stroke-linecap="round" stroke-linejoin="round"></path>
+</svg>
+<span class="">Retrait</span>
+</a>
+<!-- Nav Item: Annonces -->
+<a class="group flex items-center gap-3.5 px-4 py-3 rounded-2xl text-brand-sage hover:text-white hover:bg-brand-border/40 transition-all duration-200 text-sm font-medium" href="#">
+<svg class="w-5 h-5 shrink-0 fill-current opacity-80 group-hover:opacity-100" viewBox="0 0 24 24">
+<path d="M20 2H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h14l4 4V4c0-1.1-.9-2-2-2zm-2 12H6v-2h12v2zm0-3H6V9h12v2zm0-3H6V6h12v2z"></path>
+</svg>
+<span class="">Annonces</span>
+</a>
+<!-- Nav Item: Echange (Active with glowing mint green pill) -->
+<a class="group flex items-center gap-3.5 px-4 py-3 rounded-2xl bg-brand-mint text-brand-bg font-semibold text-sm tracking-wide shadow-mint-glow transition-all duration-200" data-purpose="nav-item-active" href="#">
+<svg class="w-5 h-5 shrink-0 fill-none stroke-current stroke-2 text-[#081a0b]" viewBox="0 0 24 24">
+<path d="M8 7h12m0 0l-4-4m4 4l-4 4m0 6H4m0 0l4 4m-4-4l4-4" stroke-linecap="round" stroke-linejoin="round"></path>
+</svg>
+<span class="text-[#081a0b] font-semibold">Echange</span>
+</a>
+<!-- Nav Item: Parametres -->
+<a class="group flex items-center gap-3.5 px-4 py-3 rounded-2xl text-brand-sage hover:text-white hover:bg-brand-border/40 transition-all duration-200 text-sm font-medium" href="#">
+<svg class="w-5 h-5 shrink-0 fill-current opacity-80 group-hover:opacity-100" viewBox="0 0 24 24">
+<path d="M19.14 12.94c.04-.3.06-.61.06-.94 0-.32-.02-.64-.07-.94l2.03-1.58a.49.49 0 0 0 .12-.61l-1.92-3.32a.488.488 0 0 0-.59-.22l-2.39.96c-.5-.38-1.03-.7-1.62-.94l-.36-2.54a.484.484 0 0 0-.48-.41h-3.84c-.24 0-.43.17-.47.41l-.36 2.54c-.59.24-1.13.57-1.62.94l-2.39-.96c-.22-.08-.47 0-.59.22L2.74 8.87c-.12.21-.08.47.12.61l2.03 1.58c-.05.3-.09.63-.09.94s.02.64.07.94l-2.03 1.58a.49.49 0 0 0-.12.61l1.92 3.32c.12.22.37.29.59.22l2.39-.96c.5.38 1.03.7 1.62.94l.36 2.54c.05.24.24.41.48.41h3.84c.24 0 .44-.17.47-.41l.36-2.54c.59-.24 1.13-.56 1.62-.94l2.39.96c.22.08.47 0 .59-.22l1.92-3.32c.12-.22.07-.47-.12-.61l-2.01-1.58zM12 15.6c-1.98 0-3.6-1.62-3.6-3.6s1.62-3.6 3.6-3.6 3.6 1.62 3.6 3.6-1.62 3.6-3.6 3.6z"></path>
+</svg>
+<span class="">Parametres</span>
+</a>
+</nav>
+</aside>
+<!-- END: LeftSidebar -->
+<!-- BEGIN: ContentArea (Faithful recreation of reference image_2 exchange.jpeg) -->
+<main class="flex-1 w-full max-w-4xl pt-1 pb-16" data-purpose="exchange-main-section">
+<!-- 1. En-tête : Titre & Avatar utilisateur -->
+<div class="flex items-center justify-between mb-8">
+<h1 class="text-3xl sm:text-4xl md:text-[42px] font-bold text-white tracking-tight">
+        Convertir &amp; Echanger
+      </h1>
+<!-- Avatar de profil neumorphique -->
+<div class="w-12 h-12 rounded-full border border-[#234526] bg-[#0c180e] shadow-neumorphic-card flex items-center justify-center p-0.5 cursor-pointer hover:border-brand-mint/60 transition-colors" title="Profil Utilisateur">
+<div class="w-full h-full rounded-full bg-[#122414] flex items-center justify-center text-brand-mint">
+<svg class="w-6 h-6 fill-current" viewBox="0 0 24 24">
+<path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 3c1.66 0 3 1.34 3 3s-1.34 3-3 3-3-1.34-3-3 1.34-3 3-3zm0 14.2c-2.5 0-4.71-1.28-6-3.22.03-1.99 4-3.08 6-3.08 1.99 0 5.97 1.09 6 3.08-1.29 1.94-3.5 3.22-6 3.22z"></path>
+</svg>
+</div>
+</div>
+</div>
+<!-- WRAPPER RELATIF CONTENANT LES DEUX BLOCS ET LE BOUTON D'INVERSION CENTRÉ -->
+<div class="relative space-y-4 mb-5">
+<!-- 2. Bloc Source "DE :" -->
+<div class="exchange-card rounded-[26px] p-5 sm:p-6 transition-all" data-purpose="source-card">
+<div class="flex flex-col md:flex-row md:items-center justify-between gap-4">
+<!-- À gauche : DE : + Source icon/label -->
+<div class="min-w-[130px] shrink-0">
+<div class="text-2xl sm:text-3xl font-extrabold text-white tracking-tight leading-none mb-2" id="source-tag-display">
+              DE :
+            </div>
+<div class="flex items-center gap-1.5 text-brand-sage text-sm font-medium">
+<svg class="w-4 h-4 text-brand-sage shrink-0" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+<path d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" stroke-linecap="round" stroke-linejoin="round"></path>
+</svg>
+<span class="">Source</span>
+</div>
+</div>
+<!-- Au centre : Champ de saisie creusé neumorphique -->
+<div class="flex-1 max-w-sm w-full mx-auto md:mx-4">
+<div class="inset-well rounded-[20px] px-5 py-3 transition-all focus-within:ring-1 focus-within:ring-brand-mint/50">
+<input class="w-full bg-transparent border-0 text-xl sm:text-2xl font-medium text-white placeholder-zinc-500 focus:ring-0 outline-none p-0" id="input-amount" placeholder="Montant" step="any" type="number" value="1000">
+</div>
+</div>
+<!-- À droite : Sélecteur de devise avec drapeau, code, solde et libellé portefeuille -->
+<div class="shrink-0 flex flex-col items-end min-w-[210px]" id="source-currency-box">
+<button class="flex items-center gap-2.5 text-white hover:text-brand-mint transition-colors cursor-pointer group" id="btn-source-currency" type="button">
+<!-- Drapeau circulaire stylisé -->
+<span class="w-7 h-7 rounded-full overflow-hidden flex items-center justify-center text-base bg-[#182819] border border-[#2b4c2d] shadow-sm" id="source-flag-badge">🇺🇸</span>
+<span class="text-xl sm:text-2xl font-bold tracking-tight text-white group-hover:text-brand-mint" id="source-currency-code">USD</span>
+<span class="text-zinc-400 font-mono text-base font-normal ml-3" id="source-balance-val">$1,250.00</span>
+<svg class="w-4 h-4 text-zinc-400 group-hover:text-brand-mint transition-transform duration-200" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
+<path d="M19 9l-7 7-7-7" stroke-linecap="round" stroke-linejoin="round"></path>
+</svg>
+</button>
+<div class="text-brand-dim text-xs font-medium mt-1 pr-6 tracking-wide" id="source-wallet-label">Portefeuille USD</div>
+</div>
+</div>
+</div>
+<!-- 3. Bouton central d'inversion / swap circulaire avec néon lumineux vert (#76E381) -->
+<div class="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 z-20">
+<button class="w-14 h-14 sm:w-16 sm:h-16 rounded-full bg-[#76E381] hover:bg-[#8df498] text-[#07170a] shadow-mint-glow-lg flex items-center justify-center transition-all duration-300 transform hover:scale-105 active:scale-95 focus:outline-none" id="btn-swap" title="Inverser les devises" type="button">
+<!-- Icône flèches d'échange opposées horizontales exactes ⇄ -->
+<svg class="w-7 h-7 sm:w-8 sm:h-8 stroke-current" fill="none" stroke-linecap="round" stroke-linejoin="round" stroke-width="2.6" viewBox="0 0 24 24">
+<path d="M4 8h14l-4-4"></path>
+<path d="M20 16H6l4 4"></path>
+</svg>
+</button>
+</div>
+<!-- 4. Bloc Destination "A :" -->
+<div class="exchange-card rounded-[26px] p-5 sm:p-6 transition-all" data-purpose="target-card">
+<div class="flex flex-col md:flex-row md:items-center justify-between gap-4">
+<!-- À gauche : A : + Destination icon/label -->
+<div class="min-w-[130px] shrink-0">
+<div class="text-2xl sm:text-3xl font-extrabold text-white tracking-tight leading-none mb-2" id="target-tag-display">
+              A :
+            </div>
+<div class="flex items-center gap-1.5 text-brand-sage text-sm font-medium">
+<svg class="w-4 h-4 text-brand-sage shrink-0" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+<circle cx="12" cy="12" r="9"></circle>
+<path d="M12 8v8m-4-4h8" stroke-linecap="round" stroke-linejoin="round"></path>
+</svg>
+<span class="">Destination</span>
+</div>
+</div>
+<!-- Au centre : Champ creusé neumorphique affichant le montant converti calculé -->
+<div class="flex-1 max-w-sm w-full mx-auto md:mx-4">
+<div class="inset-well rounded-[20px] px-5 py-3 flex items-center min-h-[54px]">
+<span class="w-full text-xl sm:text-2xl font-medium text-white tracking-wide" id="output-amount">945.20</span>
+</div>
+</div>
+<!-- À droite : Sélecteur de devise avec drapeau UE, code EUR, solde et libellé portefeuille -->
+<div class="shrink-0 flex flex-col items-end min-w-[210px]" id="target-currency-box">
+<button class="flex items-center gap-2.5 text-white hover:text-brand-mint transition-colors cursor-pointer group" id="btn-target-currency" type="button">
+<!-- Drapeau circulaire UE -->
+<span class="w-7 h-7 rounded-full overflow-hidden flex items-center justify-center text-base bg-[#0c1e3a] border border-[#1b345a] shadow-sm" id="target-flag-badge">🇪🇺</span>
+<span class="text-xl sm:text-2xl font-bold tracking-tight text-white group-hover:text-brand-mint" id="target-currency-code">EUR</span>
+<span class="text-zinc-400 font-mono text-base font-normal ml-3" id="target-balance-val">32,500.00 €</span>
+<svg class="w-4 h-4 text-zinc-400 group-hover:text-brand-mint transition-transform duration-200" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
+<path d="M19 9l-7 7-7-7" stroke-linecap="round" stroke-linejoin="round"></path>
+</svg>
+</button>
+<div class="text-brand-dim text-xs font-medium mt-1 pr-6 tracking-wide" id="target-wallet-label">Portefeuille EUR</div>
+</div>
+</div>
+</div>
+</div>
+<!-- 5. Badge de taux au centre : Pilule centrale sombre arrondie avec bordure fine -->
+<div class="flex justify-center my-6">
+
+</div>
+<!-- 6. Carte "Détails de l'Opération :" en bas (reproduisant rigoureusement la disposition de image_2) -->
+<div class="exchange-card rounded-[26px] p-6 sm:p-7" data-purpose="operation-details-card">
+<div class="flex flex-col lg:flex-row lg:items-center justify-between gap-6">
+<!-- À gauche : Liste des métriques de transaction -->
+<div class="space-y-2.5">
+<h2 class="text-2xl font-bold text-white tracking-tight mb-3">
+            Détails de l'Opération :
+          </h2>
+
+
+
+<div class="pt-3 mt-3 border-t border-[#1a301c]"><div class="flex items-center justify-between gap-2 mb-1.5"><label for="custom-exchange-rate" class="text-xs sm:text-sm font-medium text-brand-sage">Taux d'echange Manuelle</label></div><div class="flex items-center gap-2"><div class="flex-1 inset-well rounded-xl px-3.5 py-2 flex items-center border border-[#1D381F] bg-[#060e07] focus-within:ring-1 focus-within:ring-brand-mint/50"><span class="text-xs text-zinc-500 font-mono mr-2 select-none">1 DEV =</span><input type="number" step="any" id="custom-exchange-rate" placeholder="ex: 0.9452" class="w-full bg-transparent border-0 text-sm sm:text-base font-mono text-white placeholder-zinc-500 focus:ring-0 outline-none p-0"></div><button type="button" id="btn-apply-rate" class="shrink-0 px-3.5 py-2 rounded-xl bg-[#122414] hover:bg-[#1a321d] border border-[#213b24] text-brand-mint text-xs sm:text-sm font-semibold transition-colors">Appliquer</button></div></div></div>
+<!-- À droite : Bouton principal néon vert et bouton secondaire Google -->
+<div class="flex flex-col gap-3.5 w-full sm:w-auto min-w-[280px] lg:min-w-[320px]">
+<!-- Bouton principal vert menthe lumineux avec glow -->
+<button class="w-full py-4 px-8 rounded-full bg-[#76E381] hover:bg-[#8df498] text-[#07180a] font-bold text-lg sm:text-xl text-center shadow-mint-glow transition-all duration-200 transform active:scale-[0.99] cursor-pointer" id="btn-confirm-exchange" type="button">
+            Confirmer l'Echange
+          </button>
+<!-- Bouton secondaire sombre avec logo Google -->
+<button class="w-full py-3 px-6 rounded-full bg-[#0a150b] hover:bg-[#112313] border border-[#213b24] text-white text-base sm:text-lg font-medium flex items-center justify-center gap-3 transition-colors cursor-pointer" id="btn-google-exchange" type="button">
+<!-- Google G icon -->
+<svg class="w-5 h-5 shrink-0" viewBox="0 0 24 24">
+<path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10c5.52 0 10-4.48 10-10 0-.68-.06-1.35-.18-2H12v4.2h5.7c-.5 2.5-2.7 4.3-5.7 4.3-3.4 0-6.1-2.7-6.1-6.1s2.7-6.1 6.1-6.1c1.5 0 2.9.5 4 1.4l3.1-3.1C17.3 3.1 14.8 2 12 2z" fill="#76E381"></path>
+</svg>
+<span class="">Echange rapide via Google</span>
+</button>
+</div>
+</div>
+</div>
+<!-- Modal / Dialog pour choix rapide de devise (USD, EUR, GBP, TRY) -->
+<div class="fixed inset-0 bg-black/70 backdrop-blur-sm z-50 flex items-center justify-center hidden opacity-0 transition-opacity" id="currency-modal">
+<div class="exchange-card rounded-[26px] p-6 max-w-sm w-full mx-4 shadow-neumorphic-panel border border-[#294c2d]">
+<div class="flex items-center justify-between mb-4">
+<h3 class="text-xl font-bold text-white">Sélectionner une devise</h3>
+<button class="text-zinc-400 hover:text-white p-1" id="close-modal-btn">
+<span class="material-symbols-outlined">close</span>
+</button>
+</div>
+<div class="space-y-2" id="modal-currency-list">
+<!-- Dynamically populated -->
+</div>
+</div>
+</div>
+<!-- Notification Toast de confirmation -->
+<div class="fixed bottom-6 right-6 max-w-md w-full bg-[#0d1c0f] border border-brand-mint/40 rounded-2xl p-4 shadow-neumorphic-panel translate-y-32 opacity-0 transition-all duration-300 pointer-events-none z-50" id="toast">
+<div class="flex items-center gap-3">
+<div class="w-10 h-10 rounded-full bg-brand-mint text-[#081a0b] flex items-center justify-center font-bold">
+          ✓
+        </div>
+<div>
+<div class="text-white font-bold text-base">Échange Exécuté avec Succès</div>
+<div class="text-brand-sage text-sm" id="toast-desc">Portefeuilles mis à jour avec succès.</div>
+</div>
+</div>
+</div>
+</main>
+<!-- END: ContentArea -->
+</div>
+<!-- END: MainLayout -->
+</div>
+<!-- END: DesktopContainer -->
+<!-- Interactive Script for Live Calculation, Currency Swap & Exchange Confirm -->
+<script data-purpose="exchange-logic">
+  (function() {
+    // Portefeuilles & devises configurées
+    const currencies = {
+      USD: { code: 'USD', name: 'Dollar américain', symbol: '$', flag: '🇺🇸', balance: 1250.00, walletLabel: 'Portefeuille USD', rateToUSD: 1.0 },
+      EUR: { code: 'EUR', name: 'Euro', symbol: '€', flag: '🇪🇺', balance: 32500.00, walletLabel: 'Portefeuille EUR', rateToUSD: 1.058 },
+      GBP: { code: 'GBP', name: 'Livre sterling', symbol: '£', flag: '🇬🇧', balance: 3200.00, walletLabel: 'Portefeuille GBP', rateToUSD: 1.265 },
+      TRY: { code: 'TRY', name: 'Livre turque', symbol: '₺', flag: '🇹🇷', balance: 85000.00, walletLabel: 'Portefeuille TRY', rateToUSD: 0.0308 }
+    };
+
+    let sourceKey = 'USD';
+    let targetKey = 'EUR';
+    // Exact baseline rate from exchange.jpeg screenshot: 1 USD = 0.9452 EUR
+    const exchangeRateUSDToEUR = 0.9452;
+
+    const inputAmount = document.getElementById('input-amount');
+    const outputAmount = document.getElementById('output-amount');
+    const btnSwap = document.getElementById('btn-swap');
+    const rateFormulaText = document.getElementById('rate-formula-text');
+    const detailFee = document.getElementById('detail-fee');
+    const detailTotal = document.getElementById('detail-total');
+    const btnConfirm = document.getElementById('btn-confirm-exchange');
+    const toast = document.getElementById('toast');
+    const toastDesc = document.getElementById('toast-desc');
+
+    // UI elements for Source
+    const srcFlag = document.getElementById('source-flag-badge');
+    const srcCode = document.getElementById('source-currency-code');
+    const srcBal = document.getElementById('source-balance-val');
+    const srcWallet = document.getElementById('source-wallet-label');
+
+    // UI elements for Target
+    const tgtFlag = document.getElementById('target-flag-badge');
+    const tgtCode = document.getElementById('target-currency-code');
+    const tgtBal = document.getElementById('target-balance-val');
+    const tgtWallet = document.getElementById('target-wallet-label');
+
+    function formatNumber(num, decimals = 2) {
+      return num.toLocaleString('en-US', { minimumFractionDigits: decimals, maximumFractionDigits: decimals });
+    }
+
+    function getRate(from, to) {
+      if (from === 'USD' && to === 'EUR') return exchangeRateUSDToEUR;
+      if (from === 'EUR' && to === 'USD') return +(1 / exchangeRateUSDToEUR).toFixed(4);
+      // fallback calculated through relative USD rates
+      const fromRate = currencies[from].rateToUSD;
+      const toRate = currencies[to].rateToUSD;
+      return +(fromRate / toRate).toFixed(4);
+    }
+
+    function updateView() {
+      const src = currencies[sourceKey];
+      const tgt = currencies[targetKey];
+
+      // Update Source block
+      srcFlag.textContent = src.flag;
+      srcCode.textContent = src.code;
+      srcBal.textContent = (src.symbol === '$' ? '$' : '') + formatNumber(src.balance) + (src.symbol !== '$' ? ' ' + src.symbol : '');
+      srcWallet.textContent = src.walletLabel;
+
+      // Update Target block
+      tgtFlag.textContent = tgt.flag;
+      tgtCode.textContent = tgt.code;
+      tgtBal.textContent = (tgt.symbol === '$' ? '$' : '') + formatNumber(tgt.balance) + (tgt.symbol !== '$' ? ' ' + tgt.symbol : '');
+      tgtWallet.textContent = tgt.walletLabel;
+
+      // Rate formula
+      const currentRate = getRate(sourceKey, targetKey);
+      rateFormulaText.textContent = `1 ${sourceKey} = ${currentRate} ${targetKey}`;
+
+      // Conversion math matching reference (Fee 0.5%)
+      const amount = parseFloat(inputAmount.value) || 0;
+      const rawConversion = amount * currentRate;
+      outputAmount.textContent = formatNumber(rawConversion);
+
+      const feePercent = 0.005;
+      const feeVal = rawConversion * feePercent;
+      const totalConversion = rawConversion - feeVal;
+
+      detailFee.textContent = `0.5% (${formatNumber(feeVal)} ${targetKey})`;
+      detailTotal.textContent = `${formatNumber(totalConversion)} ${targetKey}`;
+    }
+
+    // Input listeners
+    inputAmount.addEventListener('input', updateView);
+
+    // Swap action with smooth rotation
+    btnSwap.addEventListener('click', () => {
+      btnSwap.classList.add('rotate-180');
+      setTimeout(() => btnSwap.classList.remove('rotate-180'), 300);
+
+      const temp = sourceKey;
+      sourceKey = targetKey;
+      targetKey = temp;
+      updateView();
+    });
+
+    // Modal selection handling
+    let modalMode = 'source';
+    const modal = document.getElementById('currency-modal');
+    const modalList = document.getElementById('modal-currency-list');
+    const closeModalBtn = document.getElementById('close-modal-btn');
+
+    function openCurrencyModal(mode) {
+      modalMode = mode;
+      modalList.innerHTML = '';
+      Object.keys(currencies).forEach(k => {
+        const c = currencies[k];
+        const btn = document.createElement('button');
+        btn.type = 'button';
+        btn.className = 'w-full flex items-center justify-between p-3 rounded-xl hover:bg-[#1a321d] text-left transition-colors';
+        btn.innerHTML = `
+          <div class="flex items-center gap-3">
+            <span class="text-2xl">${c.flag}</span>
+            <div>
+              <div class="text-white font-bold">${c.code}</div>
+              <div class="text-zinc-400 text-xs">${c.name}</div>
+            </div>
+          </div>
+          <div class="text-brand-sage font-mono text-sm">${c.symbol}${formatNumber(c.balance)}</div>
+        `;
+        btn.onclick = () => {
+          if (modalMode === 'source') {
+            if (k === targetKey) targetKey = sourceKey;
+            sourceKey = k;
+          } else {
+            if (k === sourceKey) sourceKey = targetKey;
+            targetKey = k;
+          }
+          closeModal();
+          updateView();
+        };
+        modalList.appendChild(btn);
+      });
+      modal.classList.remove('hidden');
+      setTimeout(() => modal.classList.remove('opacity-0'), 10);
+    }
+
+    function closeModal() {
+      modal.classList.add('opacity-0');
+      setTimeout(() => modal.classList.add('hidden'), 200);
+    }
+
+    document.getElementById('btn-source-currency').addEventListener('click', () => openCurrencyModal('source'));
+    document.getElementById('btn-target-currency').addEventListener('click', () => openCurrencyModal('target'));
+    closeModalBtn.addEventListener('click', closeModal);
+    modal.addEventListener('click', (e) => {
+      if (e.target === modal) closeModal();
+    });
+
+    // Confirm exchange handler
+    btnConfirm.addEventListener('click', () => {
+      const amount = parseFloat(inputAmount.value) || 0;
+      const rate = getRate(sourceKey, targetKey);
+      const feePercent = 0.005;
+      const totalToAdd = (amount * rate) * (1 - feePercent);
+
+      if (amount <= 0) {
+        alert('Veuillez entrer un montant valide supérieur à 0.');
+        return;
+      }
+      if (amount > currencies[sourceKey].balance) {
+        alert(`Solde insuffisant dans votre ${currencies[sourceKey].walletLabel}.`);
+        return;
+      }
+
+      currencies[sourceKey].balance -= amount;
+      currencies[targetKey].balance += totalToAdd;
+
+      toastDesc.textContent = `Conversion de ${formatNumber(amount)} ${sourceKey} en ${formatNumber(totalToAdd)} ${targetKey} finalisée.`;
+      toast.classList.remove('translate-y-32', 'opacity-0', 'pointer-events-none');
+      setTimeout(() => {
+        toast.classList.add('translate-y-32', 'opacity-0', 'pointer-events-none');
+      }, 4000);
+
+      updateView();
+    });
+
+    // Quick google exchange simulation
+    document.getElementById('btn-google-exchange').addEventListener('click', () => {
+      btnConfirm.click();
+    });
+
+    // Initial setup
+    updateView();
+  })();
+</script>
+
+
+</body></html>

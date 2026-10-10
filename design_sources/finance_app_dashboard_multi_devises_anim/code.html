@@ -1,0 +1,481 @@
+<!DOCTYPE html><html class="dark" lang="fr"><head>
+<meta charset="utf-8">
+<meta content="width=device-width, initial-scale=1.0" name="viewport">
+<title>Finance App - Dashboard</title>
+<!-- Tailwind CSS CDN with forms and container plugins -->
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<!-- Google Fonts: Inter & JetBrains Mono for authentic digital numbers -->
+<link href="https://fonts.googleapis.com" rel="preconnect">
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&amp;family=JetBrains+Mono:wght@400;500;600&amp;display=swap" rel="stylesheet">
+<!-- Tailwind Configuration matching the exact theme specs -->
+<script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          colors: {
+            brand: {
+              bg: '#050B05',
+              card: '#0E1B0F',
+              'card-inner': '#081208',
+              border: '#1D381F',
+              'border-subtle': '#142716',
+              mint: '#76E381',
+              'mint-dark': '#0B2311',
+              sage: '#A4B8A6',
+              dim: '#5E7860'
+            }
+          },
+          fontFamily: {
+            sans: ['Inter', 'sans-serif'],
+            mono: ['"JetBrains Mono"', 'monospace']
+          },
+          boxShadow: {
+            'neumorphic-panel': '-8px -8px 20px rgba(22, 45, 24, 0.15), 12px 12px 28px rgba(0, 0, 0, 0.75)',
+            'neumorphic-card': 'inset 0 1px 1px rgba(118, 227, 129, 0.08), 0 8px 24px rgba(0, 0, 0, 0.65)',
+            'neumorphic-card-hover': 'inset 0 1px 2px rgba(118, 227, 129, 0.25), 0 14px 32px rgba(0, 0, 0, 0.85), 0 0 20px rgba(118, 227, 129, 0.15)',
+            'mint-glow': '0 0 25px rgba(118, 227, 129, 0.45)',
+            'fab-glow': '0 0 0 5px #0E1B0F, 0 0 0 7px #76E381, 0 0 35px rgba(118, 227, 129, 0.6)'
+          }
+        }
+      }
+    }
+  </script>
+<!-- Custom Dark Neumorphic and Glow Styles + Rich Animations -->
+<style data-purpose="custom-styling">
+    body {
+      background-color: #050B05;
+      color: #FFFFFF;
+      font-family: 'Inter', sans-serif;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* Subtle ambient dark green background glows mirroring reference */
+    .bg-ambient-radial {
+      background: radial-gradient(circle at 18% 25%, rgba(29, 56, 31, 0.35) 0%, transparent 60%),
+                  radial-gradient(circle at 85% 75%, rgba(18, 38, 20, 0.25) 0%, transparent 55%);
+    }
+
+    /* Scrollbar customization */
+    ::-webkit-scrollbar {
+      width: 6px;
+    }
+    ::-webkit-scrollbar-track {
+      background: #050B05;
+    }
+    ::-webkit-scrollbar-thumb {
+      background: #1D381F;
+      border-radius: 9999px;
+    }
+    ::-webkit-scrollbar-thumb:hover {
+      background: #76E381;
+    }
+
+    /* Entrance animations with staggered delays */
+    @keyframes fadeInUp {
+      from {
+        opacity: 0;
+        transform: translateY(14px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .animate-fadeInUp {
+      animation: fadeInUp 0.65s cubic-bezier(0.16, 1, 0.3, 1) both;
+    }
+
+    /* Subtle shimmer shine on currency cards */
+    .card-shimmer {
+      position: relative;
+      overflow: hidden;
+    }
+    .card-shimmer::after {
+      content: '';
+      position: absolute;
+      top: -50%;
+      left: -50%;
+      width: 200%;
+      height: 200%;
+      background: linear-gradient(
+        115deg,
+        transparent 0%,
+        transparent 40%,
+        rgba(118, 227, 129, 0.06) 50%,
+        transparent 60%,
+        transparent 100%
+      );
+      transform: translateX(-100%);
+      transition: transform 0.85s ease;
+      pointer-events: none;
+    }
+    .card-shimmer:hover::after {
+      transform: translateX(100%);
+    }
+
+    /* Gentle floating & pulse for FAB button */
+    @keyframes floatAndPulse {
+      0%, 100% {
+        transform: translateY(0);
+        box-shadow: 0 0 0 5px #0E1B0F, 0 0 0 7px #76E381, 0 0 28px rgba(118, 227, 129, 0.5);
+      }
+      50% {
+        transform: translateY(-4px);
+        box-shadow: 0 0 0 5px #0E1B0F, 0 0 0 7.5px #76E381, 0 0 42px rgba(118, 227, 129, 0.75);
+      }
+    }
+
+    .fab-floating {
+      animation: floatAndPulse 4.2s ease-in-out infinite;
+    }
+
+    /* Soft pulse for active navigation badge */
+    @keyframes activePillPulse {
+      0%, 100% {
+        box-shadow: 0 0 20px rgba(118, 227, 129, 0.4);
+      }
+      50% {
+        box-shadow: 0 0 30px rgba(118, 227, 129, 0.65);
+      }
+    }
+
+    .animate-active-pill {
+      animation: activePillPulse 3s ease-in-out infinite;
+    }
+
+    /* Ripple micro-interaction effect */
+    .ripple-effect {
+      position: relative;
+      overflow: hidden;
+    }
+    .ripple-wave {
+      position: absolute;
+      border-radius: 50%;
+      background: rgba(118, 227, 129, 0.25);
+      transform: scale(0);
+      animation: ripple 0.6s linear;
+      pointer-events: none;
+    }
+    @keyframes ripple {
+      to {
+        transform: scale(4);
+        opacity: 0;
+      }
+    }
+
+    /* Accessibility: Respect Reduced Motion Preferences */
+    @media (prefers-reduced-motion: reduce) {
+      *,
+      ::before,
+      ::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+        scroll-behavior: auto !important;
+      }
+      .fab-floating,
+      .animate-active-pill,
+      .animate-pulse,
+      .animate-ping {
+        animation: none !important;
+      }
+    }
+  </style>
+</head>
+<body class="min-h-screen bg-brand-bg bg-ambient-radial text-white flex flex-col antialiased selection:bg-brand-mint selection:text-brand-bg">
+<!-- BEGIN: DesktopContainer -->
+<div class="flex-1 flex flex-col max-w-[1600px] w-full mx-auto p-3 sm:p-5 lg:p-7 min-h-screen">
+<!-- BEGIN: TopBar -->
+<header class="flex items-center justify-between py-3 px-2 mb-4 lg:mb-6 animate-fadeInUp" data-purpose="app-header" style="animation-delay: 50ms;">
+<!-- Mobile sidebar toggle & Logo placeholder -->
+<div class="flex items-center gap-3">
+<button aria-label="Ouvrir le menu" class="lg:hidden p-2 rounded-xl bg-brand-card border border-brand-border text-brand-mint focus:outline-none transition-transform hover:scale-105 active:scale-95" type="button">
+<svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+<path d="M4 6h16M4 12h16M4 18h16" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path>
+</svg>
+</button>
+<span class="text-xl font-bold tracking-tight text-white flex items-center gap-2 group cursor-pointer">
+<span class="relative flex h-3 w-3">
+<span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-brand-mint opacity-65"></span>
+<span class="relative inline-flex rounded-full h-3 w-3 bg-brand-mint shadow-[0_0_12px_#76E381]"></span>
+</span>
+          Finance <span class="text-brand-sage font-normal text-sm sm:text-base group-hover:text-white transition-colors duration-200">App</span>
+</span>
+</div>
+<!-- Right Profile Section -->
+<!-- BEGIN: UserProfile -->
+<div class="flex items-center gap-3 bg-brand-card/70 border border-brand-border/60 hover:border-brand-mint/50 backdrop-blur-md px-3.5 py-1.5 rounded-full shadow-neumorphic-card transition-all duration-300 hover:shadow-[0_0_15px_rgba(118,227,129,0.2)] hover:scale-[1.02] cursor-pointer group" data-purpose="user-profile">
+<span class="text-xs sm:text-sm text-brand-sage group-hover:text-white font-medium tracking-wide transition-colors duration-200">Nom Utilisateur</span>
+<div class="relative w-8 h-8 sm:w-9 sm:h-9 rounded-full overflow-hidden border border-brand-mint/40 group-hover:border-brand-mint group-hover:shadow-[0_0_10px_rgba(118,227,129,0.4)] bg-brand-border flex items-center justify-center transition-all duration-300">
+<!-- Fallback avatar matching visual structure from image reference -->
+<svg class="w-6 h-6 text-brand-sage group-hover:text-white transition-colors duration-200" fill="currentColor" viewBox="0 0 24 24">
+<path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"></path>
+</svg>
+</div>
+</div>
+<!-- END: UserProfile -->
+</header>
+<!-- END: TopBar -->
+<!-- BEGIN: MainLayout -->
+<div class="flex-1 flex flex-col lg:flex-row gap-6 lg:gap-8 items-start">
+<!-- BEGIN: LeftSidebar -->
+<aside class="w-full lg:w-64 xl:w-72 shrink-0 bg-brand-card border border-brand-border rounded-[28px] p-4 sm:p-5 shadow-neumorphic-panel backdrop-blur-sm animate-fadeInUp" data-purpose="navigation-sidebar" style="animation-delay: 100ms;">
+<nav aria-label="Navigation principale" class="space-y-3">
+<!-- Nav Item: Dashboard (Active with Mint Green Pill + Breathing Pulse) -->
+<a class="group flex items-center gap-3.5 px-4 py-3 rounded-2xl bg-brand-mint text-brand-bg font-semibold text-sm tracking-wide shadow-mint-glow animate-active-pill transition-all duration-200 hover:scale-[1.02] active:scale-[0.98] ripple-effect" data-purpose="nav-item-active" href="#">
+<svg class="w-5 h-5 fill-current text-brand-mint-dark shrink-0 transition-transform duration-300 group-hover:scale-110" viewBox="0 0 24 24">
+<path d="M4 13h6c.55 0 1-.45 1-1V4c0-.55-.45-1-1-1H4c-.55 0-1 .45-1 1v8c0 .55.45 1 1 1zm0 8h6c.55 0 1-.45 1-1v-4c0-.55-.45-1-1-1H4c-.55 0-1 .45-1 1v4c0 .55.45 1 1 1zm10 0h6c.55 0 1-.45 1-1v-8c0-.55-.45-1-1-1h-6c-.55 0-1 .45-1 1v8c0 .55.45 1 1 1zm0-18v4c0 .55.45 1 1 1h6c.55 0 1-.45 1-1V4c0-.55-.45-1-1-1h-6c-.55 0-1 .45-1 1z"></path>
+</svg>
+<span class="text-brand-mint-dark font-medium">Dashboard</span>
+</a>
+<!-- Nav Item: Budget -->
+<a class="group flex items-center gap-3.5 px-4 py-3 rounded-2xl text-brand-sage hover:text-white hover:bg-brand-border/40 hover:translate-x-1.5 transition-all duration-200 text-sm font-medium ripple-effect" href="#">
+<svg class="w-5 h-5 shrink-0 fill-current opacity-80 group-hover:opacity-100 group-hover:text-brand-mint transition-colors duration-200" viewBox="0 0 24 24">
+<path d="M4 9h4v11H4zm6-5h4v16h-4zm6 8h4v8h-4z"></path>
+</svg>
+<span>Budget</span>
+</a>
+<!-- Nav Item: Retrait -->
+<a class="group flex items-center gap-3.5 px-4 py-3 rounded-2xl text-brand-sage hover:text-white hover:bg-brand-border/40 hover:translate-x-1.5 transition-all duration-200 text-sm font-medium ripple-effect" href="#">
+<svg class="w-5 h-5 shrink-0 fill-none stroke-current stroke-2 opacity-80 group-hover:opacity-100 group-hover:text-brand-mint transition-colors duration-200" viewBox="0 0 24 24">
+<path d="M19 14l-7 7m0 0l-7-7m7 7V3" stroke-linecap="round" stroke-linejoin="round"></path>
+</svg>
+<span>Retrait</span>
+</a>
+<!-- Nav Item: Annonces -->
+<a class="group flex items-center gap-3.5 px-4 py-3 rounded-2xl text-brand-sage hover:text-white hover:bg-brand-border/40 hover:translate-x-1.5 transition-all duration-200 text-sm font-medium ripple-effect" href="#">
+<svg class="w-5 h-5 shrink-0 fill-current opacity-80 group-hover:opacity-100 group-hover:text-brand-mint transition-colors duration-200" viewBox="0 0 24 24">
+<path d="M20 2H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h14l4 4V4c0-1.1-.9-2-2-2zm-2 12H6v-2h12v2zm0-3H6V9h12v2zm0-3H6V6h12v2z"></path>
+</svg>
+<span>Annonces</span>
+</a>
+<!-- Nav Item: Echange -->
+<a class="group flex items-center gap-3.5 px-4 py-3 rounded-2xl text-brand-sage hover:text-white hover:bg-brand-border/40 hover:translate-x-1.5 transition-all duration-200 text-sm font-medium ripple-effect" href="#">
+<svg class="w-5 h-5 shrink-0 fill-none stroke-current stroke-2 opacity-80 group-hover:opacity-100 group-hover:text-brand-mint transition-colors duration-200" viewBox="0 0 24 24">
+<path d="M8 7h12m0 0l-4-4m4 4l-4 4m0 6H4m0 0l4 4m-4-4l4-4" stroke-linecap="round" stroke-linejoin="round"></path>
+</svg>
+<span>Echange</span>
+</a>
+<!-- Nav Item: Parametres -->
+<a class="group flex items-center gap-3.5 px-4 py-3 rounded-2xl text-brand-sage hover:text-white hover:bg-brand-border/40 hover:translate-x-1.5 transition-all duration-200 text-sm font-medium ripple-effect" href="#">
+<svg class="w-5 h-5 shrink-0 fill-current opacity-80 group-hover:opacity-100 group-hover:text-brand-mint group-hover:rotate-45 transition-all duration-300" viewBox="0 0 24 24">
+<path d="M19.14 12.94c.04-.3.06-.61.06-.94 0-.32-.02-.64-.07-.94l2.03-1.58a.49.49 0 0 0 .12-.61l-1.92-3.32a.488.488 0 0 0-.59-.22l-2.39.96c-.5-.38-1.03-.7-1.62-.94l-.36-2.54a.484.484 0 0 0-.48-.41h-3.84c-.24 0-.43.17-.47.41l-.36 2.54c-.59.24-1.13.57-1.62.94l-2.39-.96c-.22-.08-.47 0-.59.22L2.74 8.87c-.12.21-.08.47.12.61l2.03 1.58c-.05.3-.09.63-.09.94s.02.64.07.94l-2.03 1.58a.49.49 0 0 0-.12.61l1.92 3.32c.12.22.37.29.59.22l2.39-.96c.5.38 1.03.7 1.62.94l.36 2.54c.05.24.24.41.48.41h3.84c.24 0 .44-.17.47-.41l.36-2.54c.59-.24 1.13-.56 1.62-.94l2.39.96c.22.08.47 0 .59-.22l1.92-3.32c.12-.22.07-.47-.12-.61l-2.01-1.58zM12 15.6c-1.98 0-3.6-1.62-3.6-3.6s1.62-3.6 3.6-3.6 3.6 1.62 3.6 3.6-1.62 3.6-3.6 3.6z"></path>
+</svg>
+<span>Parametres</span>
+</a>
+</nav>
+</aside>
+<!-- END: LeftSidebar -->
+<!-- BEGIN: ContentArea -->
+<main class="flex-1 w-full space-y-6 pb-24" data-purpose="dashboard-main-content">
+<!-- BEGIN: MultiCurrencyGrid -->
+<!-- 4 soldes multi-devises essentiels : USD, EUR, GBP, TRY -->
+<section aria-label="Soldes multi-devises" class="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-4">
+<!-- Card 1: USD Balance -->
+<article class="bg-brand-card border border-brand-border hover:border-brand-mint/70 rounded-2xl p-4 sm:p-5 shadow-neumorphic-card hover:shadow-neumorphic-card-hover hover:-translate-y-1 transition-all duration-300 relative group card-shimmer cursor-pointer animate-fadeInUp" style="animation-delay: 150ms;">
+<div class="flex items-center justify-between mb-2">
+<span class="text-xs uppercase tracking-wider text-brand-sage group-hover:text-white font-medium transition-colors">Solde USD</span>
+<span class="text-xs font-semibold px-2 py-0.5 rounded-full bg-brand-border text-brand-mint group-hover:bg-brand-mint/15 transition-colors">USD ($)</span>
+</div>
+<div class="text-2xl sm:text-3xl font-bold font-mono tracking-tight text-white group-hover:text-brand-mint transition-colors">
+              $12,000<span class="text-xs font-normal text-brand-sage ml-1 group-hover:text-brand-mint/70 transition-colors">.00</span>
+</div>
+</article>
+<!-- Card 2: EUR Balance -->
+<article class="bg-brand-card border border-brand-border hover:border-brand-mint/70 rounded-2xl p-4 sm:p-5 shadow-neumorphic-card hover:shadow-neumorphic-card-hover hover:-translate-y-1 transition-all duration-300 relative group card-shimmer cursor-pointer animate-fadeInUp" style="animation-delay: 220ms;">
+<div class="flex items-center justify-between mb-2">
+<span class="text-xs uppercase tracking-wider text-brand-sage group-hover:text-white font-medium transition-colors">Solde Euro</span>
+<span class="text-xs font-semibold px-2 py-0.5 rounded-full bg-brand-border text-brand-mint group-hover:bg-brand-mint/15 transition-colors">EUR (€)</span>
+</div>
+<div class="text-2xl sm:text-3xl font-bold font-mono tracking-tight text-white group-hover:text-brand-mint transition-colors">
+              €4,500<span class="text-xs font-normal text-brand-sage ml-1 group-hover:text-brand-mint/70 transition-colors">.00</span>
+</div>
+</article>
+<!-- Card 3: GBP Balance -->
+<article class="bg-brand-card border border-brand-border hover:border-brand-mint/70 rounded-2xl p-4 sm:p-5 shadow-neumorphic-card hover:shadow-neumorphic-card-hover hover:-translate-y-1 transition-all duration-300 relative group card-shimmer cursor-pointer animate-fadeInUp" style="animation-delay: 290ms;">
+<div class="flex items-center justify-between mb-2">
+<span class="text-xs uppercase tracking-wider text-brand-sage group-hover:text-white font-medium transition-colors">Solde Pounds</span>
+<span class="text-xs font-semibold px-2 py-0.5 rounded-full bg-brand-border text-brand-mint group-hover:bg-brand-mint/15 transition-colors">GBP (£)</span>
+</div>
+<div class="text-2xl sm:text-3xl font-bold font-mono tracking-tight text-white group-hover:text-brand-mint transition-colors">
+              £3,200<span class="text-xs font-normal text-brand-sage ml-1 group-hover:text-brand-mint/70 transition-colors">.00</span>
+</div>
+</article>
+<!-- Card 4: TRY Balance -->
+<article class="bg-brand-card border border-brand-border hover:border-brand-mint/70 rounded-2xl p-4 sm:p-5 shadow-neumorphic-card hover:shadow-neumorphic-card-hover hover:-translate-y-1 transition-all duration-300 relative group card-shimmer cursor-pointer animate-fadeInUp" style="animation-delay: 360ms;">
+<div class="flex items-center justify-between mb-2">
+<span class="text-xs uppercase tracking-wider text-brand-sage group-hover:text-white font-medium transition-colors">Solde Turkish Lira</span>
+<span class="text-xs font-semibold px-2 py-0.5 rounded-full bg-brand-border text-brand-mint group-hover:bg-brand-mint/15 transition-colors">TRY (₺)</span>
+</div>
+<div class="text-2xl sm:text-3xl font-bold font-mono tracking-tight text-white group-hover:text-brand-mint transition-colors">
+              TL 85,000<span class="text-xs font-normal text-brand-sage ml-1 group-hover:text-brand-mint/70 transition-colors">.00</span>
+</div>
+</article>
+</section>
+<!-- END: MultiCurrencyGrid -->
+<!-- BEGIN: TransactionsSection -->
+<section aria-label="Liste des transactions récentes" class="space-y-4"><div class="flex items-center justify-between px-1 animate-fadeInUp" style="animation-delay: 400ms;">
+<h2 class="text-sm font-semibold tracking-wider text-brand-sage uppercase">Transactions Récentes</h2>
+<span class="text-xs text-brand-dim flex items-center gap-1.5">
+<span class="relative flex h-2 w-2">
+<span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-brand-mint opacity-70"></span>
+<span class="relative inline-flex rounded-full h-2 w-2 bg-brand-mint"></span>
+</span>
+  Mise à jour en temps réel
+</span>
+</div>
+<!-- Transaction 1: USD Payroll -->
+<article class="bg-brand-card border border-brand-border rounded-[24px] p-5 sm:p-6 shadow-neumorphic-card transition-all duration-300 hover:border-brand-mint/50 hover:bg-[#0f1f10] hover:-translate-y-0.5 relative group cursor-pointer animate-fadeInUp ripple-effect" data-purpose="transaction-card" style="animation-delay: 450ms;">
+<div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+<div class="space-y-1">
+<h3 class="text-base sm:text-lg font-mono font-medium text-white group-hover:text-brand-mint tracking-wide transition-colors">
+                  paie du travail effectuer le 12/10
+                </h3>
+<p class="font-mono text-sm sm:text-base text-brand-sage">
+                  Amount: <span class="text-white font-semibold group-hover:text-brand-mint transition-colors">12000</span> <span class="text-brand-sage">USD</span>
+</p>
+</div>
+<div class="text-right sm:self-end">
+<time class="font-mono text-xs sm:text-sm text-brand-sage block group-hover:text-brand-mint/80 transition-colors" datetime="2023-10-14T13:45">
+                  le 14/10/ 13h:45
+                </time>
+</div>
+</div>
+</article>
+<!-- Transaction 2: USD Office Supplies -->
+<article class="bg-brand-card border border-brand-border rounded-[24px] p-5 sm:p-6 shadow-neumorphic-card transition-all duration-300 hover:border-brand-mint/50 hover:bg-[#0f1f10] hover:-translate-y-0.5 relative group cursor-pointer animate-fadeInUp ripple-effect" data-purpose="transaction-card" style="animation-delay: 500ms;">
+<div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+<div class="space-y-1">
+<h3 class="text-base sm:text-lg font-mono font-medium text-white group-hover:text-brand-mint tracking-wide transition-colors">
+                  Achat matériel bureau
+                </h3>
+<p class="font-mono text-sm sm:text-base text-brand-sage">
+                  Amount: <span class="text-white font-semibold group-hover:text-brand-mint transition-colors">500</span> <span class="text-brand-sage">USD</span>
+</p>
+</div>
+<div class="text-right sm:self-end">
+<time class="font-mono text-xs sm:text-sm text-brand-sage block group-hover:text-brand-mint/80 transition-colors" datetime="2023-10-20T16:30">
+                  le 20/10/ 16:30
+                </time>
+</div>
+</div>
+</article>
+<!-- Transaction 3: EUR Freelance -->
+<article class="bg-brand-card border border-brand-border rounded-[24px] p-5 sm:p-6 shadow-neumorphic-card transition-all duration-300 hover:border-brand-mint/50 hover:bg-[#0f1f10] hover:-translate-y-0.5 relative group cursor-pointer animate-fadeInUp ripple-effect" data-purpose="transaction-card" style="animation-delay: 550ms;">
+<div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+<div class="space-y-1">
+<h3 class="text-base sm:text-lg font-mono font-medium text-white group-hover:text-brand-mint tracking-wide transition-colors">
+                  Virement honoraires freelance
+                </h3>
+<p class="font-mono text-sm sm:text-base text-brand-sage">
+                  Amount: <span class="text-white font-semibold group-hover:text-brand-mint transition-colors">4500</span> <span class="text-brand-sage">EUR</span>
+</p>
+</div>
+<div class="text-right sm:self-end">
+<time class="font-mono text-xs sm:text-sm text-brand-sage block group-hover:text-brand-mint/80 transition-colors" datetime="2023-10-22T11:15">
+                  le 22/10/ 11:15
+                </time>
+</div>
+</div>
+</article>
+<!-- Transaction 4: GBP FX Exchange -->
+<article class="bg-brand-card border border-brand-border rounded-[24px] p-5 sm:p-6 shadow-neumorphic-card transition-all duration-300 hover:border-brand-mint/50 hover:bg-[#0f1f10] hover:-translate-y-0.5 relative group cursor-pointer animate-fadeInUp ripple-effect" data-purpose="transaction-card" style="animation-delay: 600ms;">
+<div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+<div class="space-y-1">
+<h3 class="text-base sm:text-lg font-mono font-medium text-white group-hover:text-brand-mint tracking-wide transition-colors">
+                  Échange de devises USD vers GBP
+                </h3>
+<p class="font-mono text-sm sm:text-base text-brand-sage">
+                  Amount: <span class="text-white font-semibold group-hover:text-brand-mint transition-colors">3200</span> <span class="text-brand-sage">GBP</span>
+</p>
+</div>
+<div class="text-right sm:self-end">
+<time class="font-mono text-xs sm:text-sm text-brand-sage block group-hover:text-brand-mint/80 transition-colors" datetime="2023-10-24T09:20">
+                  le 24/10/ 09:20
+                </time>
+</div>
+</div>
+</article>
+<!-- Transaction 5: TRY Supplier payment -->
+<article class="bg-brand-card border border-brand-border rounded-[24px] p-5 sm:p-6 shadow-neumorphic-card transition-all duration-300 hover:border-brand-mint/50 hover:bg-[#0f1f10] hover:-translate-y-0.5 relative group cursor-pointer animate-fadeInUp ripple-effect" data-purpose="transaction-card" style="animation-delay: 650ms;">
+<div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+<div class="space-y-1">
+<h3 class="text-base sm:text-lg font-mono font-medium text-white group-hover:text-brand-mint tracking-wide transition-colors">
+                  Règlement fournisseur Istanbul
+                </h3>
+<p class="font-mono text-sm sm:text-base text-brand-sage">
+                  Amount: <span class="text-white font-semibold group-hover:text-brand-mint transition-colors">85000</span> <span class="text-brand-sage">TRY</span>
+</p>
+</div>
+<div class="text-right sm:self-end">
+<time class="font-mono text-xs sm:text-sm text-brand-sage block group-hover:text-brand-mint/80 transition-colors" datetime="2023-10-26T17:40">
+                  le 26/10/ 17:40
+                </time>
+</div>
+</div>
+</article></section>
+<!-- END: TransactionsSection -->
+</main>
+<!-- END: ContentArea -->
+</div>
+<!-- END: MainLayout -->
+</div>
+<!-- END: DesktopContainer -->
+<!-- BEGIN: FloatingActionButton -->
+<!-- Bouton d'action rapide néon vert menthe avec anneau externe conforme à la capture -->
+<aside aria-label="Action rapide" class="fixed bottom-6 right-6 sm:bottom-10 sm:right-10 z-50">
+<div class="relative flex items-center justify-center">
+<!-- Outer glowing border ring mimicking reference visual green border with floating animation -->
+<button aria-label="Nouvelle opération ou fermer" class="w-16 h-16 sm:w-20 sm:h-20 rounded-full bg-brand-mint text-brand-bg flex items-center justify-center font-bold fab-floating hover:scale-110 active:scale-95 transition-all duration-300 focus:outline-none cursor-pointer group" data-purpose="floating-action-button" id="quick-action-btn" type="button">
+<!-- Clean icon representation with subtle cross/plus switchable -->
+<svg class="w-8 h-8 sm:w-10 sm:h-10 text-brand-bg stroke-current transition-transform duration-300 ease-out group-hover:rotate-90" fill="none" id="fab-icon" stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" viewBox="0 0 24 24">
+<line x1="12" x2="12" y1="5" y2="19"></line>
+<line x1="5" x2="19" y1="12" y2="12"></line>
+</svg>
+</button>
+</div>
+</aside>
+<!-- END: FloatingActionButton -->
+<!-- BEGIN: Scripts -->
+<script data-purpose="interactivity">
+    document.addEventListener('DOMContentLoaded', () => {
+      // FAB Toggle & rotation micro-interaction
+      const fab = document.getElementById('quick-action-btn');
+      const fabIcon = document.getElementById('fab-icon');
+      let isRotated = false;
+
+      if (fab && fabIcon) {
+        fab.addEventListener('click', (e) => {
+          isRotated = !isRotated;
+          fabIcon.style.transform = isRotated ? 'rotate(135deg)' : 'rotate(0deg)';
+        });
+      }
+
+      // Smooth click ripple effect on interactive cards & nav items
+      const rippleElements = document.querySelectorAll('.ripple-effect, article');
+      rippleElements.forEach(el => {
+        el.addEventListener('click', function(e) {
+          const rect = this.getBoundingClientRect();
+          const ripple = document.createElement('span');
+          const size = Math.max(rect.width, rect.height);
+          const x = e.clientX - rect.left - size / 2;
+          const y = e.clientY - rect.top - size / 2;
+          
+          ripple.className = 'ripple-wave';
+          ripple.style.width = ripple.style.height = `${size}px`;
+          ripple.style.left = `${x}px`;
+          ripple.style.top = `${y}px`;
+          
+          this.appendChild(ripple);
+          setTimeout(() => ripple.remove(), 650);
+        });
+      });
+    });
+  </script>
+<!-- END: Scripts -->
+
+
+</body></html>

@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+
+<html lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Finance App - Sign Up</title>
+<!-- Tailwind CSS CDN with plugins -->
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<!-- Google Fonts for branding and styling -->
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;700&amp;family=Inter:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<style data-purpose="custom-theme">
+    body {
+      font-family: 'Inter', sans-serif;
+      background-color: #020703;
+      color: #e5e7eb;
+    }
+    .font-display {
+      font-family: 'Space Grotesk', monospace;
+    }
+    /* Dynamic slanted shape matching IMAGE_2 */
+    .hero-polygon {
+      clip-path: polygon(0 0, 80% 0, 100% 100%, 0% 100%);
+    }
+    @media (max-width: 1024px) {
+      .hero-polygon {
+        clip-path: none;
+      }
+    }
+    /* Glow effect for neon button */
+    .neon-button-glow {
+      box-shadow: 0 0 28px -2px rgba(89, 235, 138, 0.55), 0 0 12px rgba(89, 235, 138, 0.35);
+    }
+    .neon-button-glow:hover {
+      box-shadow: 0 0 36px 2px rgba(89, 235, 138, 0.75), 0 0 18px rgba(89, 235, 138, 0.45);
+    }
+    /* Input custom shadows & outline */
+    .custom-input {
+      background-color: #0b150d;
+      border: 1px solid #162a1b;
+      transition: all 0.2s ease-in-out;
+    }
+    .custom-input:focus-within {
+      border-color: #4ade80;
+      box-shadow: 0 0 14px rgba(74, 222, 128, 0.2);
+    }
+  </style>
+</head>
+<body class="min-h-screen bg-[#020703] flex items-center justify-center p-0 m-0 overflow-x-hidden selection:bg-[#59eb8a] selection:text-black">
+<!-- BEGIN: MainContainer -->
+<main class="w-full min-h-screen flex flex-col lg:flex-row relative overflow-hidden" data-purpose="auth-layout">
+<!-- BEGIN: LeftBrandingPanel -->
+<!-- Large organic dark emerald polygon with deep lighting -->
+<section class="relative w-full lg:w-[46%] min-h-[300px] lg:min-h-screen flex items-center p-8 sm:p-14 lg:p-20 z-10" data-purpose="brand-presentation">
+<!-- Background polygon overlay with gradient -->
+<div class="absolute inset-0 hero-polygon bg-gradient-to-br from-[#12361b] via-[#0d2613] to-[#041107] border-r border-[#1a4323]/20 shadow-2xl"></div>
+<!-- Ambient light glow on the left edge -->
+<div class="absolute top-1/4 -left-20 w-96 h-96 bg-[#2a6836]/25 rounded-full blur-[100px] pointer-events-none"></div>
+<!-- Branding Text Content -->
+<div class="relative z-10 flex flex-col justify-center">
+<h1 class="text-4xl sm:text-5xl lg:text-6xl font-medium tracking-tight text-white font-sans drop-shadow-sm">
+          Finance App
+        </h1>
+<p class="text-lg sm:text-xl lg:text-2xl text-[#628468] font-normal mt-3 tracking-normal">
+          Finance App
+        </p>
+</div>
+</section>
+<!-- END: LeftBrandingPanel -->
+<!-- BEGIN: RightAuthSection -->
+<!-- Sign Up Form Area -->
+<section class="flex-1 w-full flex items-center justify-center p-6 sm:p-12 lg:p-16 z-10 relative bg-[#020703]" data-purpose="sign-up-container">
+<div class="w-full max-w-[580px] flex flex-col">
+<!-- Header: SIGN UP in spaced typography matching screenshot -->
+<div class="mb-10 text-center lg:text-right pr-0 lg:pr-4">
+<h2 class="text-3xl lg:text-[34px] font-bold text-white tracking-[0.22em] font-display uppercase">
+            SIGN  UP
+          </h2>
+</div>
+<!-- Form Elements -->
+<form class="space-y-6" data-purpose="registration-form" id="signup-form" onsubmit="event.preventDefault();">
+<!-- Row 1: Name & Surname -->
+<div class="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-6">
+<!-- First Name Field -->
+<div class="space-y-2">
+<label class="block text-sm lg:text-base font-normal text-[#8c9e90] pl-1" for="firstName">
+                name
+              </label>
+<div class="custom-input flex items-center px-4 py-3 rounded-full text-sm">
+<!-- User Profile Icon -->
+<svg class="w-5 h-5 text-[#506854] shrink-0 mr-3" fill="none" stroke="currentColor" viewbox="0 0 24 24">
+<path d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8"></path>
+</svg>
+<input class="bg-transparent border-0 p-0 text-gray-200 placeholder-[#566758] focus:ring-0 text-sm sm:text-base w-full" id="firstName" name="name" placeholder="your name" required="" type="text"/>
+</div>
+</div>
+<!-- Surname Field -->
+<div class="space-y-2">
+<label class="block text-sm lg:text-base font-normal text-[#8c9e90] pl-1" for="surname">
+                surname
+              </label>
+<div class="custom-input flex items-center px-4 py-3 rounded-full text-sm">
+<!-- User Profile Icon -->
+<svg class="w-5 h-5 text-[#506854] shrink-0 mr-3" fill="none" stroke="currentColor" viewbox="0 0 24 24">
+<path d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8"></path>
+</svg>
+<input class="bg-transparent border-0 p-0 text-gray-200 placeholder-[#566758] focus:ring-0 text-sm sm:text-base w-full" id="surname" name="surname" placeholder="your surname" required="" type="text"/>
+</div>
+</div>
+</div>
+<!-- Row 2: Mail (Full Width) -->
+<div class="space-y-2">
+<label class="block text-sm lg:text-base font-normal text-[#8c9e90] pl-1" for="email">
+              mail
+            </label>
+<div class="custom-input flex items-center px-4 py-3 rounded-full text-sm">
+<!-- User / Contact Icon -->
+<svg class="w-5 h-5 text-[#506854] shrink-0 mr-3" fill="none" stroke="currentColor" viewbox="0 0 24 24">
+<path d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8"></path>
+</svg>
+<input class="bg-transparent border-0 p-0 text-gray-200 placeholder-[#566758] focus:ring-0 text-sm sm:text-base w-full" id="email" name="email" placeholder="your mail" required="" type="email"/>
+</div>
+</div>
+<!-- Row 3: Password & Confirm Password -->
+<div class="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-6">
+<!-- Password Field -->
+<div class="space-y-2">
+<label class="block text-sm lg:text-base font-normal text-[#8c9e90] pl-1" for="password">
+                password
+              </label>
+<div class="custom-input flex items-center px-4 py-3 rounded-full text-sm relative">
+<!-- User Icon matching the design image -->
+<svg class="w-5 h-5 text-[#506854] shrink-0 mr-3" fill="none" stroke="currentColor" viewbox="0 0 24 24">
+<path d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8"></path>
+</svg>
+<input class="bg-transparent border-0 p-0 text-gray-200 placeholder-[#566758] focus:ring-0 text-sm sm:text-base w-full tracking-widest" id="password" name="password" placeholder="•••••••••" required="" type="password"/>
+<!-- Toggle Password Visibility Icon Button -->
+<button aria-label="Toggle password view" class="text-[#506854] hover:text-[#78a280] focus:outline-none ml-2" onclick="togglePasswordVisibility('password', 'eye-icon-1')" type="button">
+<svg class="w-5 h-5" fill="none" id="eye-icon-1" stroke="currentColor" viewbox="0 0 24 24">
+<path d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8"></path>
+<path d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8"></path>
+</svg>
+</button>
+</div>
+</div>
+<!-- Confirm Password Field -->
+<div class="space-y-2">
+<label class="block text-sm lg:text-base font-normal text-[#8c9e90] pl-1 truncate" for="confirmPassword">
+                coifnrm your password
+              </label>
+<div class="custom-input flex items-center px-4 py-3 rounded-full text-sm relative">
+<!-- User Icon matching the design image -->
+<svg class="w-5 h-5 text-[#506854] shrink-0 mr-3" fill="none" stroke="currentColor" viewbox="0 0 24 24">
+<path d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8"></path>
+</svg>
+<input class="bg-transparent border-0 p-0 text-gray-200 placeholder-[#566758] focus:ring-0 text-sm sm:text-base w-full tracking-widest" id="confirmPassword" name="confirmPassword" placeholder="•••••••••" required="" type="password"/>
+<!-- Toggle Password Visibility Icon Button -->
+<button aria-label="Toggle password view" class="text-[#506854] hover:text-[#78a280] focus:outline-none ml-2" onclick="togglePasswordVisibility('confirmPassword', 'eye-icon-2')" type="button">
+<svg class="w-5 h-5" fill="none" id="eye-icon-2" stroke="currentColor" viewbox="0 0 24 24">
+<path d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8"></path>
+<path d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8"></path>
+</svg>
+</button>
+</div>
+</div>
+</div>
+<!-- Row 4: Buttons (Log in / Sign up + Google) -->
+<div class="pt-4 grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-6 items-center">
+<!-- Neon Glowing Green Primary Button -->
+<button class="w-full py-3.5 px-6 rounded-full bg-[#59eb8a] hover:bg-[#68f596] active:scale-[0.99] text-[#071309] font-bold text-base tracking-wide transition duration-200 neon-button-glow flex items-center justify-center cursor-pointer" type="submit">
+              log in
+            </button>
+<!-- Dark Secondary Google Button -->
+<button class="w-full py-3.5 px-6 rounded-full bg-[#081309] hover:bg-[#0e2111] active:scale-[0.99] text-[#c9e0cd] border border-[#1b351e] font-semibold text-base tracking-wide transition duration-200 flex items-center justify-center space-x-2.5 cursor-pointer" type="button">
+<!-- Google Letter "G" colored matching the visual -->
+<span class="font-bold text-lg text-[#59eb8a]">G</span>
+<span class="text-white font-medium">google</span>
+</button>
+</div>
+<!-- Row 5: Switch Page Navigation Link -->
+<div class="pt-2 text-center text-xs sm:text-sm text-[#738577]">
+<span>Already have an accound , </span>
+<a class="text-[#59eb8a] hover:underline font-medium hover:text-[#78faa1] transition duration-150" href="#">Login</a>
+</div>
+</form>
+</div>
+</section>
+<!-- END: RightAuthSection -->
+</main>
+<!-- END: MainContainer -->
+<!-- BEGIN: InteractiveScripts -->
+<script data-purpose="toggle-password-visibility">
+    // Helper function to toggle password inputs visibility
+    function togglePasswordVisibility(inputId, iconId) {
+      const input = document.getElementById(inputId);
+      const icon = document.getElementById(iconId);
+      
+      if (!input || !icon) return;
+
+      if (input.type === "password") {
+        input.type = "text";
+        // Eye open with slash or accent state
+        icon.classList.add("text-[#59eb8a]");
+        icon.classList.remove("text-[#506854]");
+      } else {
+        input.type = "password";
+        icon.classList.remove("text-[#59eb8a]");
+        icon.classList.add("text-[#506854]");
+      }
+    }
+  </script>
+<!-- END: InteractiveScripts -->
+</body></html>

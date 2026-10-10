@@ -1,0 +1,583 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="fr" style=""><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Finance App - Annonces</title>
+<!-- Tailwind CSS CDN with forms and container plugins -->
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<!-- Google Fonts: Inter & JetBrains Mono for authentic digital numbers -->
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&amp;family=JetBrains+Mono:wght@400;500;600&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<!-- Tailwind Configuration matching the exact theme specs -->
+<script id="tailwind-config">
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          colors: {
+            brand: {
+              bg: '#050B05',
+              card: '#0E1B0F',
+              'card-inner': '#081208',
+              border: '#1D381F',
+              'border-subtle': '#142716',
+              mint: '#76E381',
+              'mint-dark': '#0B2311',
+              sage: '#A4B8A6',
+              dim: '#5E7860'
+            }
+          },
+          fontFamily: {
+            sans: ['Inter', 'sans-serif'],
+            mono: ['"JetBrains Mono"', 'monospace']
+          },
+          boxShadow: {
+            'neumorphic-panel': '-8px -8px 20px rgba(22, 45, 24, 0.15), 12px 12px 28px rgba(0, 0, 0, 0.75)',
+            'neumorphic-card': 'inset 0 1px 1px rgba(118, 227, 129, 0.08), 0 8px 24px rgba(0, 0, 0, 0.65)',
+            'neumorphic-card-hover': 'inset 0 1px 1px rgba(118, 227, 129, 0.16), 0 12px 30px rgba(0, 0, 0, 0.85)',
+            'mint-glow': '0 0 25px rgba(118, 227, 129, 0.45)',
+            'fab-glow': '0 0 0 5px #0E1B0F, 0 0 0 7px #76E381, 0 0 35px rgba(118, 227, 129, 0.6)'
+          }
+        }
+      }
+    }
+  </script>
+<!-- Custom Dark Neumorphic and Glow Styles -->
+<style data-purpose="custom-styling">
+    body {
+      background-color: #050B05;
+      color: #FFFFFF;
+      font-family: 'Inter', sans-serif;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* Subtle ambient dark green background glows mirroring reference */
+    .bg-ambient-radial {
+      background: radial-gradient(circle at 18% 25%, rgba(29, 56, 31, 0.35) 0%, transparent 60%),
+                  radial-gradient(circle at 85% 75%, rgba(18, 38, 20, 0.25) 0%, transparent 55%);
+    }
+
+    /* Scrollbar customization */
+    ::-webkit-scrollbar {
+      width: 6px;
+    }
+    ::-webkit-scrollbar-track {
+      background: #050B05;
+    }
+    ::-webkit-scrollbar-thumb {
+      background: #1D381F;
+      border-radius: 9999px;
+    }
+    ::-webkit-scrollbar-thumb:hover {
+      background: #76E381;
+    }
+
+    dialog::backdrop {
+      background: rgba(5, 11, 5, 0.85);
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
+    }
+  </style>
+<meta content="web_dashboard" name="shell-type"/></head>
+<body class="min-h-screen bg-brand-bg bg-ambient-radial text-white flex flex-col antialiased selection:bg-brand-mint selection:text-brand-bg">
+<!-- BEGIN: DesktopContainer -->
+<div class="flex-1 flex flex-col max-w-[1600px] w-full mx-auto p-3 sm:p-5 lg:p-7 min-h-screen">
+<!-- BEGIN: TopBar -->
+<header class="flex items-center justify-between py-3 px-2 mb-4 lg:mb-6" data-purpose="app-header">
+<!-- Mobile sidebar toggle & Logo placeholder -->
+<div class="flex items-center gap-3">
+<button aria-label="Ouvrir le menu" class="lg:hidden p-2 rounded-xl bg-brand-card border border-brand-border text-brand-mint focus:outline-none" type="button">
+<svg class="w-6 h-6" fill="none" stroke="currentColor" viewbox="0 0 24 24">
+<path d="M4 6h16M4 12h16M4 18h16" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path>
+</svg>
+</button>
+<span class="text-xl font-bold tracking-tight text-white flex items-center gap-2">
+<span class="w-3 h-3 rounded-full bg-brand-mint shadow-[0_0_12px_#76E381]"></span>
+          Finance <span class="text-brand-sage font-normal text-sm sm:text-base">App</span>
+</span>
+</div>
+<!-- Right Profile Section -->
+<!-- BEGIN: UserProfile -->
+<div class="flex items-center gap-3 bg-brand-card/70 border border-brand-border/60 backdrop-blur-md px-3.5 py-1.5 rounded-full shadow-neumorphic-card" data-purpose="user-profile">
+<span class="text-xs sm:text-sm text-brand-sage font-medium tracking-wide">Nom Utilisateur</span>
+<div class="relative w-8 h-8 sm:w-9 sm:h-9 rounded-full overflow-hidden border border-brand-mint/40 bg-brand-border flex items-center justify-center">
+<!-- Fallback avatar matching visual structure from image reference -->
+<svg class="w-6 h-6 text-brand-sage" fill="currentColor" viewbox="0 0 24 24">
+<path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"></path>
+</svg>
+</div>
+</div>
+<!-- END: UserProfile -->
+</header>
+<!-- END: TopBar -->
+<!-- BEGIN: MainLayout -->
+<div class="flex-1 flex flex-col lg:flex-row gap-6 lg:gap-8 items-start">
+<!-- BEGIN: LeftSidebar -->
+<aside class="w-full lg:w-64 xl:w-72 shrink-0 bg-brand-card border border-brand-border rounded-[28px] p-4 sm:p-5 shadow-neumorphic-panel backdrop-blur-sm" data-purpose="navigation-sidebar">
+<nav aria-label="Navigation principale" class="space-y-3">
+<!-- Nav Item: Dashboard -->
+<a class="group flex items-center gap-3.5 px-4 py-3 rounded-2xl text-brand-sage hover:text-white hover:bg-brand-border/40 transition-all duration-200 text-sm font-medium" href="#"><svg class="w-5 h-5 fill-current opacity-80 group-hover:opacity-100 shrink-0" viewbox="0 0 24 24"><path d="M4 13h6c.55 0 1-.45 1-1V4c0-.55-.45-1-1-1H4c-.55 0-1 .45-1 1v8c0 .55.45 1 1 1zm0 8h6c.55 0 1-.45 1-1v-4c0-.55-.45-1-1-1H4c-.55 0-1 .45-1 1v4c0 .55.45 1 1 1zm10 0h6c.55 0 1-.45 1-1v-8c0-.55-.45-1-1-1h-6c-.55 0-1 .45-1 1v8c0 .55.45 1 1 1zm0-18v4c0 .55.45 1 1 1h6c.55 0 1-.45 1-1V4c0-.55-.45-1-1-1h-6c-.55 0-1 .45-1 1z"></path></svg><span class="">Dashboard</span></a>
+<!-- Nav Item: Budget -->
+<a class="group flex items-center gap-3.5 px-4 py-3 rounded-2xl text-brand-sage hover:text-white hover:bg-brand-border/40 transition-all duration-200 text-sm font-medium" href="#">
+<svg class="w-5 h-5 shrink-0 fill-current opacity-80 group-hover:opacity-100" viewbox="0 0 24 24">
+<path d="M4 9h4v11H4zm6-5h4v16h-4zm6 8h4v8h-4z"></path>
+</svg>
+<span class="">Budget</span>
+</a>
+<!-- Nav Item: Retrait -->
+<a class="group flex items-center gap-3.5 px-4 py-3 rounded-2xl text-brand-sage hover:text-white hover:bg-brand-border/40 transition-all duration-200 text-sm font-medium" href="#">
+<svg class="w-5 h-5 shrink-0 fill-none stroke-current stroke-2 group-hover:opacity-100" viewbox="0 0 24 24">
+<path d="M19 14l-7 7m0 0l-7-7m7 7V3" stroke-linecap="round" stroke-linejoin="round"></path>
+</svg>
+<span class="">Retrait</span>
+</a>
+<!-- Nav Item: Annonces (Active with Mint Green Pill) -->
+<a class="group flex items-center gap-3.5 px-4 py-3 rounded-2xl bg-brand-mint text-brand-bg font-semibold text-sm tracking-wide shadow-mint-glow transition-all duration-200" data-purpose="nav-item-active" href="#"><svg class="w-5 h-5 fill-current text-brand-mint-dark shrink-0" viewbox="0 0 24 24"><path d="M20 2H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h14l4 4V4c0-1.1-.9-2-2-2zm-2 12H6v-2h12v2zm0-3H6V9h12v2zm0-3H6V6h12v2z"></path></svg><span class="text-brand-mint-dark font-medium">Annonces</span></a>
+<!-- Nav Item: Echange -->
+<a class="group flex items-center gap-3.5 px-4 py-3 rounded-2xl text-brand-sage hover:text-white hover:bg-brand-border/40 transition-all duration-200 text-sm font-medium" href="#">
+<svg class="w-5 h-5 shrink-0 fill-none stroke-current stroke-2 group-hover:opacity-100" viewbox="0 0 24 24">
+<path d="M8 7h12m0 0l-4-4m4 4l-4 4m0 6H4m0 0l4 4m-4-4l4-4" stroke-linecap="round" stroke-linejoin="round"></path>
+</svg>
+<span class="">Echange</span>
+</a>
+<!-- Nav Item: Parametres -->
+<a class="group flex items-center gap-3.5 px-4 py-3 rounded-2xl text-brand-sage hover:text-white hover:bg-brand-border/40 transition-all duration-200 text-sm font-medium" href="#">
+<svg class="w-5 h-5 shrink-0 fill-current opacity-80 group-hover:opacity-100" viewbox="0 0 24 24">
+<path d="M19.14 12.94c.04-.3.06-.61.06-.94 0-.32-.02-.64-.07-.94l2.03-1.58a.49.49 0 0 0 .12-.61l-1.92-3.32a.488.488 0 0 0-.59-.22l-2.39.96c-.5-.38-1.03-.7-1.62-.94l-.36-2.54a.484.484 0 0 0-.48-.41h-3.84c-.24 0-.43.17-.47.41l-.36 2.54c-.59.24-1.13.57-1.62.94l-2.39-.96c-.22-.08-.47 0-.59.22L2.74 8.87c-.12.21-.08.47.12.61l2.03 1.58c-.05.3-.09.63-.09.94s.02.64.07.94l-2.03 1.58a.49.49 0 0 0-.12.61l1.92 3.32c.12.22.37.29.59.22l2.39-.96c.5.38 1.03.7 1.62.94l.36 2.54c.05.24.24.41.48.41h3.84c.24 0 .44-.17.47-.41l.36-2.54c.59-.24 1.13-.56 1.62-.94l2.39.96c.22.08.47 0 .59-.22l1.92-3.32c.12-.22.07-.47-.12-.61l-2.01-1.58zM12 15.6c-1.98 0-3.6-1.62-3.6-3.6s1.62-3.6 3.6-3.6 3.6 1.62 3.6 3.6-1.62 3.6-3.6 3.6z"></path>
+</svg>
+<span class="">Parametres</span>
+</a>
+</nav>
+</aside>
+<!-- END: LeftSidebar -->
+<!-- BEGIN: ContentArea -->
+<main class="flex-1 w-full space-y-6 pb-24" data-purpose="dashboard-main-content"><div class="flex flex-col w-full gap-6">
+<!-- Header Section for Annonces -->
+<div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 p-5 sm:p-6 rounded-3xl bg-brand-card border border-brand-border shadow-neumorphic-panel backdrop-blur-sm"><div class="flex items-center gap-3"><span class="inline-flex items-center justify-center w-3 h-3 rounded-full bg-brand-mint shadow-[0_0_12px_#76E381]"></span><h1 class="text-xl sm:text-2xl font-bold tracking-tight text-white">Annonce</h1></div><div class="flex flex-wrap items-center gap-2 self-start sm:self-auto"><button class="px-4 py-1.5 rounded-full bg-brand-mint text-brand-bg font-semibold text-xs shadow-mint-glow transition-all duration-200 cursor-pointer" type="button">Tous</button><button class="flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-brand-border/60 hover:bg-brand-border border border-brand-border text-brand-sage hover:text-white text-xs font-medium transition-all duration-200 cursor-pointer" type="button"><span class="w-2 h-2 rounded-full bg-[#F5C51B] shadow-[0_0_8px_#F5C51B]"></span>En attente</button><button class="flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-brand-border/60 hover:bg-brand-border border border-brand-border text-brand-sage hover:text-white text-xs font-medium transition-all duration-200 cursor-pointer" type="button"><span class="w-2 h-2 rounded-full bg-[#76E381] shadow-[0_0_8px_#76E381]"></span>Réalisé</button><button class="flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-brand-border/60 hover:bg-brand-border border border-brand-border text-brand-sage hover:text-white text-xs font-medium transition-all duration-200 cursor-pointer" type="button"><span class="w-2 h-2 rounded-full bg-[#FF4B4B] shadow-[0_0_8px_#FF4B4B]"></span>Annulé</button></div></div>
+<!-- List of Annonces Cards -->
+<div class="flex flex-col gap-4" id="annonces-container">
+<!-- Annonce 1: En attente -->
+<article class="annonce-card group relative p-5 sm:p-6 rounded-[26px] bg-brand-card border border-brand-border hover:border-brand-mint/40 shadow-neumorphic-card hover:shadow-neumorphic-card-hover transition-all duration-300 cursor-pointer" data-desc="Virement entrant attendu pour solde de prestation contractuelle." data-due="Indéfini" data-id="1" data-status="En attente" data-title="Réception d'une somme d'argent">
+<div class="flex flex-col md:flex-row md:items-center justify-between gap-4">
+<div class="flex flex-col gap-2 min-w-0">
+<div class="flex items-center gap-3">
+<span class="status-indicator-dot w-2.5 h-2.5 rounded-full bg-[#F5C51B] shadow-[0_0_8px_#F5C51B]"></span>
+<h2 class="text-lg sm:text-xl font-semibold text-white tracking-normal group-hover:text-brand-mint transition-colors truncate">
+              Réception d'une somme d'argent
+            </h2>
+</div>
+<div class="flex items-center gap-2 pl-5 text-xs sm:text-sm text-brand-sage">
+<span class="text-brand-dim font-medium">Durée (due date) :</span>
+<span class="font-mono text-white/90">Indéfini</span>
+</div>
+</div>
+<div class="flex items-center justify-between md:justify-end gap-3 pl-5 md:pl-0 shrink-0">
+<span class="status-badge px-3.5 py-1.5 rounded-full text-xs font-semibold tracking-wide border border-[#F5C51B]/40 bg-[#F5C51B]/15 text-[#F5C51B] shadow-[0_0_10px_rgba(245,197,27,0.2)]">
+            Statut : En attente
+          </span>
+<span class="material-symbols-outlined text-brand-sage group-hover:text-white transition-colors text-[20px]">chevron_right</span>
+</div>
+</div>
+</article>
+<!-- Annonce 2: Réalisé -->
+<article class="annonce-card group relative p-5 sm:p-6 rounded-[26px] bg-brand-card border border-brand-border hover:border-brand-mint/40 shadow-neumorphic-card hover:shadow-neumorphic-card-hover transition-all duration-300 cursor-pointer" data-desc="Prélèvement automatique régularisé auprès des services communaux." data-due="12/10/2026" data-id="2" data-status="Réalisé" data-title="Paiement facture d'eau">
+<div class="flex flex-col md:flex-row md:items-center justify-between gap-4">
+<div class="flex flex-col gap-2 min-w-0">
+<div class="flex items-center gap-3">
+<span class="status-indicator-dot w-2.5 h-2.5 rounded-full bg-[#76E381] shadow-[0_0_8px_#76E381]"></span>
+<h2 class="text-lg sm:text-xl font-semibold text-white tracking-normal group-hover:text-brand-mint transition-colors truncate">
+              Paiement facture d'eau
+            </h2>
+</div>
+<div class="flex items-center gap-2 pl-5 text-xs sm:text-sm text-brand-sage">
+<span class="text-brand-dim font-medium">Durée (due date) :</span>
+<span class="font-mono text-white/90">12/10/2026</span>
+</div>
+</div>
+<div class="flex items-center justify-between md:justify-end gap-3 pl-5 md:pl-0 shrink-0">
+<span class="status-badge px-3.5 py-1.5 rounded-full text-xs font-semibold tracking-wide border border-[#76E381]/40 bg-[#76E381]/15 text-[#76E381] shadow-[0_0_10px_rgba(118,227,129,0.2)]">
+            Statut : Réalisé
+          </span>
+<span class="material-symbols-outlined text-brand-sage group-hover:text-white transition-colors text-[20px]">chevron_right</span>
+</div>
+</div>
+</article>
+<!-- Annonce 3: Annulé -->
+<article class="annonce-card group relative p-5 sm:p-6 rounded-[26px] bg-brand-card border border-brand-border hover:border-brand-mint/40 shadow-neumorphic-card hover:shadow-neumorphic-card-hover transition-all duration-300 cursor-pointer" data-desc="Dossier clôturé sans suite suite au rejet des conditions du partenaire bancaire." data-due="01/11/2026" data-id="3" data-status="Annulé" data-title="Demande de prêt annulée">
+<div class="flex flex-col md:flex-row md:items-center justify-between gap-4">
+<div class="flex flex-col gap-2 min-w-0">
+<div class="flex items-center gap-3">
+<span class="status-indicator-dot w-2.5 h-2.5 rounded-full bg-[#FF4B4B] shadow-[0_0_8px_#FF4B4B]"></span>
+<h2 class="text-lg sm:text-xl font-semibold text-white tracking-normal group-hover:text-brand-mint transition-colors truncate">
+              Demande de prêt annulée
+            </h2>
+</div>
+<div class="flex items-center gap-2 pl-5 text-xs sm:text-sm text-brand-sage">
+<span class="text-brand-dim font-medium">Durée (due date) :</span>
+<span class="font-mono text-white/90">01/11/2026</span>
+</div>
+</div>
+<div class="flex items-center justify-between md:justify-end gap-3 pl-5 md:pl-0 shrink-0">
+<span class="status-badge px-3.5 py-1.5 rounded-full text-xs font-semibold tracking-wide border border-[#FF4B4B]/40 bg-[#FF4B4B]/15 text-[#FF4B4B] shadow-[0_0_10px_rgba(255,75,75,0.2)]">
+            Statut : Annulé
+          </span>
+<span class="material-symbols-outlined text-brand-sage group-hover:text-white transition-colors text-[20px]">chevron_right</span>
+</div>
+</div>
+</article>
+<!-- Annonce 4: En attente -->
+<article class="annonce-card group relative p-5 sm:p-6 rounded-[26px] bg-brand-card border border-brand-border hover:border-brand-mint/40 shadow-neumorphic-card hover:shadow-neumorphic-card-hover transition-all duration-300 cursor-pointer" data-desc="Vérification et consolidation des balances crédit/débit pour l'audit." data-due="15/11/2026" data-id="4" data-status="En attente" data-title="Clôture trimestrielle des comptes">
+<div class="flex flex-col md:flex-row md:items-center justify-between gap-4">
+<div class="flex flex-col gap-2 min-w-0">
+<div class="flex items-center gap-3">
+<span class="status-indicator-dot w-2.5 h-2.5 rounded-full bg-[#F5C51B] shadow-[0_0_8px_#F5C51B]"></span>
+<h2 class="text-lg sm:text-xl font-semibold text-white tracking-normal group-hover:text-brand-mint transition-colors truncate">
+              Clôture trimestrielle des comptes
+            </h2>
+</div>
+<div class="flex items-center gap-2 pl-5 text-xs sm:text-sm text-brand-sage">
+<span class="text-brand-dim font-medium">Durée (due date) :</span>
+<span class="font-mono text-white/90">15/11/2026</span>
+</div>
+</div>
+<div class="flex items-center justify-between md:justify-end gap-3 pl-5 md:pl-0 shrink-0">
+<span class="status-badge px-3.5 py-1.5 rounded-full text-xs font-semibold tracking-wide border border-[#F5C51B]/40 bg-[#F5C51B]/15 text-[#F5C51B] shadow-[0_0_10px_rgba(245,197,27,0.2)]">
+            Statut : En attente
+          </span>
+<span class="material-symbols-outlined text-brand-sage group-hover:text-white transition-colors text-[20px]">chevron_right</span>
+</div>
+</div>
+</article>
+</div>
+<!-- Creation Modal: Créer une Annonce (Section 3.6 Cahier des charges) -->
+<dialog class="backdrop:bg-[#050B05]/85 backdrop:backdrop-blur-md p-0 rounded-3xl bg-brand-card border border-brand-border shadow-neumorphic-panel max-w-lg w-full text-white mx-auto my-auto" id="modal-add-annonce">
+<div class="p-6 sm:p-8 flex flex-col gap-6">
+<div class="flex items-center justify-between border-b border-brand-border pb-4">
+<div class="flex items-center gap-3">
+<span class="w-3 h-3 rounded-full bg-brand-mint shadow-[0_0_12px_#76E381]"></span>
+<h3 class="text-xl font-bold tracking-tight text-white">Créer une Annonce</h3>
+</div>
+<button class="w-9 h-9 rounded-full bg-brand-border/60 hover:bg-brand-border text-brand-sage hover:text-white flex items-center justify-center transition-colors focus:outline-none" id="close-add-modal-btn" title="Fermer" type="button">
+<span class="material-symbols-outlined text-[20px]">close</span>
+</button>
+</div>
+<form class="flex flex-col gap-4" id="form-add-annonce">
+<div class="flex flex-col gap-1.5">
+<label class="text-xs font-semibold uppercase tracking-wider text-brand-sage" for="annonce-title-input">Titre</label>
+<input class="w-full px-4 py-3 rounded-xl bg-[#081208] border border-brand-border text-white placeholder:text-brand-dim focus:outline-none focus:ring-1 focus:ring-brand-mint text-sm shadow-inner" id="annonce-title-input" placeholder="Ex: Réception de fonds, Facture..." required="" type="text"/>
+</div>
+<div class="flex flex-col gap-1.5">
+<label class="text-xs font-semibold uppercase tracking-wider text-brand-sage" for="annonce-desc-input">Description</label>
+<textarea class="w-full px-4 py-3 rounded-xl bg-[#081208] border border-brand-border text-white placeholder:text-brand-dim focus:outline-none focus:ring-1 focus:ring-brand-mint text-sm shadow-inner resize-none h-24" id="annonce-desc-input" placeholder="Détails explicatifs de l'annonce..." required=""></textarea>
+</div>
+<div class="flex flex-col gap-1.5">
+<div class="flex items-center justify-between">
+<label class="text-xs font-semibold uppercase tracking-wider text-brand-sage" for="annonce-due-input">Date d'expiration / Due Date</label>
+<span class="text-[11px] text-brand-dim font-normal">Facultatif - Si non défini : Indéfini</span>
+</div>
+<input class="w-full px-4 py-3 rounded-xl bg-[#081208] border border-brand-border text-white placeholder:text-brand-dim focus:outline-none focus:ring-1 focus:ring-brand-mint text-sm font-mono shadow-inner" id="annonce-due-input" type="date"/>
+</div>
+<div class="flex items-center justify-end gap-3 pt-4 border-t border-brand-border">
+<button class="px-5 py-2.5 rounded-full bg-brand-border/60 hover:bg-brand-border text-brand-sage hover:text-white text-sm font-medium transition-colors" id="cancel-add-modal-btn" type="button">
+            Annuler
+          </button>
+<button class="px-6 py-2.5 rounded-full bg-brand-mint text-brand-bg font-semibold text-sm shadow-mint-glow hover:brightness-110 active:scale-95 transition-all" type="submit">
+            Confirm
+          </button>
+</div>
+</form>
+</div>
+</dialog>
+<!-- Consultation & Action Modal (Section 3.6: Titre, Description, Date d'expiration, Boutons Realise, Cancel) -->
+<dialog class="backdrop:bg-[#050B05]/85 backdrop:backdrop-blur-md p-0 rounded-3xl bg-brand-card border border-brand-border shadow-neumorphic-panel max-w-lg w-full text-white mx-auto my-auto" id="modal-detail-annonce">
+<div class="p-6 sm:p-8 flex flex-col gap-6">
+<div class="flex items-center justify-between border-b border-brand-border pb-4">
+<div class="flex items-center gap-3">
+<span class="w-3 h-3 rounded-full bg-brand-mint shadow-[0_0_12px_#76E381]" id="detail-status-dot"></span>
+<h3 class="text-xl font-bold tracking-tight text-white">Détail de l'annonce</h3>
+</div>
+<button class="w-9 h-9 rounded-full bg-brand-border/60 hover:bg-brand-border text-brand-sage hover:text-white flex items-center justify-center transition-colors focus:outline-none" id="close-detail-modal-btn" title="Fermer" type="button">
+<span class="material-symbols-outlined text-[20px]">close</span>
+</button>
+</div>
+<div class="flex flex-col gap-4">
+<div class="flex flex-col gap-1">
+<span class="text-xs font-semibold uppercase tracking-wider text-brand-sage">Titre</span>
+<p class="text-lg font-bold text-white" id="detail-title">Titre</p>
+</div>
+<div class="flex flex-col gap-1">
+<span class="text-xs font-semibold uppercase tracking-wider text-brand-sage">Description</span>
+<div class="p-4 rounded-xl bg-[#081208] border border-brand-border text-sm text-brand-sage leading-relaxed break-words" id="detail-desc">Description</div>
+</div>
+<div class="grid grid-cols-2 gap-4">
+<div class="flex flex-col gap-1">
+<span class="text-xs font-semibold uppercase tracking-wider text-brand-sage">Date d'expiration</span>
+<span class="font-mono text-sm text-white" id="detail-due">Indéfini</span>
+</div>
+<div class="flex flex-col gap-1">
+<span class="text-xs font-semibold uppercase tracking-wider text-brand-sage">Statut actuel</span>
+<span class="text-sm font-semibold" id="detail-status-text">En attente</span>
+</div>
+</div>
+</div>
+<div class="flex items-center justify-end gap-3 pt-4 border-t border-brand-border">
+<button class="px-5 py-2.5 rounded-full bg-[#FF4B4B] hover:brightness-110 text-white font-semibold text-sm shadow-[0_0_15px_rgba(255,75,75,0.35)] active:scale-95 transition-all" id="btn-status-cancel" type="button">
+          Cancel
+        </button>
+<button class="px-5 py-2.5 rounded-full bg-brand-mint hover:brightness-110 text-brand-bg font-semibold text-sm shadow-mint-glow active:scale-95 transition-all" id="btn-status-realise" type="button">
+          Realise
+        </button>
+</div>
+</div>
+</dialog>
+</div></main>
+<!-- END: ContentArea -->
+</div>
+<!-- END: MainLayout -->
+</div>
+<!-- END: DesktopContainer -->
+<!-- BEGIN: FloatingActionButton -->
+<!-- Bouton d'action rapide néon vert menthe avec anneau externe conforme à la capture -->
+<aside aria-label="Action rapide" class="fixed bottom-6 right-6 sm:bottom-10 sm:right-10 z-50">
+<div class="relative flex items-center justify-center">
+<!-- Outer glowing border ring mimicking reference visual green border -->
+<button aria-label="Nouvelle opération ou fermer" class="w-16 h-16 sm:w-20 sm:h-20 rounded-full bg-brand-mint text-brand-bg flex items-center justify-center font-bold shadow-fab-glow hover:scale-105 active:scale-95 transition-all duration-200 focus:outline-none cursor-pointer" data-purpose="floating-action-button" id="quick-action-btn" type="button">
+<!-- Clean icon representation with subtle cross/plus switchable -->
+<svg class="w-8 h-8 sm:w-10 sm:h-10 text-brand-bg stroke-current transition-transform duration-200" fill="none" stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" viewbox="0 0 24 24">
+<line x1="12" x2="12" y1="5" y2="19"></line>
+<line x1="5" x2="19" y1="12" y2="12"></line>
+</svg>
+</button>
+</div>
+</aside>
+<!-- END: FloatingActionButton -->
+<!-- BEGIN: Scripts -->
+<script data-purpose="interactivity">
+    document.addEventListener('DOMContentLoaded', () => {
+      const fab = document.getElementById('quick-action-btn');
+      const addModal = document.getElementById('modal-add-annonce');
+      const closeAddBtn = document.getElementById('close-add-modal-btn');
+      const cancelAddBtn = document.getElementById('cancel-add-modal-btn');
+      const formAdd = document.getElementById('form-add-annonce');
+      const annoncesContainer = document.getElementById('annonces-container');
+
+      const detailModal = document.getElementById('modal-detail-annonce');
+      const closeDetailBtn = document.getElementById('close-detail-modal-btn');
+      const detailTitle = document.getElementById('detail-title');
+      const detailDesc = document.getElementById('detail-desc');
+      const detailDue = document.getElementById('detail-due');
+      const detailStatusText = document.getElementById('detail-status-text');
+      const detailStatusDot = document.getElementById('detail-status-dot');
+      const btnStatusCancel = document.getElementById('btn-status-cancel');
+      const btnStatusRealise = document.getElementById('btn-status-realise');
+
+      let currentSelectedCard = null;
+
+      // Status visual mapping helper
+      function getStatusConfig(status) {
+        if (status === 'Réalisé') {
+          return {
+            color: '#76E381',
+            badgeClass: 'border-[#76E381]/40 bg-[#76E381]/15 text-[#76E381] shadow-[0_0_10px_rgba(118,227,129,0.2)]',
+            dotClass: 'bg-[#76E381] shadow-[0_0_8px_#76E381]'
+          };
+        } else if (status === 'Annulé') {
+          return {
+            color: '#FF4B4B',
+            badgeClass: 'border-[#FF4B4B]/40 bg-[#FF4B4B]/15 text-[#FF4B4B] shadow-[0_0_10px_rgba(255,75,75,0.2)]',
+            dotClass: 'bg-[#FF4B4B] shadow-[0_0_8px_#FF4B4B]'
+          };
+        } else {
+          return {
+            color: '#F5C51B',
+            badgeClass: 'border-[#F5C51B]/40 bg-[#F5C51B]/15 text-[#F5C51B] shadow-[0_0_10px_rgba(245,197,27,0.2)]',
+            dotClass: 'bg-[#F5C51B] shadow-[0_0_8px_#F5C51B]'
+          };
+        }
+      }
+
+      // Open Add Modal from Floating Action Button (+)
+      if (fab && addModal) {
+        fab.addEventListener('click', () => {
+          formAdd.reset();
+          addModal.showModal();
+        });
+      }
+
+      // Close Add Modal
+      function closeAddModalHandler() {
+        if (addModal.open) {
+          addModal.close();
+        }
+      }
+
+      if (closeAddBtn) closeAddBtn.addEventListener('click', closeAddModalHandler);
+      if (cancelAddBtn) cancelAddBtn.addEventListener('click', closeAddModalHandler);
+
+      // Close on backdrop click for addModal
+      if (addModal) {
+        addModal.addEventListener('click', (e) => {
+          const rect = addModal.getBoundingClientRect();
+          const isInDialog = (rect.top <= e.clientY && e.clientY <= rect.top + rect.height &&
+            rect.left <= e.clientX && e.clientX <= rect.left + rect.width);
+          if (!isInDialog) {
+            addModal.close();
+          }
+        });
+      }
+
+      // Add Annonce Form Submit Logic
+      if (formAdd) {
+        formAdd.addEventListener('submit', (e) => {
+          e.preventDefault();
+          const title = document.getElementById('annonce-title-input').value.trim();
+          const desc = document.getElementById('annonce-desc-input').value.trim();
+          const dueVal = document.getElementById('annonce-due-input').value;
+
+          if (!title) return;
+
+          let formattedDate = 'Indéfini';
+          if (dueVal) {
+            const parts = dueVal.split('-');
+            if (parts.length === 3) {
+              formattedDate = `${parts[2]}/${parts[1]}/${parts[0]}`;
+            } else {
+              formattedDate = dueVal;
+            }
+          }
+
+          const status = 'En attente';
+          const newId = Date.now();
+
+          // Create new card element with exact Neumorphic Dark styling
+          const article = document.createElement('article');
+          article.className = 'annonce-card group relative p-5 sm:p-6 rounded-[26px] bg-brand-card border border-brand-border hover:border-brand-mint/40 shadow-neumorphic-card hover:shadow-neumorphic-card-hover transition-all duration-300 cursor-pointer';
+          article.setAttribute('data-id', newId);
+          article.setAttribute('data-title', title);
+          article.setAttribute('data-desc', desc);
+          article.setAttribute('data-due', formattedDate);
+          article.setAttribute('data-status', status);
+
+          article.innerHTML = `
+            <div class="flex flex-col md:flex-row md:items-center justify-between gap-4">
+              <div class="flex flex-col gap-2 min-w-0">
+                <div class="flex items-center gap-3">
+                  <span class="status-indicator-dot w-2.5 h-2.5 rounded-full bg-[#F5C51B] shadow-[0_0_8px_#F5C51B]"></span>
+                  <h2 class="text-lg sm:text-xl font-semibold text-white tracking-normal group-hover:text-brand-mint transition-colors truncate">
+                    ${escapeHtml(title)}
+                  </h2>
+                </div>
+                <div class="flex items-center gap-2 pl-5 text-xs sm:text-sm text-brand-sage">
+                  <span class="text-brand-dim font-medium">Durée (due date) :</span>
+                  <span class="font-mono text-white/90">${escapeHtml(formattedDate)}</span>
+                </div>
+              </div>
+              <div class="flex items-center justify-between md:justify-end gap-3 pl-5 md:pl-0 shrink-0">
+                <span class="status-badge px-3.5 py-1.5 rounded-full text-xs font-semibold tracking-wide border border-[#F5C51B]/40 bg-[#F5C51B]/15 text-[#F5C51B] shadow-[0_0_10px_rgba(245,197,27,0.2)]">
+                  Statut : En attente
+                </span>
+                <span class="material-symbols-outlined text-brand-sage group-hover:text-white transition-colors text-[20px]">chevron_right</span>
+              </div>
+            </div>
+          `;
+
+          // Prepend in the cards container
+          annoncesContainer.insertBefore(article, annoncesContainer.firstChild);
+
+          // Attach click event for detail modal
+          attachCardDetailListener(article);
+
+          // Close modal
+          addModal.close();
+          formAdd.reset();
+        });
+      }
+
+      function escapeHtml(text) {
+        const div = document.createElement('div');
+        div.innerText = text;
+        return div.innerHTML;
+      }
+
+      // Card Detail Click Handlers
+      function openDetailForCard(card) {
+        currentSelectedCard = card;
+        const title = card.getAttribute('data-title') || '';
+        const desc = card.getAttribute('data-desc') || '';
+        const due = card.getAttribute('data-due') || 'Indéfini';
+        const status = card.getAttribute('data-status') || 'En attente';
+
+        detailTitle.textContent = title;
+        detailDesc.textContent = desc;
+        detailDue.textContent = due;
+        detailStatusText.textContent = status;
+
+        const config = getStatusConfig(status);
+        detailStatusText.style.color = config.color;
+        detailStatusDot.style.backgroundColor = config.color;
+        detailStatusDot.style.boxShadow = `0 0 12px ${config.color}`;
+
+        detailModal.showModal();
+      }
+
+      function attachCardDetailListener(card) {
+        card.addEventListener('click', () => {
+          openDetailForCard(card);
+        });
+      }
+
+      document.querySelectorAll('.annonce-card').forEach(attachCardDetailListener);
+
+      // Detail Modal Close
+      if (closeDetailBtn) {
+        closeDetailBtn.addEventListener('click', () => {
+          detailModal.close();
+        });
+      }
+
+      // Close on backdrop click for detailModal
+      if (detailModal) {
+        detailModal.addEventListener('click', (e) => {
+          const rect = detailModal.getBoundingClientRect();
+          const isInDialog = (rect.top <= e.clientY && e.clientY <= rect.top + rect.height &&
+            rect.left <= e.clientX && e.clientX <= rect.left + rect.width);
+          if (!isInDialog) {
+            detailModal.close();
+          }
+        });
+      }
+
+      // Status change actions inside Detail Modal
+      function updateCardStatus(newStatus) {
+        if (!currentSelectedCard) return;
+        currentSelectedCard.setAttribute('data-status', newStatus);
+
+        const badge = currentSelectedCard.querySelector('.status-badge');
+        const dot = currentSelectedCard.querySelector('.status-indicator-dot');
+        const config = getStatusConfig(newStatus);
+
+        if (badge) {
+          badge.className = `status-badge px-3.5 py-1.5 rounded-full text-xs font-semibold tracking-wide border ${config.badgeClass}`;
+          badge.textContent = `Statut : ${newStatus}`;
+        }
+        if (dot) {
+          dot.className = `status-indicator-dot w-2.5 h-2.5 rounded-full ${config.dotClass}`;
+        }
+
+        detailModal.close();
+      }
+
+      if (btnStatusRealise) {
+        btnStatusRealise.addEventListener('click', () => updateCardStatus('Réalisé'));
+      }
+
+      if (btnStatusCancel) {
+        btnStatusCancel.addEventListener('click', () => updateCardStatus('Annulé'));
+      }
+    });
+  </script>
+<!-- END: Scripts -->
+</body></html>

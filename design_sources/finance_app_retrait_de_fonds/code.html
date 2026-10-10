@@ -1,0 +1,332 @@
+<!DOCTYPE html><html class="h-full bg-[#050D08]" lang="fr"><head>
+<meta charset="utf-8">
+<meta content="width=device-width, initial-scale=1.0" name="viewport">
+<title>Application Financière - Retrait</title>
+<!-- Tailwind CSS CDN avec plugins -->
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            brand: {
+              accent: '#76E381',
+              accentHover: '#62cf6d',
+              bgDark: '#07100A',
+              cardDark: '#0D1A10',
+              sidebarDark: '#09150D',
+              borderDark: '#172B1B',
+              inputBg: '#09140C'
+            }
+          },
+          boxShadow: {
+            'glow-mint': '0 0 25px -4px rgba(118, 227, 129, 0.45)',
+            'glow-modal': '0 20px 50px rgba(0, 0, 0, 0.8), 0 0 40px rgba(118, 227, 129, 0.08)',
+            'glow-button': '0 0 20px 2px rgba(118, 227, 129, 0.4)',
+            'inset-dark': 'inset 0 2px 4px rgba(0, 0, 0, 0.6)'
+          }
+        }
+      }
+    };
+  </script>
+<style data-purpose="custom-scrollbars-and-glows">
+    /* Arrière-plan subtilement texturé et gradients sombres */
+    body {
+      background: radial-gradient(circle at 60% 30%, #0A1C10 0%, #050B07 100%);
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+    }
+
+    /* Style spécifique pour les effets de bordure subtils */
+    .glass-panel {
+      background: rgba(13, 27, 18, 0.72);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border: 1px solid rgba(118, 227, 129, 0.18);
+    }
+
+    .modal-card {
+      background: linear-gradient(145deg, rgba(16, 32, 22, 0.94) 0%, rgba(9, 20, 13, 0.96) 100%);
+      backdrop-filter: blur(25px);
+      border: 1px solid rgba(118, 227, 129, 0.28);
+    }
+  </style>
+</head>
+<body class="h-full text-gray-200 antialiased overflow-hidden select-none">
+<!-- BEGIN: ApplicationLayout -->
+<div class="relative w-full h-full flex p-5 lg:p-7 gap-6">
+<!-- BEGIN: Sidebar -->
+<aside class="w-64 flex flex-col justify-between rounded-3xl bg-[#09150D] border border-[#162B1C]/60 p-6 shadow-2xl relative z-10" data-purpose="main-navigation">
+<div class="flex flex-col gap-8">
+<!-- Logo / Titre Sidebar -->
+<div class="flex items-center gap-3 px-2 pt-2">
+<div class="w-4 h-4 rounded-full bg-[#76E381] shadow-glow-mint"></div>
+<span class="text-sm font-semibold tracking-wider uppercase text-emerald-400/80">Gestion Financière</span>
+</div>
+<!-- Navigation Menu -->
+<nav class="flex flex-col gap-3 font-medium">
+<!-- Item: Dashboard -->
+<a class="flex items-center gap-4 px-4 py-3 rounded-2xl text-gray-400 hover:text-white hover:bg-emerald-950/30 transition duration-200" href="#">
+<svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+<path d="M4 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2V6zM14 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V6zM4 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2v-2zM14 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path>
+</svg>
+<span class="text-base">Dashboard</span>
+</a>
+<!-- Item: Budget -->
+<a class="flex items-center gap-4 px-4 py-3 rounded-2xl text-gray-400 hover:text-white hover:bg-emerald-950/30 transition duration-200" href="#">
+<svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+<path d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path>
+</svg>
+<span class="text-base">Budget</span>
+</a>
+<!-- Item: Retrait (Actif) -->
+<a class="flex items-center gap-4 px-5 py-3 rounded-2xl bg-[#76E381] text-[#051108] font-semibold shadow-glow-button transition" href="#">
+<svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+<path d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" stroke-linecap="round" stroke-linejoin="round" stroke-width="2.2"></path>
+</svg>
+<span class="text-base">Retrait</span>
+</a>
+<!-- Item: Annonces -->
+<a class="flex items-center gap-4 px-4 py-3 rounded-2xl text-gray-400 hover:text-white hover:bg-emerald-950/30 transition duration-200" href="#">
+<svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+<path d="M11 5.882V19.24a1.76 1.76 0 01-3.417.592l-2.147-6.15M18 13a3 3 0 100-6M5.436 13.683A4.001 4.001 0 017 6h1.832c4.1 0 7.625-1.234 9.168-3v14c-1.543-1.766-5.067-3-9.168-3H7a3.988 3.988 0 01-1.564-.317z" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path>
+</svg>
+<span class="text-base">Annonces</span>
+</a>
+<!-- Item: Echange -->
+<a class="flex items-center gap-4 px-4 py-3 rounded-2xl text-gray-400 hover:text-white hover:bg-emerald-950/30 transition duration-200" href="#">
+<svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+<path d="M8 7h12m0 0l-4-4m4 4l-4 4m0 6H4m0 0l4 4m-4-4l4-4" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path>
+</svg>
+<span class="text-base">Echange</span>
+</a>
+<!-- Item: Paramètres -->
+<a class="flex items-center gap-4 px-4 py-3 rounded-2xl text-gray-400 hover:text-white hover:bg-emerald-950/30 transition duration-200" href="#">
+<svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+<path d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path>
+<path d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path>
+</svg>
+<span class="text-base">Parametres</span>
+</a>
+</nav>
+</div>
+<!-- Informations système en pied de sidebar -->
+<div class="text-xs text-gray-500 font-mono px-2">
+        Système sécurisé • Anti-découvert actif
+      </div>
+</aside>
+<!-- END: Sidebar -->
+<!-- BEGIN: MainContent -->
+<main class="flex-1 flex flex-col relative h-full" data-purpose="background-feed">
+<!-- Header Profil en haut à droite -->
+<header class="flex justify-end items-center h-12 mb-4">
+<div class="flex items-center gap-3">
+<span class="text-sm font-medium text-gray-300">Nom Utilisateur</span>
+<div class="w-10 h-10 rounded-full border-2 border-emerald-500/40 p-0.5 overflow-hidden bg-[#0e2114]">
+<img alt="Avatar Nom Utilisateur" class="w-full h-full object-cover rounded-full" src="https://lh3.googleusercontent.com/aida-public/AB6AXuB5_h83DIvCSrrZmVmDgyEhuvJWZ3pEg-wPL-BCBSn4Xh_yOJ_ocxIQwx2wUG7UiC0yvyiNnf7s42WhnPp9szxGc-dUH_znZLKMKcTipHmuBsI8rE58P1AgWLl-eGcI6W_ZfcbnqfoyTarYqRKlhGq79eXxwOIK3CJ0lwNLo0ltoNxQbsgJBuZa-5A8x6JkuPVL9NkC1ozu2y5HVjn032PrdDygBqaE-Xnopayd92Wo">
+</div>
+</div>
+</header>
+<!-- Liste des opérations passées (Arrière-plan atténué / maquette) -->
+<section class="flex-1 flex flex-col gap-4 overflow-hidden pr-2 opacity-50 pointer-events-none">
+<!-- Carte Opération 1 -->
+<article class="w-full p-6 rounded-3xl bg-[#09170E]/80 border border-[#162D1D]/90 flex justify-between items-center shadow-lg">
+<div class="flex flex-col gap-2">
+<h3 class="text-xl font-mono tracking-tight text-gray-100">paie du travail effectuer le 12/10</h3>
+<p class="text-base text-gray-400 font-mono">Amount: <span class="text-gray-200">12000 USD</span></p>
+</div>
+<div class="text-sm font-mono text-gray-400">
+            le 14/10/ 13h:45
+          </div>
+</article>
+<!-- Carte Opération 2 -->
+<article class="w-full p-6 rounded-3xl bg-[#09170E]/80 border border-[#162D1D]/90 flex justify-between items-center shadow-lg">
+<div class="flex flex-col gap-2">
+<h3 class="text-xl font-mono tracking-tight text-gray-100">Achat matériel bureau</h3>
+<p class="text-base text-gray-400 font-mono">Amount: <span class="text-gray-200">500 USD</span></p>
+</div>
+<div class="text-sm font-mono text-gray-400">
+            le 20/10/ 16:30
+          </div>
+</article>
+<!-- Placeholders de cartes futures/vides -->
+<div class="w-full h-24 rounded-3xl bg-[#09170E]/40 border border-[#162D1D]/60"></div>
+<div class="w-full h-24 rounded-3xl bg-[#09170E]/30 border border-[#162D1D]/40"></div>
+</section>
+<!-- Bouton flottant Toggle en bas à droite -->
+<div class="absolute bottom-4 right-4 z-40">
+<button aria-label="Fermer ou ouvrir la fenêtre" class="w-16 h-16 rounded-full bg-[#76E381] hover:bg-[#62cf6d] flex items-center justify-center text-[#07130A] shadow-glow-mint transition transform hover:scale-105 active:scale-95" id="toggleModalBtn" type="button">
+<svg class="w-7 h-7" fill="none" id="toggleIcon" stroke="currentColor" viewBox="0 0 24 24">
+<path d="M6 18L18 6M6 6l12 12" stroke-linecap="round" stroke-linejoin="round" stroke-width="2.8"></path>
+</svg>
+</button>
+</div>
+</main>
+<!-- END: MainContent -->
+<!-- BEGIN: RetraitModal (Modale Centrale Glassmorphic) -->
+<div class="fixed inset-0 z-30 flex items-center justify-center p-4" data-purpose="withdrawal-modal" id="modalContainer">
+<!-- Fond sombre avec flou pour focus sur la modale -->
+<div class="absolute inset-0 bg-black/60 backdrop-blur-sm transition-opacity" id="modalBackdrop"></div>
+<!-- Boîte de dialogue de saisie du Retrait -->
+<div class="relative modal-card w-full max-w-[510px] rounded-[32px] p-8 shadow-glow-modal text-white">
+<!-- En-tête de la modale -->
+<div class="flex items-center justify-between mb-6">
+<h2 class="text-3xl font-bold tracking-tight text-white">Saisir un Retrait</h2>
+<!-- Indicateur de solde avec contrôle anti-découvert -->
+<div class="text-right">
+<span class="text-xs uppercase tracking-wider text-emerald-400/80 font-semibold block">Solde Actuel</span>
+<span class="text-sm font-mono font-bold text-gray-200" id="currentBalanceDisplay">11 500 USD</span>
+</div>
+</div>
+<form class="flex flex-col gap-4" id="withdrawalForm">
+<!-- Champ: Motif du retrait -->
+<div class="flex flex-col gap-1.5">
+<label class="text-sm text-gray-400 font-medium" for="motif">Motif du retrait</label>
+<input class="w-full bg-[#0A160E] border border-[#1E3B24] rounded-2xl px-4 py-3 text-white text-base focus:border-[#76E381] focus:ring-1 focus:ring-[#76E381] outline-none transition" id="motif" name="motif" required="" type="text" value="Achat matériel bureau">
+</div>
+<!-- Ligne: Montant & Devise -->
+<div class="grid grid-cols-2 gap-4">
+<!-- Montant -->
+<div class="flex flex-col gap-1.5">
+<label class="text-sm text-gray-400 font-medium" for="montant">Montant</label>
+<input class="w-full bg-[#0A160E] border border-[#1E3B24] rounded-2xl px-4 py-3 text-white text-base font-mono focus:border-[#76E381] focus:ring-1 focus:ring-[#76E381] outline-none transition" id="montant" min="1" name="montant" required="" step="any" type="number" value="500">
+</div>
+<!-- Devise -->
+<div class="flex flex-col gap-1.5">
+<label class="text-sm text-gray-400 font-medium" for="devise">Devise</label>
+<div class="relative">
+<select class="w-full bg-[#0A160E] border border-[#1E3B24] rounded-2xl px-4 py-3 text-white text-base appearance-none focus:border-[#76E381] focus:ring-1 focus:ring-[#76E381] outline-none transition pr-10" id="devise" name="devise">
+<option selected="" value="USD">USD</option>
+<option value="EUR">EUR</option>
+<option value="GBP">GBP</option>
+<option value="TRY">TRY</option>
+</select>
+<div class="absolute inset-y-0 right-0 flex items-center px-4 pointer-events-none text-gray-400">
+<svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+<path d="M19 9l-7 7-7-7" stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5"></path>
+</svg>
+</div>
+</div>
+</div>
+</div>
+<!-- Champ: Description détaillée -->
+<div class="flex flex-col gap-1.5">
+<label class="text-sm text-gray-400 font-medium" for="description">Description détaillée</label>
+<textarea class="w-full bg-[#0A160E] border border-[#1E3B24] rounded-2xl px-4 py-3 text-white text-sm focus:border-[#76E381] focus:ring-1 focus:ring-[#76E381] outline-none transition resize-none" id="description" name="description" rows="2">Nouvel ordinateur portable pour l'équipe</textarea>
+</div>
+<!-- Ligne: Date et Heure -->
+<div class="grid grid-cols-2 gap-4">
+<!-- Date -->
+<div class="flex flex-col gap-1.5">
+<label class="text-sm text-gray-400 font-medium" for="date">Date</label>
+<input class="w-full bg-[#0A160E] border border-[#1E3B24] rounded-2xl px-4 py-3 text-white text-base font-mono focus:border-[#76E381] focus:ring-1 focus:ring-[#76E381] outline-none transition" id="date" name="date" type="text" value="20/10/2026">
+</div>
+<!-- Heure -->
+<div class="flex flex-col gap-1.5">
+<label class="text-sm text-gray-400 font-medium" for="heure">Heure</label>
+<input class="w-full bg-[#0A160E] border border-[#1E3B24] rounded-2xl px-4 py-3 text-white text-base font-mono focus:border-[#76E381] focus:ring-1 focus:ring-[#76E381] outline-none transition" id="heure" name="heure" type="text" value="14:15">
+</div>
+</div>
+<!-- Alertes & Vérification anti-découvert -->
+<div class="text-xs rounded-xl px-3 py-2 bg-emerald-950/40 border border-emerald-500/20 text-emerald-300 flex items-center justify-between" id="overdraftNotice">
+<span>Règle : Solde débiteur interdit</span>
+<span class="font-mono text-gray-300" id="balanceAfterText">Solde restant prévu : 11 000 USD</span>
+</div>
+<!-- Boutons d'Action -->
+<div class="flex flex-col gap-2 mt-2">
+<!-- Valider -->
+<button class="w-full py-4 rounded-2xl bg-[#76E381] hover:bg-[#62cf6d] text-[#051108] text-lg font-bold shadow-glow-button hover:shadow-glow-mint transition duration-200 active:scale-[0.99] flex justify-center items-center gap-2" id="confirmBtn" type="submit">
+<span>Confirmer le Retrait</span>
+</button>
+<!-- Annuler -->
+<button class="w-full py-2.5 rounded-2xl text-gray-400 hover:text-white text-base font-medium transition duration-200 text-center" id="cancelBtn" type="button">
+              Annuler
+            </button>
+</div>
+</form>
+</div>
+</div>
+<!-- END: RetraitModal -->
+</div>
+<!-- END: ApplicationLayout -->
+<!-- BEGIN: Logic & Interactivity -->
+<script data-purpose="anti-overdraft-and-modal-controls">
+    document.addEventListener('DOMContentLoaded', () => {
+      const TOTAL_BALANCE = 11500; // Solde courant en USD
+      const montantInput = document.getElementById('montant');
+      const deviseSelect = document.getElementById('devise');
+      const confirmBtn = document.getElementById('confirmBtn');
+      const balanceAfterText = document.getElementById('balanceAfterText');
+      const overdraftNotice = document.getElementById('overdraftNotice');
+      
+      const modalContainer = document.getElementById('modalContainer');
+      const cancelBtn = document.getElementById('cancelBtn');
+      const toggleModalBtn = document.getElementById('toggleModalBtn');
+      const toggleIcon = document.getElementById('toggleIcon');
+
+      // Fonction de contrôle anti-découvert
+      function validateOverdraft() {
+        const withdrawalAmount = parseFloat(montantInput.value) || 0;
+        const currentCurrency = deviseSelect.value;
+        const remaining = TOTAL_BALANCE - withdrawalAmount;
+
+        if (withdrawalAmount > TOTAL_BALANCE) {
+          // Bloquer le retrait (Solde négatif refusé)
+          confirmBtn.disabled = true;
+          confirmBtn.classList.remove('bg-[#76E381]', 'hover:bg-[#62cf6d]', 'text-[#051108]', 'shadow-glow-button');
+          confirmBtn.classList.add('bg-red-900/60', 'text-red-300', 'cursor-not-allowed');
+          confirmBtn.innerText = 'Fonds Insuffisants (Anti-découvert)';
+
+          overdraftNotice.className = 'text-xs rounded-xl px-3 py-2 bg-red-950/60 border border-red-500/40 text-red-300 flex items-center justify-between';
+          balanceAfterText.innerText = `Déficit interdit : ${remaining} ${currentCurrency}`;
+        } else {
+          // Solde suffisant
+          confirmBtn.disabled = false;
+          confirmBtn.classList.add('bg-[#76E381]', 'hover:bg-[#62cf6d]', 'text-[#051108]', 'shadow-glow-button');
+          confirmBtn.classList.remove('bg-red-900/60', 'text-red-300', 'cursor-not-allowed');
+          confirmBtn.innerText = 'Confirmer le Retrait';
+
+          overdraftNotice.className = 'text-xs rounded-xl px-3 py-2 bg-emerald-950/40 border border-emerald-500/20 text-emerald-300 flex items-center justify-between';
+          balanceAfterText.innerText = `Solde restant prévu : ${remaining.toLocaleString()} ${currentCurrency}`;
+        }
+      }
+
+      // Écouteurs sur les champs de saisie
+      montantInput.addEventListener('input', validateOverdraft);
+      deviseSelect.addEventListener('change', validateOverdraft);
+
+      // Gestion de la visibilité de la modale
+      let isModalOpen = true;
+
+      function setModalVisibility(open) {
+        isModalOpen = open;
+        if (open) {
+          modalContainer.classList.remove('hidden');
+          modalContainer.classList.add('flex');
+          toggleIcon.innerHTML = '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.8" d="M6 18L18 6M6 6l12 12"></path>';
+        } else {
+          modalContainer.classList.remove('flex');
+          modalContainer.classList.add('hidden');
+          toggleIcon.innerHTML = '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.8" d="M12 4v16m8-8H4"></path>';
+        }
+      }
+
+      cancelBtn.addEventListener('click', () => setModalVisibility(false));
+      toggleModalBtn.addEventListener('click', () => setModalVisibility(!isModalOpen));
+
+      // Soumission du formulaire
+      document.getElementById('withdrawalForm').addEventListener('submit', (e) => {
+        e.preventDefault();
+        const motif = document.getElementById('motif').value;
+        const montant = document.getElementById('montant').value;
+        const devise = document.getElementById('devise').value;
+
+        alert(`Retrait enregistré avec succès :\n${montant} ${devise} pour "${motif}".`);
+        setModalVisibility(false);
+      });
+
+      // Calcul initial
+      validateOverdraft();
+    });
+  </script>
+<!-- END: Logic & Interactivity -->
+</body></html>

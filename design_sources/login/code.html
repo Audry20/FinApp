@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+
+<html class="h-full" lang="fr"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Finance App - Login</title>
+<!-- Google Fonts: Inter -->
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<!-- Tailwind CSS v3 CDN -->
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<!-- Custom Tailwind Config -->
+<script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['Inter', 'sans-serif'],
+          },
+          colors: {
+            fintech: {
+              black: '#040705',
+              darkgreen: '#0a1d10',
+              forest: '#11351b',
+              accent: '#5fe09a',
+              inputBg: '#0b160f',
+              inputBorder: '#16281b',
+              subtext: '#839587',
+              grayPlaceholder: '#566a5c'
+            }
+          },
+          boxShadow: {
+            'glow-mint': '0 0 28px 4px rgba(95, 224, 154, 0.45)',
+            'glow-mint-hover': '0 0 35px 8px rgba(95, 224, 154, 0.6)',
+            'inset-dark': 'inset 0 2px 4px 0 rgba(0, 0, 0, 0.6)'
+          }
+        }
+      }
+    }
+  </script>
+<!-- BEGIN: Custom Styles -->
+<style data-purpose="background-geometry">
+    /* Forme fluide inclinée reproduisant exactement la transition visuelle sur l'image */
+    .hero-polygon {
+      clip-path: polygon(0 0, 78% 0, 100% 100%, 0% 100%);
+    }
+    
+    @media (max-width: 1024px) {
+      .hero-polygon {
+        clip-path: polygon(0 0, 100% 0, 100% 90%, 0% 100%);
+      }
+    }
+  </style>
+<style data-purpose="inputs-and-animations">
+    /* Suppression des bordures natives par défaut */
+    input:-webkit-autofill,
+    input:-webkit-autofill:hover, 
+    input:-webkit-autofill:focus {
+      -webkit-text-fill-color: #e5ede7;
+      -webkit-box-shadow: 0 0 0px 1000px #0b160f inset;
+      transition: background-color 5000s ease-in-out 0s;
+    }
+  </style>
+<!-- END: Custom Styles -->
+</head>
+<body class="h-full bg-[#040705] text-white font-sans antialiased selection:bg-fintech-accent selection:text-black overflow-x-hidden">
+<!-- BEGIN: MainContainer -->
+<main class="min-h-screen w-full flex flex-col lg:flex-row relative overflow-hidden bg-[#040705]">
+<!-- BEGIN: LeftBrandingSection -->
+<!-- Volet gauche avec grand pan vert sombre asymétrique et typographie épurée -->
+<section class="relative w-full lg:w-[48%] flex flex-col justify-center px-10 sm:px-16 lg:px-24 py-16 lg:py-0 min-h-[300px] lg:min-h-screen z-10">
+<!-- Arrière-plan asymétrique vert avec dégradé subtil -->
+<div class="absolute inset-0 hero-polygon bg-gradient-to-b from-[#143b1e] via-[#0d2814] to-[#07170c] pointer-events-none" data-purpose="curved-green-shape">
+<!-- Léger voile de lumière radial interne pour effet organique -->
+<div class="absolute -top-32 -left-32 w-96 h-96 bg-[#21572d] rounded-full blur-3xl opacity-30"></div>
+</div>
+<!-- Contenu textuel Branding -->
+<div class="relative z-10 max-w-md">
+<h1 class="text-4xl sm:text-5xl lg:text-6xl font-medium tracking-tight text-white mb-2">
+          Finance App
+        </h1>
+<p class="text-2xl sm:text-3xl font-normal text-[#5b7a63] tracking-normal">
+          Finance App
+        </p>
+</div>
+</section>
+<!-- END: LeftBrandingSection -->
+<!-- BEGIN: RightAuthSection -->
+<!-- Volet droit contenant le formulaire de connexion aux touches néomorphiques sombres -->
+<section class="w-full lg:w-[52%] flex flex-col justify-center items-center lg:items-start px-6 sm:px-12 lg:px-24 py-12 lg:py-0 relative z-20">
+<div class="w-full max-w-[420px]">
+<!-- Titre Login -->
+<header class="mb-10 text-left">
+<h2 class="text-4xl sm:text-5xl font-normal tracking-tight text-white">
+            Login
+          </h2>
+</header>
+<!-- BEGIN: LoginForm -->
+<form class="space-y-6" data-purpose="authentication-form" id="login-form" onsubmit="event.preventDefault();">
+<!-- Champ e-mail -->
+<div class="space-y-2">
+<label class="block text-sm sm:text-base font-normal text-[#8d9e91] tracking-wide" for="email">
+              e-mail
+            </label>
+<div class="relative flex items-center">
+<!-- Icône Utilisateur profil -->
+<div class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none text-[#566a5c]">
+<svg aria-hidden="true" class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="1.8" viewbox="0 0 24 24">
+<path d="M15.75 6a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0zM4.501 20.118a7.5 7.5 0 0114.998 0A17.933 17.933 0 0112 21.75c-2.676 0-5.216-.584-7.499-1.632z" stroke-linecap="round" stroke-linejoin="round"></path>
+</svg>
+</div>
+<input autocomplete="email" class="w-full pl-12 pr-4 py-3.5 bg-[#0a150e] border border-[#16271a] rounded-full text-gray-200 placeholder-[#47574b] text-base focus:outline-none focus:border-[#2f5a36] focus:ring-1 focus:ring-[#2f5a36] transition-all duration-200 shadow-inset-dark" id="email" name="email" placeholder="your e-mail" required="" type="email"/>
+</div>
+</div>
+<!-- Champ Password -->
+<div class="space-y-2">
+<label class="block text-sm sm:text-base font-normal text-[#8d9e91] tracking-wide" for="password">
+              password
+            </label>
+<div class="relative flex items-center">
+<!-- Icône Utilisateur / Sécurité -->
+<div class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none text-[#566a5c]">
+<svg aria-hidden="true" class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="1.8" viewbox="0 0 24 24">
+<path d="M15.75 6a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0zM4.501 20.118a7.5 7.5 0 0114.998 0A17.933 17.933 0 0112 21.75c-2.676 0-5.216-.584-7.499-1.632z" stroke-linecap="round" stroke-linejoin="round"></path>
+</svg>
+</div>
+<input autocomplete="current-password" class="w-full pl-12 pr-12 py-3.5 bg-[#0a150e] border border-[#16271a] rounded-full text-gray-200 placeholder-[#566a5c] tracking-widest text-base focus:outline-none focus:border-[#2f5a36] focus:ring-1 focus:ring-[#2f5a36] transition-all duration-200 shadow-inset-dark" id="password" name="password" placeholder="••••••••••" required="" type="password"/>
+<!-- Bouton d'affichage du mot de passe (Toggle Visibility) -->
+<button aria-label="Afficher ou masquer le mot de passe" class="absolute inset-y-0 right-0 pr-4 flex items-center text-[#566a5c] hover:text-[#8d9e91] focus:outline-none transition-colors" id="toggle-password" type="button">
+<svg aria-hidden="true" class="w-5 h-5" fill="none" id="eye-icon" stroke="currentColor" stroke-width="1.8" viewbox="0 0 24 24">
+<path d="M2.036 12.322a1.012 1.012 0 010-.639C3.423 7.51 7.36 4.5 12 4.5c4.638 0 8.573 3.007 9.963 7.178.07.207.07.431 0 .639C20.577 16.49 16.64 19.5 12 19.5c-4.638 0-8.573-3.007-9.963-7.178z" stroke-linecap="round" stroke-linejoin="round"></path>
+<path d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" stroke-linecap="round" stroke-linejoin="round"></path>
+</svg>
+</button>
+</div>
+</div>
+<!-- Boutons d'Action (log in & google) -->
+<div class="pt-4 flex items-center gap-4">
+<!-- Bouton Primaire Log in avec halo lumineux néon -->
+<button class="flex-1 py-3.5 px-6 rounded-full bg-[#5fe09a] text-[#040805] font-semibold text-base tracking-normal text-center shadow-glow-mint hover:shadow-glow-mint-hover hover:bg-[#6cf2a8] active:scale-[0.98] transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-[#5fe09a] focus:ring-offset-2 focus:ring-offset-[#040705]" type="submit">
+              log in
+            </button>
+<!-- Bouton Google aux contours fins -->
+<button class="flex-1 py-3.5 px-6 rounded-full bg-transparent border border-[#2b3a2e] hover:border-[#3e5643] hover:bg-[#0c160f] text-white font-medium text-base tracking-normal flex items-center justify-center gap-2.5 active:scale-[0.98] transition-all duration-200 focus:outline-none" type="button">
+<!-- G stylisé vert néon -->
+<span class="text-[#5fe09a] font-bold text-lg leading-none select-none">G</span>
+<span class="text-gray-200 font-normal">google</span>
+</button>
+</div>
+<!-- Lien Inscription -->
+<div class="pt-4 text-center">
+<p class="text-sm font-normal text-[#6f8274]">
+              don’t have an account? 
+              <a class="text-[#5fe09a] font-medium hover:underline hover:text-[#7cf0af] transition-colors ml-1" href="#">
+                sign up
+              </a>
+</p>
+</div>
+</form>
+<!-- END: LoginForm -->
+</div>
+</section>
+<!-- END: RightAuthSection -->
+</main>
+<!-- END: MainContainer -->
+<!-- BEGIN: InteractiveScripts -->
+<script data-purpose="password-visibility-toggle">
+    // Gestionnaire de bascule d'affichage du mot de passe
+    const togglePasswordBtn = document.getElementById('toggle-password');
+    const passwordInput = document.getElementById('password');
+    const eyeIcon = document.getElementById('eye-icon');
+
+    togglePasswordBtn.addEventListener('click', () => {
+      const isPassword = passwordInput.getAttribute('type') === 'password';
+      passwordInput.setAttribute('type', isPassword ? 'text' : 'password');
+      
+      // Bascule de l'icône oeil ouvert / barré
+      if (isPassword) {
+        eyeIcon.innerHTML = `
+          <path stroke-linecap="round" stroke-linejoin="round" d="M3.98 8.223A10.477 10.477 0 001.934 12C3.226 16.338 7.244 19.5 12 19.5c.993 0 1.953-.138 2.863-.395M6.228 6.228A10.45 10.45 0 0112 4.5c4.756 0 8.773 3.162 10.065 7.498a10.523 10.523 0 01-4.293 5.774M6.228 6.228L3 3m3.228 3.228l3.65 3.65m7.894 7.894L21 21m-3.228-3.228l-3.65-3.65m0 0a3 3 0 10-4.243-4.243m4.242 4.242L9.88 9.88" />
+        `;
+      } else {
+        eyeIcon.innerHTML = `
+          <path stroke-linecap="round" stroke-linejoin="round" d="M2.036 12.322a1.012 1.012 0 010-.639C3.423 7.51 7.36 4.5 12 4.5c4.638 0 8.573 3.007 9.963 7.178.07.207.07.431 0 .639C20.577 16.49 16.64 19.5 12 19.5c-4.638 0-8.573-3.007-9.963-7.178z" />
+          <path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+        `;
+      }
+    });
+  </script>
+<!-- END: InteractiveScripts -->
+</body></html>

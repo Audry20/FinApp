@@ -1,0 +1,107 @@
+Fintech UI Color & Style Summary 
+A concise design reference extracted from the provided mobile fintech UI screenshot. 
+1. Overall Design Style 
+Primary style: Dark neumorphic fintech UI. 
+Supporting styles: subtle glassmorphism, neon-green accents, soft gradients, rounded cards and soft shadows. Visual identity: premium, modern, minimal, financial, high-contrast and slightly futuristic. 
+2. Core Color Palette 
+Color 
+	HEX 
+	Main application
+	Deep background 
+	#050B05 
+	Main app background
+	Dark surface 
+	#0E1B0F 
+	Cards, inputs, panels
+	Elevated surface 
+	#142A17 
+	Raised cards / secondary surfaces
+	Deep green 
+	#1D381F 
+	Borders, subtle controls
+	Dark green 
+	#3D7A44 
+	Secondary accents
+	Medium green 
+	#55A65D 
+	Secondary actions / gradient
+	Primary green 
+	#76E381 
+	Main CTA, balance, active states
+	Light green 
+	#89E692 
+	Highlights / hover / emphasis
+	Soft green 
+	#A2E3A8 
+	Soft accents
+	Primary text 
+	#FFFFFF 
+	Headings, amounts, important text
+	Secondary text 
+	#A4B8A6 
+	Descriptions / metadata
+	Muted text 
+	#7F9781 
+	Placeholders / secondary labels
+	Disabled text 
+	#526653 
+	Disabled or very subtle text
+	Expense red 
+	#FF4B4B 
+	Expenses / negative values
+	Warning yellow 
+	#F5C51B 
+	Warnings / small highlights
+	
+
+
+
+3. Recommended Color Usage
+Element 
+	Recommended color
+	App background 
+	#050B05
+	Cards / panels 
+	#0E1B0F
+	Elevated cards 
+	#142A17
+	Primary buttons 
+	#76E381
+	Button text 
+	#050B05
+	Active navigation 
+	#76E381
+	Inactive navigation 
+	#6F806F (approx.)
+	Main headings 
+	#FFFFFF
+	Secondary labels 
+	#A4B8A6 / #7F9781
+	
+
+
+
+Element 
+	Recommended color
+	Income / positive 
+	#76E381
+	Expense / negative 
+	#FF4B4B
+	Focus / selected border 
+	#76E381
+	
+
+
+
+4. UI Style Rules 
+• Use rounded cards and controls with soft shadows. 
+• Keep the background almost black with a deep green tint. 
+• Use bright mint green sparingly for actions, balances and active states. 
+• Use white only for primary information; use muted sage green for secondary information. • Use red only for expenses or negative financial values. 
+• Glassmorphism should remain subtle: dark translucent surfaces, light borders and backdrop blur. • Avoid excessive transparency; the reference is closer to dark neumorphism than pure glassmorphism. 
+5. Useful Gradient 
+Primary gradient: #55A65D → #76E381 → #89E692 
+Use it for balance cards, hero areas, primary CTAs and selected states. 
+6. Design Classification 
+Dark Neumorphism: 5/5 Neon UI: 5/5 Glassmorphism: 3/5 Gradient UI: 4/5 Minimalism: 5/5 
+One-line design prompt: Premium dark fintech mobile UI with a near-black deep-green background, soft neumorphic cards, subtle glassmorphism, neon mint-green gradients, rounded corners, soft shadows, white typography, muted sage-green secondary text, and red accents reserved for expenses.
