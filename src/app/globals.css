@@ -1,0 +1,83 @@
+@import "tailwindcss";
+
+@layer base {
+  :root {
+    --bg-main: #050B05;
+    --surface-dark: #0E1B0F;
+    --surface-elevated: #142A17;
+    --border-subtle: #1D381F;
+    --accent-mint: #76E381;
+    --accent-mint-hover: #89E692;
+    --text-primary: #FFFFFF;
+    --text-secondary: #A4B8A6;
+    --text-muted: #7F9781;
+    --status-warning: #F5C51B;
+    --status-expense: #FF4B4B;
+  }
+
+  body {
+    background-color: var(--bg-main);
+    color: var(--text-primary);
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+    min-height: 100vh;
+    overflow-x: hidden;
+  }
+}
+
+/* Glassmorphism & Neumorphism Utility Classes */
+.neuro-card {
+  background: #0E1B0F;
+  border: 1px solid #1D381F;
+  box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
+  border-radius: 1rem;
+}
+
+.neuro-input {
+  background-color: #0E1B0F;
+  border: 1px solid #1D381F;
+  color: #FFFFFF;
+  transition: all 0.2s ease-in-out;
+}
+
+.neuro-input:focus {
+  outline: none;
+  border-color: #76E381;
+  box-shadow: 0 0 0 2px rgba(118, 227, 129, 0.2);
+}
+
+.neuro-button-primary {
+  background-color: #76E381;
+  color: #050B05;
+  font-weight: 600;
+  transition: all 0.2s ease-in-out;
+}
+
+.neuro-button-primary:hover {
+  background-color: #89E692;
+  box-shadow: 0 0 15px rgba(118, 227, 129, 0.4);
+}
+
+.backdrop-blur-modal {
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  background-color: rgba(5, 11, 5, 0.85);
+}
+
+/* Custom Scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: #050B05;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #1D381F;
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #3D7A44;
+}
