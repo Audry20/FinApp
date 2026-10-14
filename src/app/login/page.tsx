@@ -12,9 +12,12 @@ export default function LoginPage() {
 
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
+  const [resetEmail, setResetEmail] = useState('')
   const [showPassword, setShowPassword] = useState(false)
+  const [showRecoveryForm, setShowRecoveryForm] = useState(false)
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState<string | null>(null)
+  const [resetMessage, setResetMessage] = useState<string | null>(null)
 
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault()
@@ -50,6 +53,34 @@ export default function LoginPage() {
     }
   }
 
+  const handlePasswordResetRequest = async () => {
+    const cleanedEmail = resetEmail.trim()
+
+    if (!cleanedEmail) {
+      setError('Veuillez saisir votre e-mail pour réinitialiser votre mot de passe.')
+      return
+    }
+
+    setLoading(true)
+    setError(null)
+    setResetMessage(null)
+
+    const { error: resetError } = await supabase.auth.resetPasswordForEmail(cleanedEmail, {
+      redirectTo: `${window.location.origin}/reset-password`,
+    })
+
+    if (resetError) {
+      setError(resetError.message)
+      setLoading(false)
+      return
+    }
+
+    setResetMessage(`Un lien de réinitialisation a été envoyé à ${cleanedEmail}.`)
+    setResetEmail('')
+    setShowRecoveryForm(false)
+    setLoading(false)
+  }
+
   return (
     <main className="min-h-screen w-full flex flex-col lg:flex-row relative overflow-hidden bg-[#040705]">
       {/* Left Branding Section */}
@@ -80,6 +111,12 @@ export default function LoginPage() {
             <div className="mb-6 p-4 rounded-xl bg-red-950/40 border border-red-800/50 text-red-300 text-sm flex items-center gap-3">
               <AlertCircle className="w-5 h-5 shrink-0 text-red-400" />
               <span>{error}</span>
+            </div>
+          )}
+
+          {resetMessage && (
+            <div className="mb-6 p-4 rounded-xl bg-[#0d1b11] border border-[#76E381]/50 text-[#baf7c1] text-sm">
+              {resetMessage}
             </div>
           )}
 
@@ -132,6 +169,40 @@ export default function LoginPage() {
                 </button>
               </div>
             </div>
+
+            <div className="flex justify-end">
+              <button
+                type="button"
+                onClick={() => setShowRecoveryForm(!showRecoveryForm)}
+                className="text-sm font-normal text-[#76E381] hover:underline cursor-pointer"
+              >
+                Forgot the password ?
+              </button>
+            </div>
+
+            {showRecoveryForm && (
+              <div className="space-y-3 rounded-2xl border border-[#1d381f] bg-[#0b140d] p-4">
+                <label className="block text-sm font-medium text-[#A4B8A6]" htmlFor="reset-email">
+                  E-mail de récupération
+                </label>
+                <input
+                  id="reset-email"
+                  type="email"
+                  value={resetEmail}
+                  onChange={(e) => setResetEmail(e.target.value)}
+                  placeholder="votre@email.com"
+                  className="w-full px-4 py-3 bg-[#050B05] border border-[#1D381F] focus:border-[#76E381] rounded-2xl text-white text-sm focus:outline-none"
+                />
+                <button
+                  type="button"
+                  onClick={handlePasswordResetRequest}
+                  disabled={loading}
+                  className="w-full py-3 rounded-full bg-transparent border border-[#76E381] text-[#76E381] font-medium hover:bg-[#112516] transition-all disabled:opacity-50 cursor-pointer"
+                >
+                  Envoyer le lien de réinitialisation
+                </button>
+              </div>
+            )}
 
             {/* Actions */}
             <div className="pt-4 flex items-center gap-4">

@@ -45,15 +45,38 @@ CREATE TABLE IF NOT EXISTS public.annonces (
 -- 5. TRIGGER FOR AUTOMATIC USER PROFILE CREATION
 CREATE OR REPLACE FUNCTION public.handle_new_user()
 RETURNS TRIGGER AS $$
+DECLARE
+    v_nom TEXT;
+    v_prenom TEXT;
+    v_full_name TEXT;
+    v_name_parts TEXT[];
 BEGIN
-  INSERT INTO public.users (id, nom, prenom, email)
-  VALUES (
-    NEW.id,
-    COALESCE(NEW.raw_user_meta_data->>'nom', ''),
-    COALESCE(NEW.raw_user_meta_data->>'prenom', ''),
-    NEW.email
-  );
-  RETURN NEW;
+    v_nom := COALESCE(NEW.raw_user_meta_data->>'family_name', NEW.raw_user_meta_data->>'nom', '');
+    v_prenom := COALESCE(NEW.raw_user_meta_data->>'given_name', NEW.raw_user_meta_data->>'prenom', '');
+    v_full_name := NULLIF(TRIM(COALESCE(NEW.raw_user_meta_data->>'full_name', NEW.raw_user_meta_data->>'name', '')), '');
+
+    IF v_nom = '' AND v_full_name <> '' THEN
+        v_name_parts := string_to_array(v_full_name, ' ');
+        v_nom := COALESCE(v_name_parts[array_length(v_name_parts, 1)], '');
+    END IF;
+
+    IF v_prenom = '' AND v_full_name <> '' THEN
+        v_prenom := TRIM(REPLACE(v_full_name, COALESCE(v_nom, ''), ''));
+    END IF;
+
+    INSERT INTO public.users (id, nom, prenom, email)
+    VALUES (
+        NEW.id,
+        COALESCE(v_nom, ''),
+        COALESCE(v_prenom, ''),
+        NEW.email
+    )
+    ON CONFLICT (id) DO UPDATE SET
+        nom = EXCLUDED.nom,
+        prenom = EXCLUDED.prenom,
+        email = EXCLUDED.email;
+
+    RETURN NEW;
 END;
 $$ LANGUAGE plpgsql SECURITY DEFINER;
 
@@ -140,6 +163,9 @@ ALTER TABLE public.transactions ENABLE ROW LEVEL SECURITY;
 ALTER TABLE public.annonces ENABLE ROW LEVEL SECURITY;
 
 -- USERS POLICIES
+CREATE POLICY "Users can insert own profile" ON public.users
+    FOR INSERT WITH CHECK (auth.uid() = id);
+
 CREATE POLICY "Users can view own profile" ON public.users
     FOR SELECT USING (auth.uid() = id);
 

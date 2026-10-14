@@ -25,7 +25,6 @@ export default function BudgetPage() {
   const [isModalOpen, setIsModalOpen] = useState(false)
   const [montant, setMontant] = useState('')
   const [devise, setDevise] = useState<'USD' | 'EUR' | 'GBP' | 'TRY'>('USD')
-  const [dateHeure, setDateHeure] = useState('')
   const [motif, setMotif] = useState('')
   const [submitting, setSubmitting] = useState(false)
   const [error, setError] = useState<string | null>(null)
@@ -60,9 +59,6 @@ export default function BudgetPage() {
 
   // Open modal with current date/time prepopulated
   const handleOpenModal = () => {
-    const now = new Date()
-    const isoDateStr = now.toISOString().slice(0, 16) // "YYYY-MM-THH:mm"
-    setDateHeure(isoDateStr)
     setMontant('')
     setMotif('')
     setError(null)
@@ -94,15 +90,13 @@ export default function BudgetPage() {
       return
     }
 
-    const customCreatedAt = dateHeure ? new Date(dateHeure).toISOString() : new Date().toISOString()
-
     const { error: insertErr } = await supabase.from('transactions').insert({
       user_id: user.id,
       type: 'AJOUT',
       somme: numAmount,
       devise,
       motif: motif.trim(),
-      created_at: customCreatedAt,
+      created_at: new Date().toISOString(),
     })
 
     if (insertErr) {
@@ -151,9 +145,9 @@ export default function BudgetPage() {
           <div className="flex flex-col gap-1">
             <div className="flex items-center gap-2.5">
               <span className="inline-flex items-center justify-center w-2.5 h-2.5 rounded-full bg-[#76E381] shadow-[0_0_10px_#76E381]"></span>
-              <h1 className="font-semibold text-lg sm:text-xl text-white tracking-wide">Journal des Entrées & Capital (Budget)</h1>
+              <h1 className="font-semibold text-lg sm:text-xl text-white tracking-wide">Journal of Entries & Capital</h1>
             </div>
-            <p className="text-xs text-[#A4B8A6]">Historique des ajouts de fonds par devise</p>
+            <p className="text-xs text-[#A4B8A6]">History of fund additions by currency</p>
           </div>
 
           {/* Currency Filters */}
@@ -168,7 +162,7 @@ export default function BudgetPage() {
                     : 'bg-[#142A17] text-[#A4B8A6] hover:text-white border border-[#1D381F]'
                 }`}
               >
-                {curr === 'all' ? 'Toutes' : `${curr}`}
+                {curr === 'all' ? 'All' : `${curr}`}
               </button>
             ))}
           </div>
@@ -185,8 +179,8 @@ export default function BudgetPage() {
           ) : filteredAjouts.length === 0 ? (
             <div className="p-12 text-center rounded-[26px] bg-[#0E1B0F] border border-[#1D381F] shadow-lg">
               <Wallet className="w-12 h-12 text-[#A4B8A6] mx-auto mb-3 opacity-60" />
-              <h3 className="text-lg font-semibold text-white">Aucun ajout trouvé</h3>
-              <p className="text-sm text-[#A4B8A6] mt-1">Cliquez sur le bouton (+) pour effectuer votre premier ajout de capital.</p>
+              <h3 className="text-lg font-semibold text-white">No additions found</h3>
+              <p className="text-sm text-[#A4B8A6] mt-1">Click the (+) button to make your first capital contribution.</p>
             </div>
           ) : (
             filteredAjouts.map((item) => (
@@ -228,7 +222,7 @@ export default function BudgetPage() {
         <aside className="fixed bottom-6 right-6 sm:bottom-10 sm:right-10 z-40">
           <button
             onClick={handleOpenModal}
-            aria-label="Ajouter un capital"
+            aria-label="Add a balance"
             className="w-16 h-16 sm:w-20 sm:h-20 rounded-full bg-[#76E381] text-[#050B05] flex items-center justify-center font-bold shadow-[0_0_35px_rgba(118,227,129,0.6)] hover:scale-105 active:scale-95 transition-all duration-300 cursor-pointer"
           >
             <Plus className="w-8 h-8 sm:w-10 sm:h-10 text-[#050B05]" />
@@ -250,7 +244,7 @@ export default function BudgetPage() {
                 <div className="flex items-center gap-3">
                   <div className="w-3.5 h-3.5 rounded-full bg-[#76E381] shadow-[0_0_12px_#76E381]"></div>
                   <h2 className="text-xl sm:text-2xl font-bold tracking-tight text-white">
-                    Ajouter un Capital
+                    Add a capital
                   </h2>
                 </div>
                 <button
@@ -272,7 +266,7 @@ export default function BudgetPage() {
                 {/* Champ 1: Montant */}
                 <div className="flex flex-col gap-1.5">
                   <label className="text-xs font-semibold uppercase tracking-wider text-[#A4B8A6]" htmlFor="montant">
-                    Montant en chiffre
+                    Amount in figures
                   </label>
                   <input
                     id="montant"
@@ -298,28 +292,14 @@ export default function BudgetPage() {
                     onChange={(e) => setDevise(e.target.value as any)}
                     className="w-full px-4 py-3.5 rounded-2xl bg-[#050B05] border border-[#1D381F] focus:border-[#76E381] focus:outline-none text-white font-mono text-sm cursor-pointer"
                   >
-                    <option value="USD">USD ($) - Dollar américain</option>
+                    <option value="USD">USD ($) - American Dollar </option>
                     <option value="EUR">EUR (€) - Euro</option>
                     <option value="GBP">GBP (£) - Livre sterling</option>
                     <option value="TRY">TRY (₺) - Livre turque</option>
                   </select>
                 </div>
 
-                {/* Champ 3: Date & Heure */}
-                <div className="flex flex-col gap-1.5">
-                  <label className="text-xs font-semibold uppercase tracking-wider text-[#A4B8A6]" htmlFor="dateHeure">
-                    Date et Heure
-                  </label>
-                  <input
-                    id="dateHeure"
-                    type="datetime-local"
-                    value={dateHeure}
-                    onChange={(e) => setDateHeure(e.target.value)}
-                    className="w-full px-4 py-3.5 rounded-2xl bg-[#050B05] border border-[#1D381F] focus:border-[#76E381] focus:outline-none text-white font-mono text-sm"
-                  />
-                </div>
-
-                {/* Champ 4: Motif */}
+                {/* Champ 3: Motif */}
                 <div className="flex flex-col gap-1.5">
                   <label className="text-xs font-semibold uppercase tracking-wider text-[#A4B8A6]" htmlFor="motif">
                     Motif
@@ -342,14 +322,14 @@ export default function BudgetPage() {
                     onClick={() => setIsModalOpen(false)}
                     className="w-full sm:w-auto px-6 py-3 rounded-2xl text-[#A4B8A6] hover:text-white hover:bg-[#142A17] font-medium text-sm transition-colors text-center"
                   >
-                    Annuler
+                    Cancel
                   </button>
                   <button
                     type="submit"
                     disabled={submitting}
                     className="w-full sm:w-auto px-7 py-3.5 rounded-2xl bg-[#76E381] text-[#050B05] font-bold text-sm tracking-wide shadow-[0_0_20px_rgba(118,227,129,0.4)] hover:bg-[#89E692] transition-all flex items-center justify-center gap-2 cursor-pointer disabled:opacity-50"
                   >
-                    {submitting ? 'Confirmation...' : "Confirmer l'Ajout"}
+                    {submitting ? 'Confirmation...' : "Confirm Addition"}
                   </button>
                 </div>
               </form>

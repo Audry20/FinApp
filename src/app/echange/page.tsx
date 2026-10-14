@@ -13,10 +13,10 @@ interface Balances {
 }
 
 const DEFAULT_RATES: Record<string, Record<string, number>> = {
-  USD: { EUR: 0.92, GBP: 0.79, TRY: 32.5, USD: 1.0 },
-  EUR: { USD: 1.09, GBP: 0.86, TRY: 35.3, EUR: 1.0 },
-  GBP: { USD: 1.27, EUR: 1.16, TRY: 41.2, GBP: 1.0 },
-  TRY: { USD: 0.031, EUR: 0.028, GBP: 0.024, TRY: 1.0 },
+  USD: { EUR: 0.89, GBP: 0.75, TRY: 48.0, USD: 1.0 },
+  EUR: { USD: 1.09, GBP: 0.84, TRY: 55.0, EUR: 1.0 },
+  GBP: { USD: 1.33, EUR: 1.18, TRY: 65.0, GBP: 1.0 },
+  TRY: { USD: 0.0203, EUR: 0.028, GBP: 0.015, TRY: 1.0 },
 }
 
 export default function EchangePage() {
@@ -201,8 +201,8 @@ export default function EchangePage() {
         {/* Title & Description */}
         <div className="flex items-center justify-between">
           <div>
-            <h1 className="text-3xl sm:text-4xl font-bold text-white tracking-tight">Convertir & Échanger</h1>
-            <p className="text-sm text-[#A4B8A6] mt-1">Génération automatique des écritures comptables d'échange</p>
+            <h1 className="text-3xl sm:text-4xl font-bold text-white tracking-tight">Convert & Exchange</h1>
+            <p className="text-sm text-[#A4B8A6] mt-1">Automatic generation of accounting exchange entries</p>
           </div>
           <button
             onClick={fetchBalances}
@@ -229,9 +229,9 @@ export default function EchangePage() {
               <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
                 <div className="min-w-[130px] shrink-0">
                   <div className="text-2xl sm:text-3xl font-extrabold text-white tracking-tight mb-1">
-                    DE :
+                    From
                   </div>
-                  <div className="text-[#A4B8A6] text-sm font-medium">Source</div>
+                  {/* <div className="text-[#A4B8A6] text-sm font-medium">Source</div> */}
                 </div>
 
                 {/* Input Amount */}
@@ -263,7 +263,7 @@ export default function EchangePage() {
                     <option value="TRY">TRY (₺)</option>
                   </select>
                   <span className="text-[#A4B8A6] font-mono text-sm mt-2">
-                    Solde dispo: {sourceBalance.toLocaleString('fr-FR', { minimumFractionDigits: 2 })} {deviseSource}
+                    Current balance: {sourceBalance.toLocaleString('fr-FR', { minimumFractionDigits: 2 })} {deviseSource}
                   </span>
                 </div>
               </div>
@@ -286,9 +286,9 @@ export default function EchangePage() {
               <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
                 <div className="min-w-[130px] shrink-0">
                   <div className="text-2xl sm:text-3xl font-extrabold text-white tracking-tight mb-1">
-                    À :
+                    To
                   </div>
-                  <div className="text-[#A4B8A6] text-sm font-medium">Destination</div>
+                  {/* <div className="text-[#A4B8A6] text-sm font-medium">Destination</div> */}
                 </div>
 
                 {/* Calculated Amount */}
@@ -313,7 +313,7 @@ export default function EchangePage() {
                     <option value="TRY">TRY (₺)</option>
                   </select>
                   <span className="text-[#A4B8A6] font-mono text-sm mt-2">
-                    Solde actuel: {(balances[deviseCible] || 0).toLocaleString('fr-FR', { minimumFractionDigits: 2 })} {deviseCible}
+                    Current balance: {(balances[deviseCible] || 0).toLocaleString('fr-FR', { minimumFractionDigits: 2 })} {deviseCible}
                   </span>
                 </div>
               </div>
@@ -323,11 +323,11 @@ export default function EchangePage() {
 
           {/* Operation Details Card */}
           <div className="bg-[#0E1B0F] border border-[#1D381F] rounded-[26px] p-6 sm:p-7 space-y-4">
-            <h2 className="text-xl font-bold text-white tracking-tight">Détails de l'Opération</h2>
+            <h2 className="text-xl font-bold text-white tracking-tight">Operation Details</h2>
 
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 pt-2">
               <div className="flex flex-col gap-1.5">
-                <label className="text-xs text-[#A4B8A6] uppercase font-semibold">Taux / Indice d'échange (1 {deviseSource} = )</label>
+                <label className="text-xs text-[#A4B8A6] uppercase font-semibold">Exchange rate (1 {deviseSource} = )</label>
                 <input
                   type="number"
                   step="any"
@@ -341,8 +341,8 @@ export default function EchangePage() {
 
               <div className="flex flex-col justify-end">
                 <div className="p-3 rounded-xl bg-[#142A17] border border-[#1D381F] text-xs text-[#A4B8A6] space-y-1">
-                  <div>• Retrait : <span className="text-[#FF4B4B] font-mono font-semibold">-{sommeSource} {deviseSource}</span></div>
-                  <div>• Ajout : <span className="text-[#76E381] font-mono font-semibold">+{montantConverti} {deviseCible}</span></div>
+                  <div>• Withdrawal : <span className="text-[#FF4B4B] font-mono font-semibold">-{sommeSource} {deviseSource}</span></div>
+                  <div>• Addition : <span className="text-[#76E381] font-mono font-semibold">+{montantConverti} {deviseCible}</span></div>
                 </div>
               </div>
             </div>
@@ -359,9 +359,9 @@ export default function EchangePage() {
                 }`}
               >
                 {isInsufficientBalance
-                  ? 'Solde Insuffisant (Échange Annulé)'
+                  ? 'Insufficient Balance. Exchange Cancelled'
                   : submitting
-                  ? 'Traitement de la conversion...'
+                  ? 'Conversion processing...'
                   : 'Confirmer l\'Échange'}
               </button>
             </div>

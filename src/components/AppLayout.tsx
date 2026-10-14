@@ -39,7 +39,6 @@ export default function AppLayout({ children }: AppLayoutProps) {
     async function loadProfile() {
       const { data: { user } } = await supabase.auth.getUser()
       if (user) {
-        // First try to fetch from public.users
         const { data } = await supabase
           .from('users')
           .select('nom, prenom, email')
@@ -49,17 +48,16 @@ export default function AppLayout({ children }: AppLayoutProps) {
         if (data) {
           setProfile(data)
         } else {
-          // Fallback to metadata
           setProfile({
-            nom: user.user_metadata?.nom || '',
-            prenom: user.user_metadata?.prenom || '',
+            nom: user.user_metadata?.family_name || user.user_metadata?.nom || '',
+            prenom: user.user_metadata?.given_name || user.user_metadata?.prenom || '',
             email: user.email || '',
           })
         }
       }
     }
     loadProfile()
-  }, [])
+  }, [supabase])
 
   const handleSignOut = async () => {
     await supabase.auth.signOut()
@@ -76,13 +74,14 @@ export default function AppLayout({ children }: AppLayoutProps) {
     { name: 'Paramètres', href: '/parametres', icon: Settings },
   ]
 
-  const userDisplayName = profile
-    ? `${profile.prenom} ${profile.nom}`.trim() || profile.email
-    : 'Utilisateur'
+  const userDisplayName = (() => {
+    const prenom = profile?.prenom || profile?.email?.split('@')[0] || 'Utilisateur'
+    return prenom
+  })()
 
   return (
-    <div className="min-h-screen bg-[#050B05] bg-radial from-[#122815]/30 to-transparent text-white flex flex-col antialiased">
-      <div className="flex-1 flex flex-col max-w-[1600px] w-full mx-auto p-3 sm:p-5 lg:p-7 min-h-screen">
+    <div className="min-h-screen bg-[#050B05] bg-radial from-[#122815]/30 to-transparent text-white flex flex-col antialiased overflow-x-hidden">
+      <div className="flex-1 flex flex-col max-w-[1600px] w-full mx-auto p-3 sm:p-5 lg:p-7 min-h-screen overflow-x-hidden">
 
         {/* Top Header */}
         <header className="flex items-center justify-between py-3 px-2 mb-4 lg:mb-6">

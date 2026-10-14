@@ -106,7 +106,7 @@ export default function DashboardPage() {
         <div className="flex items-center justify-between px-1">
           <div>
             <h1 className="text-2xl sm:text-3xl font-bold tracking-tight text-white">Dashboard</h1>
-            <p className="text-xs sm:text-sm text-[#A4B8A6] mt-1">Vue d'ensemble de vos réserves de trésorerie</p>
+            <p className="text-xs sm:text-sm text-[#A4B8A6] mt-1">Overview of your cash reserves</p>
           </div>
           <button
             onClick={fetchDashboardData}
@@ -114,52 +114,52 @@ export default function DashboardPage() {
             className="p-2.5 rounded-xl bg-[#0E1B0F] border border-[#1D381F] text-[#76E381] hover:bg-[#142A17] transition-colors flex items-center gap-2 text-xs sm:text-sm font-medium disabled:opacity-50"
           >
             <RefreshCw className={`w-4 h-4 ${loading ? 'animate-spin' : ''}`} />
-            <span className="hidden sm:inline">Actualiser</span>
+            <span className="hidden sm:inline">Refresh</span>
           </button>
         </div>
 
         {/* Multi-Currency Cards Grid */}
-        <section aria-label="Soldes multi-devises" className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-4">
+        <section aria-label="Soldes multi-devises" className="grid grid-cols-2 xl:grid-cols-4 gap-3 sm:gap-4 min-w-0">
           {/* USD Card */}
-          <article className="bg-[#0E1B0F] border border-[#1D381F] hover:border-[#76E381]/50 rounded-2xl p-4 sm:p-5 shadow-lg transition-all duration-300 relative overflow-hidden group">
-            <div className="flex items-center justify-between mb-2">
-              <span className="text-xs uppercase tracking-wider text-[#A4B8A6] font-medium">Solde USD</span>
-              <span className="text-xs font-semibold px-2 py-0.5 rounded-full bg-[#1D381F] text-[#76E381]">USD ($)</span>
+          <article className="min-w-0 bg-[#0E1B0F] border border-[#1D381F] hover:border-[#76E381]/50 rounded-2xl p-3 sm:p-5 shadow-lg transition-all duration-300 relative overflow-hidden group">
+            <div className="flex items-start justify-between gap-2 mb-2">
+              <span className="text-[10px] sm:text-xs uppercase tracking-wider text-[#A4B8A6] font-medium leading-tight break-words">USD balance</span>
+              <span className="text-[9px] sm:text-xs font-semibold px-1.5 py-0.5 rounded-full bg-[#1D381F] text-[#76E381] whitespace-nowrap">USD ($)</span>
             </div>
-            <div className="text-2xl sm:text-3xl font-bold font-mono tracking-tight text-white group-hover:text-[#76E381] transition-colors">
+            <div className="text-xl sm:text-3xl font-bold font-mono tracking-tight text-white group-hover:text-[#76E381] transition-colors break-all">
               ${formatAmount(balances.USD)}
             </div>
           </article>
 
           {/* EUR Card */}
-          <article className="bg-[#0E1B0F] border border-[#1D381F] hover:border-[#76E381]/50 rounded-2xl p-4 sm:p-5 shadow-lg transition-all duration-300 relative overflow-hidden group">
-            <div className="flex items-center justify-between mb-2">
-              <span className="text-xs uppercase tracking-wider text-[#A4B8A6] font-medium">Solde Euro</span>
-              <span className="text-xs font-semibold px-2 py-0.5 rounded-full bg-[#1D381F] text-[#76E381]">EUR (€)</span>
+          <article className="min-w-0 bg-[#0E1B0F] border border-[#1D381F] hover:border-[#76E381]/50 rounded-2xl p-3 sm:p-5 shadow-lg transition-all duration-300 relative overflow-hidden group">
+            <div className="flex items-start justify-between gap-2 mb-2">
+              <span className="text-[10px] sm:text-xs uppercase tracking-wider text-[#A4B8A6] font-medium leading-tight break-words">Euro balance</span>
+              <span className="text-[9px] sm:text-xs font-semibold px-1.5 py-0.5 rounded-full bg-[#1D381F] text-[#76E381] whitespace-nowrap">EUR (€)</span>
             </div>
-            <div className="text-2xl sm:text-3xl font-bold font-mono tracking-tight text-white group-hover:text-[#76E381] transition-colors">
+            <div className="text-xl sm:text-3xl font-bold font-mono tracking-tight text-white group-hover:text-[#76E381] transition-colors break-all">
               €{formatAmount(balances.EUR)}
             </div>
           </article>
 
           {/* GBP Card */}
-          <article className="bg-[#0E1B0F] border border-[#1D381F] hover:border-[#76E381]/50 rounded-2xl p-4 sm:p-5 shadow-lg transition-all duration-300 relative overflow-hidden group">
-            <div className="flex items-center justify-between mb-2">
-              <span className="text-xs uppercase tracking-wider text-[#A4B8A6] font-medium">Solde Pounds</span>
-              <span className="text-xs font-semibold px-2 py-0.5 rounded-full bg-[#1D381F] text-[#76E381]">GBP (£)</span>
+          <article className="min-w-0 bg-[#0E1B0F] border border-[#1D381F] hover:border-[#76E381]/50 rounded-2xl p-3 sm:p-5 shadow-lg transition-all duration-300 relative overflow-hidden group">
+            <div className="flex items-start justify-between gap-2 mb-2">
+              <span className="text-[10px] sm:text-xs uppercase tracking-wider text-[#A4B8A6] font-medium leading-tight break-words">Pounds balance</span>
+              <span className="text-[9px] sm:text-xs font-semibold px-1.5 py-0.5 rounded-full bg-[#1D381F] text-[#76E381] whitespace-nowrap">GBP (£)</span>
             </div>
-            <div className="text-2xl sm:text-3xl font-bold font-mono tracking-tight text-white group-hover:text-[#76E381] transition-colors">
+            <div className="text-xl sm:text-3xl font-bold font-mono tracking-tight text-white group-hover:text-[#76E381] transition-colors break-all">
               £{formatAmount(balances.GBP)}
             </div>
           </article>
 
           {/* TRY Card */}
-          <article className="bg-[#0E1B0F] border border-[#1D381F] hover:border-[#76E381]/50 rounded-2xl p-4 sm:p-5 shadow-lg transition-all duration-300 relative overflow-hidden group">
-            <div className="flex items-center justify-between mb-2">
-              <span className="text-xs uppercase tracking-wider text-[#A4B8A6] font-medium">Solde Turkish Lira</span>
-              <span className="text-xs font-semibold px-2 py-0.5 rounded-full bg-[#1D381F] text-[#76E381]">TRY (₺)</span>
+          <article className="min-w-0 bg-[#0E1B0F] border border-[#1D381F] hover:border-[#76E381]/50 rounded-2xl p-3 sm:p-5 shadow-lg transition-all duration-300 relative overflow-hidden group">
+            <div className="flex items-start justify-between gap-2 mb-2">
+              <span className="text-[10px] sm:text-xs uppercase tracking-wider text-[#A4B8A6] font-medium leading-tight break-words">Turkish Lira balance</span>
+              <span className="text-[9px] sm:text-xs font-semibold px-1.5 py-0.5 rounded-full bg-[#1D381F] text-[#76E381] whitespace-nowrap">TRY (₺)</span>
             </div>
-            <div className="text-2xl sm:text-3xl font-bold font-mono tracking-tight text-white group-hover:text-[#76E381] transition-colors">
+            <div className="text-xl sm:text-3xl font-bold font-mono tracking-tight text-white group-hover:text-[#76E381] transition-colors break-all">
               TL {formatAmount(balances.TRY)}
             </div>
           </article>
@@ -168,8 +168,8 @@ export default function DashboardPage() {
         {/* Recent Transactions List */}
         <section aria-label="Transactions récentes" className="space-y-4">
           <div className="flex items-center justify-between px-1">
-            <h2 className="text-sm font-semibold tracking-wider text-[#A4B8A6] uppercase">Transactions Récentes</h2>
-            <span className="text-xs text-[#7F9781]">Historique global</span>
+            <h2 className="text-sm font-semibold tracking-wider text-[#A4B8A6] uppercase">Recent Transactions</h2>
+            <span className="text-xs text-[#7F9781]">Overall history</span>
           </div>
 
           {loading ? (
@@ -180,7 +180,7 @@ export default function DashboardPage() {
             </div>
           ) : transactions.length === 0 ? (
             <div className="bg-[#0E1B0F]/40 border border-[#1D381F]/70 rounded-[24px] p-8 text-center text-sm font-mono text-[#7F9781]">
-              Aucune transaction enregistrée.
+              No transactions recorded.
             </div>
           ) : (
             <div className="space-y-3">

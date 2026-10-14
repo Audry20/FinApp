@@ -177,9 +177,9 @@ export default function RetraitPage() {
           <div className="flex flex-col gap-1">
             <div className="flex items-center gap-2.5">
               <span className="inline-flex items-center justify-center w-2.5 h-2.5 rounded-full bg-[#FF4B4B] shadow-[0_0_10px_#FF4B4B]"></span>
-              <h1 className="font-semibold text-lg sm:text-xl text-white tracking-wide">Historique des Retraits</h1>
+              <h1 className="font-semibold text-lg sm:text-xl text-white tracking-wide">Withdrawal History</h1>
             </div>
-            <p className="text-xs text-[#A4B8A6]">Contrôle strict d'intégrité anti-découvert actif</p>
+            <p className="text-xs text-[#A4B8A6]">Strict active anti-detection integrity control</p>
           </div>
 
           {/* Currency Filters */}
@@ -194,7 +194,7 @@ export default function RetraitPage() {
                     : 'bg-[#142A17] text-[#A4B8A6] hover:text-white border border-[#1D381F]'
                 }`}
               >
-                {curr === 'all' ? 'Toutes' : `${curr}`}
+                {curr === 'all' ? 'All' : `${curr}`}
               </button>
             ))}
           </div>
@@ -211,8 +211,8 @@ export default function RetraitPage() {
           ) : filteredRetraits.length === 0 ? (
             <div className="p-12 text-center rounded-[26px] bg-[#0E1B0F] border border-[#1D381F] shadow-lg">
               <ArrowDownLeft className="w-12 h-12 text-[#A4B8A6] mx-auto mb-3 opacity-60" />
-              <h3 className="text-lg font-semibold text-white">Aucun retrait trouvé</h3>
-              <p className="text-sm text-[#A4B8A6] mt-1">Cliquez sur le bouton (+) pour effectuer un nouveau retrait.</p>
+              <h3 className="text-lg font-semibold text-white">No withdrawals found</h3>
+              <p className="text-sm text-[#A4B8A6] mt-1">Click the (+) button to make a new withdrawal.</p>
             </div>
           ) : (
             filteredRetraits.map((item) => (
@@ -275,11 +275,11 @@ export default function RetraitPage() {
               <div className="flex items-center justify-between pb-5 border-b border-[#1D381F]">
                 <div>
                   <h2 className="text-2xl font-bold tracking-tight text-white">
-                    Saisir un Retrait
+                    Enter a Withdrawal
                   </h2>
                 </div>
                 <div className="text-right">
-                  <span className="text-xs uppercase tracking-wider text-[#76E381] font-semibold block">Solde Actuel</span>
+                  <span className="text-xs uppercase tracking-wider text-[#76E381] font-semibold block">Current Balance</span>
                   <span className="text-sm font-mono font-bold text-gray-200">
                     {currentAvailableBalance.toLocaleString('fr-FR', { minimumFractionDigits: 2 })} {devise}
                   </span>
@@ -297,7 +297,7 @@ export default function RetraitPage() {
                 {/* Champ 1: Motif */}
                 <div className="flex flex-col gap-1.5">
                   <label className="text-sm text-gray-400 font-medium" htmlFor="retrait-motif">
-                    Motif du retrait
+                    Reason for withdrawal
                   </label>
                   <input
                     id="retrait-motif"
@@ -353,11 +353,11 @@ export default function RetraitPage() {
                     ? 'bg-red-950/60 border-red-500/50 text-red-300'
                     : 'bg-[#142A17] border-[#76E381]/30 text-[#76E381]'
                 }`}>
-                  <span>Règle : Solde débiteur interdit</span>
+                  <span>Debit balance prohibited</span>
                   <span className="font-mono font-semibold">
                     {isOverdraft
-                      ? `Déficit interdit : ${remainingBalance.toFixed(2)} ${devise}`
-                      : `Solde restant prévu : ${remainingBalance.toFixed(2)} ${devise}`}
+                      ? `Prohibited deficit : ${remainingBalance.toFixed(2)} ${devise}`
+                      : `Remaining balance : ${remainingBalance.toFixed(2)} ${devise}`}
                   </span>
                 </div>
 
@@ -373,10 +373,10 @@ export default function RetraitPage() {
                     }`}
                   >
                     {isOverdraft
-                      ? 'Fonds Insuffisants (Anti-découvert)'
+                      ? 'Insufficient Funds (Anti-Overdraft)'
                       : submitting
-                      ? 'Validation en cours...'
-                      : 'Confirmer le Retrait'}
+                      ? 'Validation in progress...'
+                      : 'Confirm Withdrawal'}
                   </button>
 
                   <button
@@ -384,7 +384,7 @@ export default function RetraitPage() {
                     onClick={() => setIsModalOpen(false)}
                     className="w-full py-2.5 rounded-2xl text-[#A4B8A6] hover:text-white text-sm font-medium transition duration-200 text-center"
                   >
-                    Annuler
+                    Cancel
                   </button>
                 </div>
               </form>

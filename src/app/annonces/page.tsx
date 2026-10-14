@@ -184,7 +184,7 @@ export default function AnnoncesPage() {
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 p-5 sm:p-6 rounded-3xl bg-[#0E1B0F] border border-[#1D381F] shadow-xl">
           <div className="flex items-center gap-3">
             <span className="inline-flex items-center justify-center w-3 h-3 rounded-full bg-[#76E381] shadow-[0_0_12px_#76E381]"></span>
-            <h1 className="text-xl sm:text-2xl font-bold tracking-tight text-white">Annonces & Rappels</h1>
+            <h1 className="text-xl sm:text-2xl font-bold tracking-tight text-white">Reminders</h1>
           </div>
 
           <div className="flex flex-wrap items-center gap-2">
@@ -196,7 +196,7 @@ export default function AnnoncesPage() {
                   : 'bg-[#142A17] text-[#A4B8A6] hover:text-white border border-[#1D381F]'
               }`}
             >
-              Tous
+              All
             </button>
             <button
               onClick={() => setSelectedFilter('EN_ATTENTE')}
@@ -207,7 +207,7 @@ export default function AnnoncesPage() {
               }`}
             >
               <span className="w-2 h-2 rounded-full bg-[#F5C51B]"></span>
-              En attente
+              Pending
             </button>
             <button
               onClick={() => setSelectedFilter('REALISE')}
@@ -218,7 +218,7 @@ export default function AnnoncesPage() {
               }`}
             >
               <span className="w-2 h-2 rounded-full bg-[#76E381]"></span>
-              Réalisé
+              Executed
             </button>
             <button
               onClick={() => setSelectedFilter('ANNULE')}
@@ -229,7 +229,7 @@ export default function AnnoncesPage() {
               }`}
             >
               <span className="w-2 h-2 rounded-full bg-[#FF4B4B]"></span>
-              Annulé
+              Cancel 
             </button>
           </div>
         </div>
@@ -245,8 +245,8 @@ export default function AnnoncesPage() {
           ) : filteredAnnonces.length === 0 ? (
             <div className="p-12 text-center rounded-[26px] bg-[#0E1B0F] border border-[#1D381F] shadow-lg">
               <Bell className="w-12 h-12 text-[#A4B8A6] mx-auto mb-3 opacity-60" />
-              <h3 className="text-lg font-semibold text-white">Aucune annonce répertoriée</h3>
-              <p className="text-sm text-[#A4B8A6] mt-1">Cliquez sur le bouton (+) pour créer un rappel ou une annonce.</p>
+              <h3 className="text-lg font-semibold text-white">No listings found</h3>
+              <p className="text-sm text-[#A4B8A6] mt-1">Click the (+) button to create a reminder or a listing</p>
             </div>
           ) : (
             filteredAnnonces.map((item) => {
@@ -269,14 +269,14 @@ export default function AnnoncesPage() {
                         </h2>
                       </div>
                       <div className="flex items-center gap-2 pl-5 text-xs sm:text-sm text-[#A4B8A6]">
-                        <span className="text-[#7F9781] font-medium">Durée (due date) :</span>
+                        <span className="text-[#7F9781] font-medium">Due date :</span>
                         <span className="font-mono text-white/90">{formatDueDate(item.due_date)}</span>
                       </div>
                     </div>
 
                     <div className="flex items-center justify-between md:justify-end gap-3 pl-5 md:pl-0 shrink-0">
                       <span className={`px-3.5 py-1.5 rounded-full text-xs font-semibold tracking-wide border ${badgeConfig.badge}`}>
-                        Statut : {badgeConfig.text}
+                        State : {badgeConfig.text}
                       </span>
                       <ChevronRight className="w-5 h-5 text-[#A4B8A6] group-hover:text-white transition-colors" />
                     </div>
@@ -310,7 +310,7 @@ export default function AnnoncesPage() {
               <div className="flex items-center justify-between pb-4 border-b border-[#1D381F]">
                 <div className="flex items-center gap-3">
                   <span className="w-3 h-3 rounded-full bg-[#76E381] shadow-[0_0_12px_#76E381]"></span>
-                  <h3 className="text-xl font-bold tracking-tight text-white">Créer une Annonce</h3>
+                  <h3 className="text-xl font-bold tracking-tight text-white">Create a reminder</h3>
                 </div>
                 <button
                   onClick={() => setIsAddModalOpen(false)}
@@ -360,9 +360,9 @@ export default function AnnoncesPage() {
                 <div className="flex flex-col gap-1.5">
                   <div className="flex items-center justify-between">
                     <label className="text-xs font-semibold uppercase tracking-wider text-[#A4B8A6]" htmlFor="add-due">
-                      Date d'expiration / Due Date
+                      Due Date
                     </label>
-                    <span className="text-[11px] text-[#7F9781]">Facultatif (défaut : Indéfini)</span>
+                    <span className="text-[11px] text-[#7F9781]">Optional (default: Undefined)</span>
                   </div>
                   <input
                     id="add-due"
@@ -379,14 +379,14 @@ export default function AnnoncesPage() {
                     onClick={() => setIsAddModalOpen(false)}
                     className="px-5 py-2.5 rounded-full bg-[#142A17] text-[#A4B8A6] hover:text-white text-sm font-medium"
                   >
-                    Annuler
+                    Cancel
                   </button>
                   <button
                     type="submit"
                     disabled={submitting}
                     className="px-6 py-2.5 rounded-full bg-[#76E381] text-[#050B05] font-semibold text-sm shadow-[0_0_15px_rgba(118,227,129,0.4)] hover:bg-[#89E692] cursor-pointer disabled:opacity-50"
                   >
-                    {submitting ? 'Création...' : 'Confirm'}
+                    {submitting ? 'Creation...' : 'Confirm'}
                   </button>
                 </div>
               </form>
@@ -406,7 +406,7 @@ export default function AnnoncesPage() {
               <div className="flex items-center justify-between pb-4 border-b border-[#1D381F]">
                 <div className="flex items-center gap-3">
                   <span className={`w-3 h-3 rounded-full ${getBadgeStyle(selectedAnnonce.statut).dot}`}></span>
-                  <h3 className="text-xl font-bold tracking-tight text-white">Détail de l'annonce</h3>
+                  <h3 className="text-xl font-bold tracking-tight text-white">Reminder details</h3>
                 </div>
                 <button
                   onClick={() => setIsDetailModalOpen(false)}
@@ -431,12 +431,12 @@ export default function AnnoncesPage() {
 
                 <div className="grid grid-cols-2 gap-4">
                   <div className="space-y-1">
-                    <span className="text-xs font-semibold uppercase tracking-wider text-[#A4B8A6]">Date d'expiration</span>
+                    <span className="text-xs font-semibold uppercase tracking-wider text-[#A4B8A6]">Due Date</span>
                     <span className="font-mono text-sm text-white block">{formatDueDate(selectedAnnonce.due_date)}</span>
                   </div>
 
                   <div className="space-y-1">
-                    <span className="text-xs font-semibold uppercase tracking-wider text-[#A4B8A6]">Statut actuel</span>
+                    <span className="text-xs font-semibold uppercase tracking-wider text-[#A4B8A6]">Current state</span>
                     <span className={`text-sm font-semibold block ${getBadgeStyle(selectedAnnonce.statut).badge.split(' ')[2]}`}>
                       {getBadgeStyle(selectedAnnonce.statut).text}
                     </span>
@@ -459,7 +459,7 @@ export default function AnnoncesPage() {
                     onClick={() => handleUpdateStatus('REALISE')}
                     className="px-5 py-2.5 rounded-full bg-[#76E381] text-[#050B05] font-semibold text-sm shadow-[0_0_15px_rgba(118,227,129,0.35)] hover:bg-[#89E692] transition-all cursor-pointer disabled:opacity-50"
                   >
-                    Realise
+                    Executed
                   </button>
                 </div>
               </div>

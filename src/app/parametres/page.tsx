@@ -45,8 +45,8 @@ export default function ParametresPage() {
           setNom(profile.nom || '')
           setPrenom(profile.prenom || '')
         } else {
-          setNom(user.user_metadata?.nom || '')
-          setPrenom(user.user_metadata?.prenom || '')
+          setNom(user.user_metadata?.family_name || user.user_metadata?.nom || '')
+          setPrenom(user.user_metadata?.given_name || user.user_metadata?.prenom || '')
         }
       }
       setLoading(false)
@@ -135,7 +135,7 @@ export default function ParametresPage() {
       return
     }
     const { error: resetErr } = await supabase.auth.resetPasswordForEmail(email, {
-      redirectTo: `${window.location.origin}/login`,
+      redirectTo: `${window.location.origin}/reset-password`,
     })
     if (resetErr) {
       setProfileError(resetErr.message)
@@ -156,11 +156,11 @@ export default function ParametresPage() {
           </div>
         )}
 
-        <h1 className="text-3xl lg:text-4xl font-bold text-white tracking-tight">Paramètres du Profil</h1>
+        <h1 className="text-3xl lg:text-4xl font-bold text-white tracking-tight">Profil Settings</h1>
 
         {/* Card 1: Personal Information */}
         <article className="bg-[#0E1B0F] border border-[#1D381F] rounded-[28px] p-6 sm:p-8 shadow-xl space-y-6">
-          <h2 className="text-xl font-medium text-white tracking-wide">Informations Personnelles</h2>
+          <h2 className="text-xl font-medium text-white tracking-wide">Personal Information</h2>
 
           {profileError && (
             <div className="p-3.5 rounded-xl bg-red-950/60 border border-red-500/50 text-red-300 text-sm flex items-center gap-3">
@@ -173,7 +173,7 @@ export default function ParametresPage() {
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
               {/* Nom */}
               <div className="space-y-2">
-                <label className="block text-sm font-medium text-[#A4B8A6]" htmlFor="nom">Nom</label>
+                <label className="block text-sm font-medium text-[#A4B8A6]" htmlFor="nom">Surname</label>
                 <div className="relative flex items-center">
                   <User className="w-5 h-5 absolute left-4 text-[#7F9781] pointer-events-none" />
                   <input
@@ -189,7 +189,7 @@ export default function ParametresPage() {
 
               {/* Prénom */}
               <div className="space-y-2">
-                <label className="block text-sm font-medium text-[#A4B8A6]" htmlFor="prenom">Prénom</label>
+                <label className="block text-sm font-medium text-[#A4B8A6]" htmlFor="prenom">Name</label>
                 <div className="relative flex items-center">
                   <User className="w-5 h-5 absolute left-4 text-[#7F9781] pointer-events-none" />
                   <input
@@ -225,14 +225,14 @@ export default function ParametresPage() {
               disabled={savingProfile || loading}
               className="w-full py-4 rounded-full bg-[#76E381] hover:bg-[#89E692] text-[#050B05] font-semibold text-base shadow-[0_0_20px_rgba(118,227,129,0.35)] transition-all cursor-pointer disabled:opacity-50"
             >
-              {savingProfile ? 'Enregistrement...' : 'Enregistrer les modifications'}
+              {savingProfile ? 'Registration...' : 'Save changes'}
             </button>
           </form>
         </article>
 
         {/* Card 2: Security */}
         <article className="bg-[#0E1B0F] border border-[#1D381F] rounded-[28px] p-6 sm:p-8 shadow-xl space-y-6">
-          <h2 className="text-xl font-medium text-white tracking-wide">Sécurité</h2>
+          <h2 className="text-xl font-medium text-white tracking-wide">Security</h2>
 
           {passwordError && (
             <div className="p-3.5 rounded-xl bg-red-950/60 border border-red-500/50 text-red-300 text-sm flex items-center gap-3">
@@ -245,7 +245,7 @@ export default function ParametresPage() {
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
               <div className="space-y-2">
                 <label className="block text-sm font-medium text-[#A4B8A6]" htmlFor="oldPassword">
-                  Ancien mot de passe
+                  Old Password
                 </label>
                 <div className="relative flex items-center">
                   <Lock className="w-5 h-5 absolute left-4 text-[#7F9781] pointer-events-none" />
@@ -262,7 +262,7 @@ export default function ParametresPage() {
 
               <div className="space-y-2">
                 <label className="block text-sm font-medium text-[#A4B8A6]" htmlFor="newPassword">
-                  Nouveau mot de passe
+                  New Passowrd
                 </label>
                 <div className="relative flex items-center">
                   <Lock className="w-5 h-5 absolute left-4 text-[#7F9781] pointer-events-none" />
@@ -282,7 +282,7 @@ export default function ParametresPage() {
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-5 items-end">
               <div className="space-y-2">
                 <label className="block text-sm font-medium text-[#A4B8A6]" htmlFor="confirmPassword">
-                  Confirmer le nouveau mot de passe
+                  Confirm your new password 
                 </label>
                 <div className="relative flex items-center">
                   <Lock className="w-5 h-5 absolute left-4 text-[#7F9781] pointer-events-none" />
@@ -304,7 +304,7 @@ export default function ParametresPage() {
                   onClick={handleForgotPassword}
                   className="text-sm font-normal text-[#76E381] hover:underline cursor-pointer"
                 >
-                  Mot de passe oublié ?
+                  Forgot password ?
                 </button>
               </div>
             </div>
@@ -314,7 +314,7 @@ export default function ParametresPage() {
               disabled={savingPassword}
               className="w-full py-4 rounded-full bg-[#76E381] hover:bg-[#89E692] text-[#050B05] font-semibold text-base shadow-[0_0_20px_rgba(118,227,129,0.35)] transition-all cursor-pointer disabled:opacity-50"
             >
-              {savingPassword ? 'Mise à jour...' : 'Changer le mot de passe'}
+              {savingPassword ? 'Updating...' : 'Change password'}
             </button>
           </form>
         </article>
